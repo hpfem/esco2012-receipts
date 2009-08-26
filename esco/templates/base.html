@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <title>ESCO 2010 - 2nd European Seminar on Coupled Problems</title>
-        <link type="text/css" href="media/css/style.css" rel="stylesheet" />
+        <link type="text/css" href="/esco/media/css/style.css" rel="stylesheet" />
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
     </head>
     <body>
@@ -16,14 +16,13 @@
                     <div id="site">
                         <b>ESCO 2010 Conference Site:</b>
                         <span class="location">
-                            &raquo; <a href="home/">Home Page</a>
+                            &raquo; <a href="/esco/">Home Page</a>
                         </span>
-                        <span class="location">
-                            &raquo; <a href="topics/">Conference Topics</a>
-                        </span>
+                        {% block location %}
+                        {% endblock %}
                     </div>
                     <div id="user">
-                        <b><a href="login/">login</a></b>
+                        <b><a href="/esco/login/">login</a></b>
                     </div>
                 </div>
                 <div class="cleaner"></div>
@@ -33,22 +32,21 @@
                     <div class="box">
                         <div class="title">Main Menu</div>
                         <ul class="menu">
-                            <li><a href="home/">Home Page</a></li>
-                            <li><a href="topics/">Conference Topics</a></li>
-                            <li><a href="keynote/">Keynote Speakers</a></li>
-                            <li><a href="committees/">Committees</a></li>
-                            <li><a href="dates/">Important Dates</a></li>
-                            <li><a href="venue/">Conference Venue</a></li>
-                            <li><a href="payment/">Payment Information</a></li>
-                            <li><a href="accommodation/">Accommodation</a></li>
-                            <li><a href="travel/">Travel Information</a></li>
+                            <li><a href="/esco/topics/">Conference Topics</a></li>
+                            <li><a href="/esco/keynote/">Keynote Speakers</a></li>
+                            <li><a href="/esco/committees/">Committees</a></li>
+                            <li><a href="/esco/dates/">Important Dates</a></li>
+                            <li><a href="/esco/venue/">Conference Venue</a></li>
+                            <li><a href="/esco/payment/">Payment Information</a></li>
+                            <li><a href="/esco/accommodation/">Accommodation</a></li>
+                            <li><a href="/esco/travel/">Travel Information</a></li>
                         </ul>
                     </div>
                     <div class="box">
                         <div class="title">User Menu</div>
                         <ul class="menu">
-                            <li><a href="profile/">Edit Profile</a></li>
-                            <li><a href="abstracts/">My Abstracts</a></li>
+                            <li><a href="/esco/profile/">Edit Profile</a></li>
+                            <li><a href="/esco/abstracts/">My Abstracts</a></li>
                         </ul>
                     </div>
                 </div>
@@ -71,6 +69,7 @@
                     </div>
                 </div>
                 <div id="content">
+                    {% block content %}
                     <h1>
                         ESCO 2010
                     </h1>
@@ -98,6 +97,7 @@
                         <a href="http://www.global-sci.com/">Communications in Computational Physics</a>
                         (CiCP) (2008 SCI impact factor 2.33).
                     </p>
+                    {% endblock %}
                 </div>
                 <div class="cleaner"></div>
             </div>
