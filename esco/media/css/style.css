@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     color: black;
-    font-family: sans-serif;
+    font-family: serif;
     font-variant: normal;
     font-weight: normal;
     font-style: normal;
@@ -88,7 +88,7 @@ a:hover {
     margin-right: 13em;
 }
 
-#content p {
+#content p, #content ul {
     font-size: larger;
 }
 
@@ -158,6 +158,29 @@ li.tail {
 
 .text {
     text-align: justify;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #254b6f;
+}
+
+thead {
+    background-color: #254b6f;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+tbody {
+    background-color: #ebf5ff;
+}
+
+td {
+    padding: 4px 8px 4px 8px;
+}
+
+tbody tr:hover {
+    background-color: #a0bbd4;
 }
 
 /* FOOTER */
