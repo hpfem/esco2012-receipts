@@ -1,18 +1,23 @@
 
 body {
-    margin: 0;
-    padding: 0;
-    color: black;
     font-family: Arial, Helvetica, sans-serif;
     font-variant: normal;
     font-weight: normal;
     font-style: normal;
     font-size: 12pt;
+    color: black;
+    padding: 0;
+    margin: 0;
 }
 
-h1, h2, h3, h4 {
-    color: #254b6f;
+h1, h2, h3  {
     text-align: center;
+    color: #254b6f;
+}
+
+h4 {
+    text-align: left;
+    color: #254b6f;
 }
 
 a:link, a:active, a:visited {
@@ -31,6 +36,11 @@ a:hover {
 
 #container {
     margin: 10px;
+}
+
+.bar {
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 /* HEADER */
@@ -83,10 +93,10 @@ a:hover {
 }
 
 #content {
-    padding-left: 0.8em;
     padding-right: 0.8em;
-    margin-left: 13em;
+    padding-left: 0.8em;
     margin-right: 13em;
+    margin-left: 13em;
     font-size: 13pt;
 }
 
@@ -105,9 +115,9 @@ a:hover {
 }
 
 .menu {
-    margin: 0;
-    padding: 0;
     list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .menu li {
@@ -130,10 +140,10 @@ a:hover {
 }
 
 .note {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
     border: 1px solid #254b6f;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
 .note li {
@@ -161,6 +171,7 @@ li.tail {
 table {
     border-collapse: collapse;
     border: 1px solid #254b6f;
+    margin: 0 auto;
 }
 
 thead {
