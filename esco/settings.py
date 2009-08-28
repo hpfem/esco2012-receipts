@@ -44,7 +44,7 @@ TEMPLATE_DIRS = (
 MEDIA_ROOT = path.join(path.dirname(__file__), 'media')
 MEDIA_URL  = '/'
 
-ADMIN_MEDIA_PREFIX = MEDIA_ROOT
+ADMIN_MEDIA_PREFIX = '/esco/media/admin/'
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
