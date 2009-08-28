@@ -55,3 +55,5 @@ INSTALLED_APPS = (
     'esco.site',
 )
 
+MIN_PASSWORD_LEN = 8
+

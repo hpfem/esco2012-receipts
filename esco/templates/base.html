@@ -23,7 +23,15 @@
                         {% endblock %}
                     </div>
                     <div id="user">
-                        <b><a href="/esco/login/">login</a></b>
+                        {% if not user.username %}
+                            <b><a href="/esco/login/">login</a></b>
+                        {% else %}
+                            <b>
+                                {{ user.get_full_name }}
+                                <span class="bar">|</span>
+                                <a href="/esco/logout/">logout</a>
+                            </b>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="cleaner"></div>
@@ -43,13 +51,15 @@
                             <li><a href="/esco/travel/">Travel Information</a></li>
                         </ul>
                     </div>
-                    <div class="box">
-                        <div class="title">User Menu</div>
-                        <ul class="menu">
-                            <li><a href="/esco/profile/">Edit Profile</a></li>
-                            <li><a href="/esco/abstracts/">My Abstracts</a></li>
-                        </ul>
-                    </div>
+                    {% if user.username %}
+                        <div class="box">
+                            <div class="title">User Menu</div>
+                            <ul class="menu">
+                                <li><a href="/esco/profile/">Edit Profile</a></li>
+                                <li><a href="/esco/abstracts/">My Abstracts</a></li>
+                            </ul>
+                        </div>
+                    {% endif %}
                 </div>
                 <div id="right-panel" class="panel">
                     <div class="box">

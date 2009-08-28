@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block location %}
+    <span class="location">
+        &raquo; <a href="/esco/reminder/">Get New Password</a>
+    </span>
+{% endblock %}
+
+{% block content %}
+    <h2>Get New Password</h2>
+
+    {% if form.errors %}
+        <div id="error-box" class="error">
+            <b>ERROR:</b> User does not exists. Please try again.
+        </div>
+    {% endif %}
+
+    <div id="login-form">
+        <form method="post" action=".">
+            <div>Login<br />{{ form.login }}</div>
+
+            <input type="submit" value="Get New Password" />
+        </form>
+    </div>
+{% endblock %}
+
