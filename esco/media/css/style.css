@@ -167,6 +167,10 @@ li.tail {
     font-size: 80%;
 }
 
+li.left {
+    text-align: left;
+}
+
 /* CONTENTS */
 
 .text {
