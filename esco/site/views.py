@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import patterns
 
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.http import HttpResponse, HttpResponsePermanentRedirect
 from django.template import RequestContext, Context, loader
 
 from django.shortcuts import render_to_response
@@ -43,46 +43,45 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/password/remind/success/$', 'account_password_remind_success_view'),
 )
 
-def _render_to_response(page, request):
-    return render_to_response(page, RequestContext(request), mimetype="application/xhtml+xml")
+def _render_to_response(page, request, args=None):
+    return render_to_response(page, RequestContext(request, args), mimetype="application/xhtml+xml")
 
-def index_view(request, message=None):
-    return render_to_response('base.html', RequestContext(request,
-        {'message': message}), mimetype="application/xhtml+xml")
+def index_view(request, **args):
+    return _render_to_response('base.html', request, args)
 
-def topics_view(request):
+def topics_view(request, **args):
     return _render_to_response('topics.html', request)
 
-def keynote_view(request):
+def keynote_view(request, **args):
     return _render_to_response('keynote.html', request)
 
-def committees_view(request):
+def committees_view(request, **args):
     return _render_to_response('committees.html', request)
 
-def dates_view(request):
+def dates_view(request, **args):
     return _render_to_response('dates.html', request)
 
-def venue_view(request):
+def venue_view(request, **args):
     return _render_to_response('venue.html', request)
 
-def payment_view(request):
+def payment_view(request, **args):
     return _render_to_response('payment.html', request)
 
-def accommodation_view(request):
+def accommodation_view(request, **args):
     return _render_to_response('accommodation.html', request)
 
-def travel_view(request):
+def travel_view(request, **args):
     return _render_to_response('travel.html', request)
 
 @login_required
-def profile_view(request):
+def profile_view(request, **args):
     return _render_to_response('profile.html', request)
 
 @login_required
-def abstracts_view(request):
+def abstracts_view(request, **args):
     return _render_to_response('abstracts.html', request)
 
-def account_login_view(request, registred=False):
+def account_login_view(request, **args):
     if request.method == 'POST':
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
@@ -107,16 +106,18 @@ def account_login_view(request, registred=False):
 
     request.session.set_test_cookie()
 
-    return render_to_response('login.html', RequestContext(request,
-        {'form': form, 'registred': registred}), mimetype="application/xhtml+xml")
+    local_args = {'form': form}
+    local_args.update(args)
+
+    return _render_to_response('login.html', request, local_args)
 
 @login_required
-def account_logout_view(request):
+def account_logout_view(request, **args):
     logout(request)
     return HttpResponsePermanentRedirect('/esco/')
 
 @login_required
-def account_delete_view(request):
+def account_delete_view(request, **args):
     if request.method == 'POST':
         user = request.user
         logout(request)
@@ -124,12 +125,12 @@ def account_delete_view(request):
 
         return HttpResponsePermanentRedirect('/esco/account/delete/success/')
     else:
-        return _render_to_response('delete.html', request)
+        return _render_to_response('delete.html', request, args)
 
-def account_delete_success_view(request):
+def account_delete_success_view(request, **args):
     return index_view(request, message="Your account has been removed.")
 
-def account_register_view(request):
+def account_register_view(request, **args):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
 
@@ -149,13 +150,12 @@ def account_register_view(request):
     else:
         form = RegistrationForm()
 
-    return render_to_response('register.html', RequestContext(request,
-        {'form': form}), mimetype="application/xhtml+xml")
+    return _render_to_response('register.html', request, {'form': form})
 
-def account_register_success_view(request):
+def account_register_success_view(request, **args):
     return account_login_view(request, registred=True)
 
-def account_password_change_view(request):
+def account_password_change_view(request, **args):
     if request.method == 'POST':
         post = request.POST.copy()
 
@@ -172,13 +172,12 @@ def account_password_change_view(request):
     else:
         form = PasswordForm()
 
-    return render_to_response('password.html', RequestContext(request,
-        {'form': form}), mimetype="application/xhtml+xml")
+    return _render_to_response('password.html', request, {'form': form})
 
 def account_password_change_success_view(request):
     return index_view(request, message="Your password was successfully changed.")
 
-def account_password_remind_view(request):
+def account_password_remind_view(request, **args):
     if request.method == 'POST':
         form = ReminderForm(request.POST)
 
@@ -198,9 +197,8 @@ def account_password_remind_view(request):
     else:
         form = ReminderForm()
 
-    return render_to_response('reminder.html', RequestContext(request,
-        {'form': form}), mimetype="application/xhtml+xml")
+    return _render_to_response('reminder.html', request, {'form': form})
 
-def account_password_remind_success_view(request):
+def account_password_remind_success_view(request, **args):
     return index_view(request, message="New auto-generated password was sent to you.")
 
