@@ -10,6 +10,8 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, PasswordForm
+from esco.site.forms import AccountModifyForm
+from esco.site.models import UserProfile
 from esco.settings import MIN_PASSWORD_LEN
 
 urlpatterns = patterns('esco.site.views',
@@ -23,9 +25,6 @@ urlpatterns = patterns('esco.site.views',
     (r'^payment/$', 'payment_view'),
     (r'^accommodation/$', 'accommodation_view'),
     (r'^travel/$', 'travel_view'),
-
-    (r'^profile/$', 'profile_view'),
-    (r'^abstracts/$', 'abstracts_view'),
 
     (r'^account/login/$', 'account_login_view'),
     (r'^account/logout/$', 'account_logout_view'),
@@ -41,6 +40,9 @@ urlpatterns = patterns('esco.site.views',
 
     (r'^account/password/remind/$', 'account_password_remind_view'),
     (r'^account/password/remind/success/$', 'account_password_remind_success_view'),
+
+    (r'^account/modify/$', 'account_modify_view'),
+    (r'^abstracts/$', 'abstracts_view'),
 )
 
 def _render_to_response(page, request, args=None):
@@ -72,10 +74,6 @@ def accommodation_view(request, **args):
 
 def travel_view(request, **args):
     return _render_to_response('travel.html', request)
-
-@login_required
-def profile_view(request, **args):
-    return _render_to_response('profile.html', request)
 
 @login_required
 def abstracts_view(request, **args):
@@ -143,8 +141,10 @@ def account_register_view(request, **args):
 
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
-
             user.save()
+
+            profile = UserProfile(user=user)
+            profile.save()
 
             return HttpResponsePermanentRedirect('/esco/account/register/success/')
     else:
@@ -201,4 +201,85 @@ def account_password_remind_view(request, **args):
 
 def account_password_remind_success_view(request, **args):
     return index_view(request, message="New auto-generated password was sent to you.")
+
+@login_required
+def account_modify_view(request, **args):
+    if request.method == 'POST':
+        form = AccountModifyForm(request.POST)
+
+        if form.is_valid():
+            first_name = form.cleaned_data.get('first_name')
+
+            if first_name and first_name != request.user.first_name:
+                request.user.first_name = first_name
+                request.user.save()
+
+            last_name = form.cleaned_data.get('last_name')
+
+            if last_name and last_name != request.user.last_name:
+                request.user.last_name = last_name
+                request.user.save()
+
+            profile = request.user.get_profile()
+
+            institution = form.cleaned_data.get('institution')
+
+            if institution and institution != profile.institution:
+                profile.institution = institution
+                profile.save()
+
+            institution = form.cleaned_data.get('institution')
+
+            if institution and institution != profile.institution:
+                profile.institution = institution
+                profile.save()
+
+            address = form.cleaned_data.get('address')
+
+            if address and address != profile.address:
+                profile.address = address
+                profile.save()
+
+            city = form.cleaned_data.get('city')
+
+            if city and city != profile.city:
+                profile.city = city
+                profile.save()
+
+            postal_code = form.cleaned_data.get('postal_code')
+
+            if postal_code and postal_code != profile.postal_code:
+                profile.postal_code = postal_code
+                profile.save()
+
+            country = form.cleaned_data.get('country')
+
+            if country and country != profile.country:
+                profile.country = country
+                profile.save()
+
+            phone = form.cleaned_data.get('phone')
+
+            if phone and phone != profile.phone:
+                profile.phone = phone
+                profile.save()
+
+            return HttpResponsePermanentRedirect('/esco/account/modify/')
+    else:
+        profile = request.user.get_profile()
+
+        data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'institution': profile.institution,
+            'address': profile.address,
+            'city': profile.city,
+            'postal_code': profile.postal_code,
+            'country': profile.country,
+            'phone': profile.phone,
+        }
+
+        form = AccountModifyForm(data)
+
+    return _render_to_response('modify.html', request, {'form': form})
 

@@ -261,3 +261,54 @@ class PasswordForm(forms.Form):
 
         raise forms.ValidationError('Passwords do not match.')
 
+class AccountModifyForm(forms.Form):
+    """Account modification form. """
+
+    first_name = forms.CharField(
+        required  = False,
+        label     = "First Name",
+        help_text = "Enter your first name using Unicode character set.",
+    )
+
+    last_name = forms.CharField(
+        required  = False,
+        label     = "Last Name",
+        help_text = "Enter your last name using Unicode character set.",
+    )
+
+    institution = forms.CharField(
+        required  = False,
+        label     = "Institution",
+        help_text = "e.g. University of Nevada, Reno"
+    )
+
+    address = forms.CharField(
+        required  = False,
+        label     = "Address",
+        help_text = "You can use Unicode character set.",
+    )
+
+    city = forms.CharField(
+        required  = False,
+        label     = "City",
+        help_text = "You can use Unicode character set.",
+    )
+
+    postal_code = forms.CharField(
+        required  = False,
+        label     = "Postal Code",
+        help_text = "",
+    )
+
+    country = forms.CharField(
+        required  = False,
+        label     = "Country",
+        help_text = "Enter english country name.",
+    )
+
+    phone = forms.CharField(
+        required  = False,
+        label     = "Phone Number",
+        help_text = "Enter your phone number, e.g. +48 123 456 789",
+    )
+

@@ -68,5 +68,5 @@ LOGIN_URL = '/esco/login/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-AUTH_PROFILE_MODULE = 'esco.site.models.UserProfile'
+AUTH_PROFILE_MODULE = 'site.UserProfile'
 
