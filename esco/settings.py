@@ -29,10 +29,35 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.load_template_source',
 )
 
+import re
+
+def _add_to_header(response, key, value):
+    if response.has_header(key):
+        values = re.split(r'\s*,\s*', response[key])
+        if not value in values:
+            response[key] = ', '.join(values + [value])
+    else:
+        response[key] = value
+
+def _nocache_if_auth(request, response):
+    if request.user.is_authenticated():
+        _add_to_header(response, 'Cache-Control', 'no-store')
+        _add_to_header(response, 'Cache-Control', 'no-cache')
+        _add_to_header(response, 'Pragma', 'no-cache')
+    return response
+
+class NoCacheIfAuthenticatedMiddleware(object):
+    def process_response(self, request, response):
+        try:
+            return _nocache_if_auth(request, response)
+        except:
+            return response
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'esco.settings.NoCacheIfAuthenticatedMiddleware',
 )
 
 ROOT_URLCONF = 'esco.urls'
@@ -64,7 +89,7 @@ CAPTCHA = {
     'imagesize': (200, 50),
 }
 
-LOGIN_URL = '/esco/login/'
+LOGIN_URL = '/esco/account/login/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

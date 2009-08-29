@@ -80,6 +80,8 @@ def abstracts_view(request, **args):
     return _render_to_response('abstracts.html', request)
 
 def account_login_view(request, **args):
+    next = request.REQUEST.get('next', '/esco/')
+
     if request.method == 'POST':
         if request.session.test_cookie_worked():
             request.session.delete_test_cookie()
@@ -97,14 +99,13 @@ def account_login_view(request, **args):
 
             request.session.set_test_cookie()
 
-            return HttpResponsePermanentRedirect(
-                request.REQUEST.get('next', '/esco/'))
+            return HttpResponsePermanentRedirect(next)
     else:
         form = LoginForm()
 
     request.session.set_test_cookie()
 
-    local_args = {'form': form}
+    local_args = {'form': form, 'next': next}
     local_args.update(args)
 
     return _render_to_response('login.html', request, local_args)
@@ -112,6 +113,7 @@ def account_login_view(request, **args):
 @login_required
 def account_logout_view(request, **args):
     logout(request)
+
     return HttpResponsePermanentRedirect('/esco/')
 
 @login_required

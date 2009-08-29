@@ -22,7 +22,7 @@
     {% endif %}
 
     <div id="login-form">
-        <form method="post" action=".">
+        <form method="post" action="./?next={{ next }}">
             <div>{{ form.username.label_tag }}<br />{{ form.username }}</div>
             <div>{{ form.password.label_tag }}<br />{{ form.password }}</div>
 
