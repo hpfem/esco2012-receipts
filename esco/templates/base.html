@@ -24,12 +24,12 @@
                     </div>
                     <div id="user">
                         {% if not user.username %}
-                            <b><a href="/esco/login/">login</a></b>
+                            <b><a href="/esco/account/login/">login</a></b>
                         {% else %}
                             <b>
                                 {{ user.get_full_name }}
                                 <span class="bar">|</span>
-                                <a href="/esco/logout/">logout</a>
+                                <a href="/esco/account/logout/">logout</a>
                             </b>
                         {% endif %}
                     </div>
@@ -51,15 +51,20 @@
                             <li><a href="/esco/travel/">Travel Information</a></li>
                         </ul>
                     </div>
-                    {% if user.username %}
-                        <div class="box">
-                            <div class="title">User Menu</div>
-                            <ul class="menu">
+                    <div class="box">
+                        <div class="title">User Menu</div>
+                        <ul class="menu">
+                            {% if not user.is_authenticated %}
+                                <li><a href="/esco/account/register/">Create Account</a></li>
+                            {% endif %}
+                            <li><a href="/esco/account/password/change/">Change Password</a></li>
+                            {% if user.is_authenticated %}
+                                <li><a href="/esco/account/delete/">Delete Account</a></li>
                                 <li><a href="/esco/profile/">Edit Profile</a></li>
                                 <li><a href="/esco/abstracts/">My Abstracts</a></li>
-                            </ul>
-                        </div>
-                    {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
                 </div>
                 <div id="right-panel" class="panel">
                     <div class="box">
@@ -67,10 +72,10 @@
                         <ul class="note">
                             <li class="head">E-mail:</li>
                             <li class="tail">esco2010-at-unr-dot-edu</li>
-                            <li class="head">Fax:</li>
-                            <li class="tail">1-775-784-6378</li>
                             <li class="head">Phone:</li>
                             <li class="tail">1-775-784-6773</li>
+                            <li class="head">Fax:</li>
+                            <li class="tail">1-775-784-6378</li>
                             <li class="head">Mailing address:</li>
                             <li class="tail">ESCO 2010 Conference</li>
                             <li class="tail">Department of Mathematics and Statistics</li>
@@ -80,35 +85,42 @@
                     </div>
                 </div>
                 <div id="content">
+                    {% block message %}
+                        {% if message %}
+                            <div id="message-box" class="success">
+                                {{ message|safe }}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
                     {% block content %}
-                    <h1>
-                        ESCO 2010
-                    </h1>
-                    <h3>
-                        2nd European Seminar on Coupled Problems
-                        <br/>
-                        June 28 &mdash; July 2, 2010, Pilsen, Czech Republic
-                    </h3>
-                    <p class="text">
-                        <b>ESCO 2010</b> is an international workshop co&ndash;sponsored by the
-                        <a href="http://www.unr.edu/">University of Nevada</a> (Reno),
-                        <a href="http://www.it.cas.cz/en">Institute of Thermomechanics</a> (Prague),
-                        <a href="http://www.zcu.cz/">University of West Bohemia</a> (Pilsen),
-                        <a href="http://ntc.zcu.cz/en/index.html">New Technologies Research Centre</a> (Pilsen),
-                        and <a href="http://www.imacs-online.org/">IMACS</a>.
-                        The objective of the meeting is to advance the frontiers of computer modeling in
-                        various areas of engineering and science, with special emphasis on multiphysics
-                        coupled problems. Other focus areas include modern trends in scientific computing
-                        such as computing with <a href="http://www.python.org">Python</a>, management of
-                        open&ndash;source software projects, and dissemination of computational methods
-                        to non&ndash;mathematicians.
-                    </p>
-                    <h3>Proceedings</h3>
-                    <p class="text">
-                        Selected refereed conference papers will be published as a special issue of
-                        <a href="http://www.global-sci.com/">Communications in Computational Physics</a>
-                        (CiCP) (2008 SCI impact factor 2.33).
-                    </p>
+                        <h1>
+                            ESCO 2010
+                        </h1>
+                        <h3>
+                            2nd European Seminar on Coupled Problems
+                            <br/>
+                            June 28 &mdash; July 2, 2010, Pilsen, Czech Republic
+                        </h3>
+                        <p class="text">
+                            <b>ESCO 2010</b> is an international workshop co&ndash;sponsored by the
+                            <a href="http://www.unr.edu/">University of Nevada</a> (Reno),
+                            <a href="http://www.it.cas.cz/en">Institute of Thermomechanics</a> (Prague),
+                            <a href="http://www.zcu.cz/">University of West Bohemia</a> (Pilsen),
+                            <a href="http://ntc.zcu.cz/en/index.html">New Technologies Research Centre</a> (Pilsen),
+                            and <a href="http://www.imacs-online.org/">IMACS</a>.
+                            The objective of the meeting is to advance the frontiers of computer modeling in
+                            various areas of engineering and science, with special emphasis on multiphysics
+                            coupled problems. Other focus areas include modern trends in scientific computing
+                            such as computing with <a href="http://www.python.org">Python</a>, management of
+                            open&ndash;source software projects, and dissemination of computational methods
+                            to non&ndash;mathematicians.
+                        </p>
+                        <h3>Proceedings</h3>
+                        <p class="text">
+                            Selected refereed conference papers will be published as a special issue of
+                            <a href="http://www.global-sci.com/">Communications in Computational Physics</a>
+                            (CiCP) (2008 SCI impact factor 2.33).
+                        </p>
                     {% endblock %}
                 </div>
                 <div class="cleaner"></div>

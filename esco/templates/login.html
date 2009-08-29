@@ -2,32 +2,37 @@
 
 {% block location %}
     <span class="location">
-        &raquo; <a href="/esco/login/">Login</a>
+        &raquo; <a href="/esco/account/login/">Login</a>
     </span>
 {% endblock %}
 
 {% block content %}
-    <h2>Login to ESCO 2010 website</h2>
+    <h2>Login to ESCO 2010 Website</h2>
 
     {% if form.errors %}
-        <div id="error-box" class="error">
+        <div id="message-box" class="error">
             <b>ERROR:</b> Wrong login or password. Please try again.
         </div>
+    {% else %}
+        {% if registred %}
+            <div id="message-box" class="success">
+                New account created. You can login now.
+            </div>
+        {% endif %}
     {% endif %}
 
     <div id="login-form">
         <form method="post" action=".">
-            <div>Login<br />{{ form.username }}</div>
-            <div>Password<br />{{ form.password }}</div>
+            <div>{{ form.username.label_tag }}<br />{{ form.username }}</div>
+            <div>{{ form.password.label_tag }}<br />{{ form.password }}</div>
 
             <input type="submit" value="Log In" />
-            <input type="hidden" value="/esco/" name="next" />
         </form>
     </div>
 
     <div style="text-align: center">
-        <a href="/esco/register/">Create account.</a>
-        <a href="/esco/reminder/">Forgot your password?</a>
+        <a href="/esco/account/register/">Create account.</a>
+        <a href="/esco/account/password/remind/">Forgot your password?</a>
     </div>
 {% endblock %}
 

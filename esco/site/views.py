@@ -1,15 +1,16 @@
 from django.conf.urls.defaults import patterns
 
-from django.http import HttpResponsePermanentRedirect
-from django.template import RequestContext
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
+from django.template import RequestContext, Context, loader
 
 from django.shortcuts import render_to_response
 
 from django.contrib.auth.models import User
-from django.contrib.auth.views import login
-from django.contrib.auth import logout
+from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 
-from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
+from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, PasswordForm
+from esco.settings import MIN_PASSWORD_LEN
 
 urlpatterns = patterns('esco.site.views',
     (r'^$', 'index_view'),
@@ -26,17 +27,28 @@ urlpatterns = patterns('esco.site.views',
     (r'^profile/$', 'profile_view'),
     (r'^abstracts/$', 'abstracts_view'),
 
-    (r'^login/$', 'login', {'template_name': 'login.html'}),
-    (r'^logout/$', 'logout_view'),
-    (r'^reminder/$', 'reminder_view'),
-    (r'^register/$', 'register_view'),
+    (r'^account/login/$', 'account_login_view'),
+    (r'^account/logout/$', 'account_logout_view'),
+
+    (r'^account/delete/$', 'account_delete_view'),
+    (r'^account/delete/success/$', 'account_delete_success_view'),
+
+    (r'^account/register/$', 'account_register_view'),
+    (r'^account/register/success/$', 'account_register_success_view'),
+
+    (r'^account/password/change/$', 'account_password_change_view'),
+    (r'^account/password/change/success/$', 'account_password_change_success_view'),
+
+    (r'^account/password/remind/$', 'account_password_remind_view'),
+    (r'^account/password/remind/success/$', 'account_password_remind_success_view'),
 )
 
 def _render_to_response(page, request):
     return render_to_response(page, RequestContext(request), mimetype="application/xhtml+xml")
 
-def index_view(request):
-    return _render_to_response('base.html', request)
+def index_view(request, message=None):
+    return render_to_response('base.html', RequestContext(request,
+        {'message': message}), mimetype="application/xhtml+xml")
 
 def topics_view(request):
     return _render_to_response('topics.html', request)
@@ -62,17 +74,62 @@ def accommodation_view(request):
 def travel_view(request):
     return _render_to_response('travel.html', request)
 
+@login_required
 def profile_view(request):
     return _render_to_response('profile.html', request)
 
+@login_required
 def abstracts_view(request):
     return _render_to_response('abstracts.html', request)
 
-def logout_view(request):
+def account_login_view(request, registred=False):
+    if request.method == 'POST':
+        if request.session.test_cookie_worked():
+            request.session.delete_test_cookie()
+        else:
+            return HttpResponse("Please enable cookies and try again.")
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            login(request, form.user)
+
+            if not form.cleaned_data['remember']:
+                request.session.set_expiry(0)
+                request.session.save()
+
+            request.session.set_test_cookie()
+
+            return HttpResponsePermanentRedirect(
+                request.REQUEST.get('next', '/esco/'))
+    else:
+        form = LoginForm()
+
+    request.session.set_test_cookie()
+
+    return render_to_response('login.html', RequestContext(request,
+        {'form': form, 'registred': registred}), mimetype="application/xhtml+xml")
+
+@login_required
+def account_logout_view(request):
     logout(request)
     return HttpResponsePermanentRedirect('/esco/')
 
-def register_view(request):
+@login_required
+def account_delete_view(request):
+    if request.method == 'POST':
+        user = request.user
+        logout(request)
+        user.delete()
+
+        return HttpResponsePermanentRedirect('/esco/account/delete/success/')
+    else:
+        return _render_to_response('delete.html', request)
+
+def account_delete_success_view(request):
+    return index_view(request, message="Your account has been removed.")
+
+def account_register_view(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
 
@@ -88,22 +145,62 @@ def register_view(request):
 
             user.save()
 
-            return HttpResponsePermanentRedirect('/esco/login/')
+            return HttpResponsePermanentRedirect('/esco/account/register/success/')
     else:
         form = RegistrationForm()
 
     return render_to_response('register.html', RequestContext(request,
         {'form': form}), mimetype="application/xhtml+xml")
 
-def reminder_view(request):
+def account_register_success_view(request):
+    return account_login_view(request, registred=True)
+
+def account_password_change_view(request):
+    if request.method == 'POST':
+        post = request.POST.copy()
+
+        if request.user.is_authenticated():
+            post['username'] = request.user.username
+
+        form = PasswordForm(post)
+
+        if form.is_valid():
+            form.user.set_password(form.cleaned_data['password_new'])
+            form.user.save()
+
+            return HttpResponsePermanentRedirect('/esco/account/password/change/success/')
+    else:
+        form = PasswordForm()
+
+    return render_to_response('password.html', RequestContext(request,
+        {'form': form}), mimetype="application/xhtml+xml")
+
+def account_password_change_success_view(request):
+    return index_view(request, message="Your password was successfully changed.")
+
+def account_password_remind_view(request):
     if request.method == 'POST':
         form = ReminderForm(request.POST)
 
         if form.is_valid():
-            raise NotImplementedError('not yet')
+            password = User.objects.make_random_password(length=MIN_PASSWORD_LEN)
+
+            user = User.objects.get(username=form.cleaned_data['username'])
+            user.set_password(password)
+            user.save()
+
+            template = loader.get_template('e-mails/reminder.txt')
+            body = template.render(Context({'user': user, 'password': password}))
+
+            user.email_user("ESCO 2010 - Password reminder notification", body)
+
+            return HttpResponsePermanentRedirect('/esco/account/password/remind/success/')
     else:
         form = ReminderForm()
 
     return render_to_response('reminder.html', RequestContext(request,
         {'form': form}), mimetype="application/xhtml+xml")
+
+def account_password_remind_success_view(request):
+    return index_view(request, message="New auto-generated password was sent to you.")
 

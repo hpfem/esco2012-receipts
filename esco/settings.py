@@ -42,7 +42,7 @@ TEMPLATE_DIRS = (
 )
 
 MEDIA_ROOT = path.join(path.dirname(__file__), 'media')
-MEDIA_URL  = '/'
+MEDIA_URL  = '/esco/media/'
 
 ADMIN_MEDIA_PREFIX = '/esco/media/admin/'
 
@@ -56,4 +56,17 @@ INSTALLED_APPS = (
 )
 
 MIN_PASSWORD_LEN = 8
+CHECK_STRENGTH = False
+
+CAPTCHA = {
+    'fgcolor': '#254b6f',
+    'bgcolor': '#ffffff',
+    'imagesize': (200, 50),
+}
+
+LOGIN_URL = '/esco/login/'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+AUTH_PROFILE_MODULE = 'esco.site.models.UserProfile'
 

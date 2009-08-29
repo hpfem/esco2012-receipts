@@ -1,0 +1,6 @@
+{% extends "e-mails/base.txt" %}
+
+{% block content %}
+your password has been changed. New password is: {{ password }}
+{% endblock %}
+

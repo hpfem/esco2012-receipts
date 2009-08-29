@@ -10,6 +10,10 @@ body {
     margin: 0;
 }
 
+h1, h2 {
+    margin-top: 0;
+}
+
 h1, h2, h3  {
     text-align: center;
     color: #254b6f;
@@ -95,6 +99,7 @@ a:hover {
 #content {
     padding-right: 0.8em;
     padding-left: 0.8em;
+    padding-top: 1em;
     margin-right: 13em;
     margin-left: 13em;
     font-size: 13pt;
@@ -221,16 +226,26 @@ input[type="submit"]:hover {
     background-color: #37648e;
 }
 
-#error-box {
+#message-box {
     margin: 0 auto 20px auto;
     text-align: center;
     padding: 10px;
-    width: 25em;
+    width: 26em;
 }
 
 .error {
     background-color: #ffebe8;
     border: 1px solid #cc0000;
+}
+
+.warning {
+    background-color: #ffeed4;
+    border: 1px solid #f86a04;
+}
+
+.success {
+    background-color: #d7f8c7;
+    border: 1px solid #00ee00;
 }
 
 /* LOGIN */
@@ -253,6 +268,10 @@ input[type="submit"]:hover {
     margin: 5px 0 10px 0;
 }
 
+#login-form form div img {
+    margin-bottom: -5px;
+}
+
 /* REGISTRATION */
 
 #register-form {
@@ -273,5 +292,9 @@ input[type="submit"]:hover {
 
 #register-form form div input {
     margin-top: 5px;
+}
+
+#register-form form div img {
+    margin-bottom: -5px;
 }
 

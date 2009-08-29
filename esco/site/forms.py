@@ -1,44 +1,81 @@
 from django import forms
 
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+
+from django.contrib.captcha import CaptchaField
 from django.core.exceptions import ObjectDoesNotExist
 
-from esco.settings import MIN_PASSWORD_LEN
+from esco.settings import MIN_PASSWORD_LEN, CHECK_STRENGTH
 
 class LoginForm(forms.Form):
     """Form for logging in users. """
 
-    login = forms.EmailField(
-        required = True,
-        label    = "Login",
+    username = forms.CharField(
+        required  = True,
+        label     = "Login",
     )
 
     password = forms.CharField(
-        required = True,
-        label    = "Password",
-        widget   = forms.PasswordInput(),
+        required  = True,
+        label     = "Password",
+        widget    = forms.PasswordInput(),
     )
 
     remember = forms.BooleanField(
-        required = False,
-        label    = "Remember Me",
-        widget   = forms.CheckboxInput(),
+        required  = False,
+        widget    = forms.CheckboxInput(),
+        help_text = 'Remember Me',
     )
+
+    def clean(self):
+        """Authenticate and login user, if possible. """
+        cleaned_data = self.cleaned_data
+
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        if username and password:
+            self.user = authenticate(username=username,
+                                     password=password)
+
+            if self.user is not None:
+                if self.user.is_active:
+                    return cleaned_data
+                else:
+                    raise forms.ValidationError('Your account has been disabled.')
+
+        raise forms.ValidationError('Wrong login or password. Please try again.')
 
 class ReminderForm(forms.Form):
     """Password reminder form. """
 
-    login = forms.EmailField(
+    username = forms.CharField(
         required = True,
         label    = "Login",
     )
+    captcha = CaptchaField(
+        required = True,
+        label    = "Security Code",
+    )
+
+    def clean_username(self):
+        """Make sure `username` is registred in the system. """
+        username = self.cleaned_data['username']
+
+        try:
+            User.objects.get(username=username)
+        except ObjectDoesNotExist:
+            raise forms.ValidationError('Selected user does not exist.')
+
+        return username
+
+_digit = set(map(chr, range(48, 58)))
+_upper = set(map(chr, range(65, 91)))
+_lower = set(map(chr, range(97,123)))
 
 class RegistrationForm(forms.Form):
     """Form for creating new users. """
-
-    _digit = set(map(chr, range(48, 58)))
-    _upper = set(map(chr, range(65, 91)))
-    _lower = set(map(chr, range(97,123)))
 
     username = forms.EmailField(
         required   = True,
@@ -53,7 +90,6 @@ class RegistrationForm(forms.Form):
     password = forms.CharField(
         required   = True,
         label      = "Password",
-        min_length = MIN_PASSWORD_LEN,
         widget     = forms.PasswordInput(),
         help_text  = "Use lower and upper case letters, numbers etc.",
     )
@@ -74,6 +110,11 @@ class RegistrationForm(forms.Form):
         help_text  = "Enter your last name using Unicode character set.",
     )
 
+    captcha = CaptchaField(
+        required = True,
+        label    = "Security Code",
+    )
+
     def clean_username(self):
         """Make sure `login` is unique in the system. """
         username = self.cleaned_data['username']
@@ -83,7 +124,7 @@ class RegistrationForm(forms.Form):
         except ObjectDoesNotExist:
             return username
 
-        raise forms.ValidationError('Username is already in use.')
+        raise forms.ValidationError('Login is already in use.')
 
     def clean_username_again(self):
         """Make sure user verified `login` he entered. """
@@ -96,18 +137,20 @@ class RegistrationForm(forms.Form):
         else:
             return None
 
-        raise forms.ValidationError('Usernames do not match.')
+        raise forms.ValidationError('Logins do not match.')
 
-    def clean_password1(self):
+    def clean_password(self):
         """Make sure `password` isn't too easy to break. """
         password = self.cleaned_data['password']
 
-        letters = set(password)
+        if CHECK_STRENGTH:
+            if len(password) < MIN_PASSWORD_LEN:
+                raise forms.ValidationError('Password must have at least %i characters.' % MIN_PASSWORD_LEN)
 
-        if (not self._digit & letters) or \
-           (not self._upper & letters) or \
-           (not self._lower & letters):
-            raise forms.ValidationError('Password is too week. Invent better one.')
+            symbols = set(password)
+
+            if (not _digit & symbols) or (not _upper & symbols) or (not _lower & symbols):
+                raise forms.ValidationError('Password is too week. Invent better one.')
 
         return password
 
@@ -119,6 +162,100 @@ class RegistrationForm(forms.Form):
 
             if password == password_again:
                 return password
+        else:
+            return None
+
+        raise forms.ValidationError('Passwords do not match.')
+
+class PasswordForm(forms.Form):
+    """Password change form. """
+
+    username = forms.CharField(
+        required   = True,
+        label      = "Login",
+    )
+
+    password_old = forms.CharField(
+        required   = True,
+        label      = "Old Password",
+        widget     = forms.PasswordInput(),
+        help_text  = "Enter your old password for security reason.",
+    )
+
+    password_new = forms.CharField(
+        required   = True,
+        label      = "New Password",
+        widget     = forms.PasswordInput(),
+        help_text  = "Use lower and upper case letters, numbers etc.",
+    )
+
+    password_new_again = forms.CharField(
+        required   = True,
+        label      = "New Password (Again)",
+        widget     = forms.PasswordInput(),
+    )
+
+    captcha = CaptchaField(
+        required  = True,
+        label     = "Security Code",
+    )
+
+    def clean_username(self):
+        """Make sure `username` is registred in the system. """
+        username = self.cleaned_data['username']
+
+        try:
+            User.objects.get(username=username)
+        except ObjectDoesNotExist:
+            raise forms.ValidationError('Selected user does not exist.')
+
+        return username
+
+    def clean_password_old(self):
+        """Make sure user can authenticate with `password_old`. """
+        cleaned_data = self.cleaned_data
+
+        username     = cleaned_data.get('username')
+        password_old = cleaned_data.get('password_old')
+
+        if username and password_old:
+            self.user = authenticate(username=username,
+                                     password=password_old)
+
+            if self.user is not None:
+                return password_old
+
+        raise forms.ValidationError('Invalid password.')
+
+    def clean_password_new(self):
+        """Make sure `password_new` isn't too easy to break. """
+        cleaned_data = self.cleaned_data
+
+        password_old = cleaned_data.get('password_old')
+        password_new = cleaned_data.get('password_new')
+
+        if password_old == password_new:
+            raise forms.ValidationError("New password dosen't differ from the old one.")
+
+        if CHECK_STRENGTH:
+            if len(password_new) < MIN_PASSWORD_LEN:
+                raise forms.ValidationError('Password must have at least %i characters.' % MIN_PASSWORD_LEN)
+
+            symbols = set(password_new)
+
+            if (not _digit & symbols) or (not _upper & symbols) or (not _lower & symbols):
+                raise forms.ValidationError('Password is too week. Invent better one.')
+
+        return password_new
+
+    def clean_password_new_again(self):
+        """Make sure user verified `password` he entered. """
+        if 'password_new' in self.cleaned_data:
+            password_new       = self.cleaned_data['password_new']
+            password_new_again = self.cleaned_data['password_new_again']
+
+            if password_new == password_new_again:
+                return password_new
         else:
             return None
 
