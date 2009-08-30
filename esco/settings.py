@@ -85,7 +85,6 @@ CHECK_STRENGTH = False
 
 CAPTCHA = {
     'fgcolor': '#254b6f',
-    'bgcolor': '#ffffff',
     'imagesize': (200, 50),
 }
 

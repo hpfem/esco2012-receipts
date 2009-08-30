@@ -3,9 +3,9 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 
-from django.contrib.captcha import CaptchaField
 from django.core.exceptions import ObjectDoesNotExist
 
+from esco.contrib.captcha import CaptchaField
 from esco.settings import MIN_PASSWORD_LEN, CHECK_STRENGTH
 
 class LoginForm(forms.Form):
