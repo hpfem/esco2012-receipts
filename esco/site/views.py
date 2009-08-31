@@ -268,7 +268,11 @@ def account_modify_view(request, **args):
 
             return HttpResponsePermanentRedirect('/esco/account/modify/')
     else:
-        profile = request.user.get_profile()
+        try:
+            profile = request.user.get_profile()
+        except UserProfile.DoesNotExist:
+            profile = UserProfile(user=request.user)
+            profile.save()
 
         data = {
             'first_name': request.user.first_name,
