@@ -1,5 +1,24 @@
 {% extends "base.html" %}
 
+{% block doctype %}
+    {# OpenLayers doesn't like DOCTYPE declaration. #}
+{% endblock %}
+
+{% block styles %}
+    <link type="text/css" href="/esco/media/css/openlayers/OpenLayers.css" rel="stylesheet" />
+{% endblock %}
+
+{% block scripts %}
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=ABQIAAAAnXqkzqry3G9LHI_IoV1FVRSgW3wqcIyZiRDg3RFDwmj2dRf9tRQUllugYY9w9xpAMtbLuSXfBM8Xog" type="text/javascript"></script>
+
+    <script src="/esco/media/js/jquery/jquery-1.3.2.min.js"></script>
+
+    <script src="/esco/media/js/openlayers/OpenLayers.js"></script>
+    <script src="/esco/media/js/openlayers/OpenStreetMap.js"></script>
+
+    <script src="/esco/media/js/map.js"></script>
+{% endblock %}
+
 {% block location %}
     <span class="location">
         &raquo; <a href="/esco/accommodation/">Accommodation</a>
@@ -17,5 +36,7 @@
     <a href="http://www.marriott.com/hotels/travel/prgpz-courtyard-pilsen/">Mariott Courtyard Pilsen</a>
     and many other hotels in Pilsen.
 </p>
+
+<div id="map"></div>
 {% endblock %}
 

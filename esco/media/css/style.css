@@ -306,3 +306,10 @@ form > input {
     margin-bottom: -5px;
 }
 
+/* ACCOMMODATION */
+
+#map {
+    width: 100%;
+    height: 50%;
+}
+
