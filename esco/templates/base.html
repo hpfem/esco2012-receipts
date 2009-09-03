@@ -19,16 +19,10 @@
         <div id="container">
             <div id="header">
                 <div id="banner">
-                    <!-- TODO -->
                 </div>
                 <div id="status">
                     <div id="site">
-                        <b>ESCO 2010 Conference Site:</b>
-                        <span class="location">
-                            &raquo; <a href="/esco/">Home Page</a>
-                        </span>
-                        {% block location %}
-                        {% endblock %}
+                        <b>ESCO 2010</b> &mdash; 2nd European Seminar on Coupled Problems
                     </div>
                     <div id="user">
                         {% if not user.username %}
@@ -49,6 +43,7 @@
                     <div class="box">
                         <div class="title">Main Menu</div>
                         <ul class="menu">
+                            <li><a href="/esco/home/">Home Page</a></li>
                             <li><a href="/esco/topics/">Conference Topics</a></li>
                             <li><a href="/esco/keynote/">Keynote Speakers</a></li>
                             <li><a href="/esco/committees/">Committees</a></li>

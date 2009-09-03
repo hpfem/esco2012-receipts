@@ -16,6 +16,7 @@ from esco.settings import MIN_PASSWORD_LEN
 
 urlpatterns = patterns('esco.site.views',
     (r'^$', 'index_view'),
+    (r'^home/$', 'index_view'),
 
     (r'^topics/$', 'topics_view'),
     (r'^keynote/$', 'keynote_view'),

@@ -43,7 +43,8 @@ a:hover {
 }
 
 #container {
-    margin: 10px;
+    margin: 10px auto;
+    width: 970px;
 }
 
 .bar {
@@ -58,9 +59,11 @@ a:hover {
 }
 
 #banner {
-    height: 100px;
+    width: 970px;
+    height: 82px;
     background-color: #254b6f;
     border-bottom: 1px solid #ffffff;
+    background-image: url('/esco/media/img/banner.jpg');
 }
 
 #status a {
@@ -74,6 +77,7 @@ a:hover {
 
 #site {
     float: left;
+    font-size: 14pt;
 }
 
 #user {
@@ -94,10 +98,12 @@ a:hover {
 
 #left-panel {
     float: left;
+    font-size: 11pt;
 }
 
 #right-panel {
     float: right;
+    font-size: 11pt;
 }
 
 #content {
@@ -106,7 +112,6 @@ a:hover {
     padding-top: 1em;
     margin-right: 13em;
     margin-left: 13em;
-    font-size: 13pt;
 }
 
 /* MENUS */
