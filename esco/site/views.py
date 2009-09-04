@@ -10,9 +10,13 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, PasswordForm
-from esco.site.forms import AccountModifyForm
-from esco.site.models import UserProfile
-from esco.settings import MIN_PASSWORD_LEN
+from esco.site.forms import AccountModifyForm, UploadAbstractForm, ModifyAbstractForm
+from esco.site.models import UserProfile, UserAbstract
+from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
+
+import os
+import hashlib
+import datetime
 
 urlpatterns = patterns('esco.site.views',
     (r'^$', 'index_view'),
@@ -43,7 +47,11 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/password/remind/success/$', 'account_password_remind_success_view'),
 
     (r'^account/modify/$', 'account_modify_view'),
-    (r'^abstracts/$', 'abstracts_view'),
+
+    (r'^account/abstracts/$', 'abstracts_view'),
+    (r'^account/abstracts/add/$', 'abstracts_add_view'),
+    (r'^account/abstracts/modify/(\d+)/$', 'abstracts_modify_view'),
+    (r'^account/abstracts/delete/(\d+)/$', 'abstracts_delete_view'),
 )
 
 def _render_to_response(page, request, args=None):
@@ -75,10 +83,6 @@ def accommodation_view(request, **args):
 
 def travel_view(request, **args):
     return _render_to_response('travel.html', request)
-
-@login_required
-def abstracts_view(request, **args):
-    return _render_to_response('abstracts.html', request)
 
 def account_login_view(request, **args):
     next = request.REQUEST.get('next', '/esco/')
@@ -289,4 +293,116 @@ def account_modify_view(request, **args):
         form = AccountModifyForm(data)
 
     return _render_to_response('modify.html', request, {'form': form})
+
+@login_required
+def abstracts_view(request, **args):
+    return _render_to_response('abstracts.html', request,
+        {'abstracts': UserAbstract.objects.filter(user=request.user)})
+
+@login_required
+def abstracts_add_view(request, **args):
+    if request.method == 'POST':
+        form = UploadAbstractForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            sha1 = hashlib.new('sha1')
+            ifile = request.FILES['abstract_file']
+
+            for chunk in ifile.chunks():
+                sha1.update(chunk)
+
+            digest = sha1.hexdigest()
+            path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
+
+            if os.path.exists(path):
+                return HttpResponsePermanentRedirect('/esco/account/abstracts/add/failed/')
+
+            ofile = open(path, 'wb')
+
+            for chunk in ifile.chunks():
+                ofile.write(chunk)
+
+            ofile.close()
+
+            date = datetime.datetime.today()
+
+            abstract = UserAbstract(
+                user=request.user,
+                title=form.cleaned_data['abstract_title'],
+                digest=digest,
+                size=os.path.getsize(path),
+                upload_date=date,
+                modify_date=date,
+            )
+
+            abstract.save()
+
+            return HttpResponsePermanentRedirect('/esco/account/abstracts/')
+    else:
+        form = UploadAbstractForm()
+
+    return _render_to_response('abstracts_add.html', request, {'form': form, 'text': 'Submit'})
+
+@login_required
+def abstracts_modify_view(request, abstract_id, **args):
+    abstract = UserAbstract.objects.get(id=abstract_id)
+
+    if request.method == 'POST':
+        form = ModifyAbstractForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            date = datetime.datetime.today()
+
+            if 'abstract_file' in request.FILES:
+                sha1 = hashlib.new('sha1')
+                ifile = request.FILES['abstract_file']
+
+                for chunk in ifile.chunks():
+                    sha1.update(chunk)
+
+                digest = sha1.hexdigest()
+                path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
+
+                if os.path.exists(path):
+                    return HttpResponsePermanentRedirect('/esco/account/abstracts/add/failed/')
+
+                abstract = UserAbstract.objects.get(user=request.user)
+                os.remove(os.path.join(ABSTRACTS_PATH, abstract.digest+'.tex'))
+
+                ofile = open(path, 'wb')
+
+                for chunk in ifile.chunks():
+                    ofile.write(chunk)
+
+                ofile.close()
+
+                abstract.modify_date = date
+                abstract.digest = digest
+                abstract.save()
+
+            title = form.cleaned_data.get('abstract_title')
+
+            if title and title != abstract.title:
+                abstract.modify_date = date
+                abstract.title = title
+                abstract.save()
+
+            return HttpResponsePermanentRedirect('/esco/account/abstracts/')
+    else:
+        form = ModifyAbstractForm({'abstract_title': abstract.title})
+
+    return _render_to_response('abstracts_add.html', request, {'form': form, 'text': 'Modify'})
+
+@login_required
+def abstracts_delete_view(request, abstract_id, **args):
+    try:
+        abstract = UserAbstract.objects.get(id=abstract_id)
+
+        os.remove(os.path.join(ABSTRACTS_PATH,
+                               abstract.digest+'.tex'))
+        abstract.delete()
+    except UserAbstract.DoesNotExist:
+        pass
+
+    return HttpResponsePermanentRedirect('/esco/account/abstracts/')
 

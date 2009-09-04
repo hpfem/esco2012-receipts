@@ -265,13 +265,13 @@ class AccountModifyForm(forms.Form):
     """Account modification form. """
 
     first_name = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "First Name",
         help_text = "Enter your first name using Unicode character set.",
     )
 
     last_name = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "Last Name",
         help_text = "Enter your last name using Unicode character set.",
     )
@@ -310,5 +310,47 @@ class AccountModifyForm(forms.Form):
         required  = False,
         label     = "Phone Number",
         help_text = "Enter your phone number, e.g. +48 123 456 789",
+    )
+
+class UploadAbstractForm(forms.Form):
+
+    abstract_title = forms.CharField(
+        required  = True,
+        label     = "Title",
+        help_text = "Enter full title of your work.",
+    )
+
+    abstract_file = forms.FileField(
+        required  = True,
+        label     = "File",
+        help_text = "Select a text file with your abstract. Don't upload compressed archives.",
+    )
+
+class ModifyAbstractForm(forms.Form):
+
+    abstract_title = forms.CharField(
+        required  = True,
+        label     = "Title",
+        help_text = "Enter full title of your work.",
+    )
+
+    abstract_file = forms.FileField(
+        required  = False,
+        label     = "File",
+        help_text = "Select a text file with your abstract. Don't upload compressed archives.",
+    )
+
+class AbstractAuthorForm(forms.Form):
+
+    first_name = forms.CharField(
+        required   = True,
+        label      = "First Name",
+        help_text  = "Enter author's first name using Unicode character set.",
+    )
+
+    last_name = forms.CharField(
+        required   = True,
+        label      = "Last Name",
+        help_text  = "Enter author's last name using Unicode character set.",
     )
 

@@ -94,3 +94,5 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 AUTH_PROFILE_MODULE = 'site.UserProfile'
 
+ABSTRACTS_PATH = '/var/db/esco-2010/abstracts/'
+

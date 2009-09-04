@@ -13,3 +13,16 @@ class UserProfile(models.Model):
 
     phone = models.CharField(max_length=50, blank=True)
 
+class UserAbstract(models.Model):
+    user = models.ForeignKey(User)
+
+    title = models.CharField(max_length=200)
+
+    digest = models.CharField(max_length=40)
+    size = models.IntegerField()
+
+    upload_date = models.DateTimeField()
+    modify_date = models.DateTimeField()
+
+    accepted = models.NullBooleanField()
+

@@ -186,27 +186,27 @@ li.left {
     text-align: justify;
 }
 
-table {
+table.payment {
     border-collapse: collapse;
     border: 1px solid #254b6f;
     margin: 0 auto;
 }
 
-thead {
+table.payment thead {
     background-color: #254b6f;
     font-weight: bold;
     color: #ffffff;
 }
 
-tbody {
+table.payment tbody {
     background-color: #ebf5ff;
 }
 
-td {
+table.payment td {
     padding: 4px 8px 4px 8px;
 }
 
-tbody tr:hover {
+table.payment tbody tr:hover {
     background-color: #a0bbd4;
 }
 
@@ -229,7 +229,6 @@ form > input {
     background-color: #254b6f !important;
     border: 1px solid #254b6f !important;
     color: #ffffff;
-    border: none;
     font-weight: bold;
     font-size: 16px;
     padding: 3px 1em;
@@ -316,5 +315,65 @@ form > input {
 #map {
     width: 100%;
     height: 50%;
+}
+
+/* ABSTRACTS */
+
+table.abstracts {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #e5e5e5;
+    background-color: #fbfbfb;
+    margin-bottom: 5px;
+    color: #777777;
+    table-layout: fixed;
+}
+
+table.abstracts th {
+    text-align: left;
+    color: #254b6f;
+    padding: 5px 10px;
+    margin: 0;
+    width: 7em;
+}
+
+table.abstracts td {
+    padding: 5px 0;
+    margin: 0;
+}
+
+table.abstracts td.digest {
+    font-family: Fixed, monospace;
+}
+
+table.abstracts tr.bar {
+    height: 5px;
+    background-color: #ffffff;
+    border-left: 1px solid #ffffff;
+    border-right: 1px solid #ffffff;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.button {
+    background-color: #254b6f !important;
+    border: 1px solid #254b6f !important;
+    color: #ffffff !important;
+    outline: none;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 3px 1em;
+}
+
+.button:hover {
+    text-decoration: none;
+}
+
+.abstract-box {
+    border: 1px solid #e5e5e5;
+    background-color: #fbfbfb;
+    margin-bottom: 5px;
+    padding: 4px 8px;
 }
 

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>My Abstracts</h2>
+
+    {% if not abstracts %}
+        <div class="abstract-box">You didn't submit any abstracts yet.</div>
+    {% else %}
+        <table class="abstracts">
+            <tbody>
+                {% for abstract in abstracts %}
+                    <tr>
+                        <th>ID:</th>
+                        <td>{{ abstract.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title:</th>
+                        <td>{{ abstract.title|escape }}</td>
+                    </tr>
+                    <tr>
+                        <th>Digest:</th>
+                        <td class="digest">{{ abstract.digest }}</td>
+                    </tr>
+                    <tr>
+                        <th>Size:</th>
+                        <td>{{ abstract.size }} bytes</td>
+                    </tr>
+                    <tr>
+                        <th>Submitted:</th>
+                        <td>{{ abstract.upload_date }}</td>
+                    </tr>
+                    {% ifnotequal abstract.upload_date abstract.modify_date %}
+                    <tr>
+                            <th>Last Modified:</th>
+                            <td>{{ abstract.modify_date }}</td>
+                        </tr>
+                    {% endifnotequal %}
+                    <tr>
+                        <th></th>
+                        <td>
+                            <button class="button" onclick="window.location='/esco/account/abstracts/modify/{{ abstract.id }}/'">Modify</button>
+                            <button class="button" onclick="window.location='/esco/account/abstracts/delete/{{ abstract.id }}/'">Delete</button>
+                        </td>
+                    </tr>
+                    {% if not forloop.last %}
+                        <tr class="bar"></tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <button class="button" onclick="window.location='/esco/account/abstracts/add/'">Add Abstract</button>
+{% endblock %}
+
