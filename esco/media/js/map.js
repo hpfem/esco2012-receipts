@@ -1,24 +1,32 @@
 
 OpenLayers.ImgPath = "/esco/media/img/openlayers/";
 
-pilsen_lon = 13.38660;
+pilsen_lon = 13.38500;
 pilsen_lat = 49.74520;
 
 pilsen_zoom = 15;
 
 var map;
+var icon;
 
-/*
-  49.747523,13.393169 Angelo
-  49.746576,13.386065 Spilka
-  49.747740,13.380572 Marriott
-*/
+coords = {
+    'Angelo': new OpenLayers.LonLat(13.393169, 49.747523),
+    'Spilka': new OpenLayers.LonLat(13.386065, 49.746576),
+    'Marriott': new OpenLayers.LonLat(13.380572, 49.747740),
+};
+
+default_feature_style = {
+    strokeDashstyle: "solid",
+    pointerEvents: "visiblePainted",
+    fillColor: "#ffcc66",
+    strokeColor: "#ff9933",
+    pointRadius: 5,
+    strokeWidth: 3,
+};
+
+popups = {};
 
 $(document).ready(function() {
-    function osmLonLat(lon, lat) {
-        return
-    }
-
     function createMap() {
         map = new OpenLayers.Map("map", {
             controls: [
@@ -27,6 +35,10 @@ $(document).ready(function() {
                 new OpenLayers.Control.PanZoomBar(),
                 new OpenLayers.Control.LayerSwitcher(),
             ],
+            minResolution: "auto",
+            minExtent: new OpenLayers.Bounds(-1, -1, 1, 1),
+            maxResolution: "auto",
+            maxExtent: new OpenLayers.Bounds(-180, -90, 180, 90),
         });
 
         map.controls[0].activate();
@@ -47,6 +59,18 @@ $(document).ready(function() {
         );
 
         map.addLayers([gmap, ghyb, gsat]);
+
+        size = new OpenLayers.Size(24, 38);
+        offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+
+        points = new OpenLayers.Layer.Markers("POI");
+        map.addLayer(points);
+
+        for (key in coords) {
+            icon = new OpenLayers.Icon("/esco/media/img/marker.png", size, offset);
+            marker = new OpenLayers.Marker(coords[key], icon);
+            points.addMarker(marker);
+        }
     }
 
     function centerMap() {

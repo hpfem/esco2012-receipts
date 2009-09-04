@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, PasswordForm
 from esco.site.forms import AccountModifyForm, UploadAbstractForm, ModifyAbstractForm
 from esco.site.models import UserProfile, UserAbstract
-from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
+from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH, GOOGLE_KEY
 
 import os
 import hashlib
@@ -79,7 +79,7 @@ def payment_view(request, **args):
     return _render_to_response('payment.html', request)
 
 def accommodation_view(request, **args):
-    return _render_to_response('accommodation.html', request)
+    return _render_to_response('accommodation.html', request, {'key': GOOGLE_KEY})
 
 def travel_view(request, **args):
     return _render_to_response('travel.html', request)
