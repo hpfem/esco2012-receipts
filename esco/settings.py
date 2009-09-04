@@ -12,9 +12,9 @@ MANAGERS = ADMINS
 SITE_ID = 1
 
 DATABASE_ENGINE   = 'mysql'
-DATABASE_NAME     = 'esco'
+DATABASE_NAME     = 'esco_2010'
 DATABASE_USER     = 'esco'
-DATABASE_PASSWORD = 'pass'
+DATABASE_PASSWORD = 'esco-pass'
 DATABASE_HOST     = 'localhost'
 DATABASE_PORT     = '3306'
 
@@ -67,9 +67,9 @@ TEMPLATE_DIRS = (
 )
 
 MEDIA_ROOT = path.join(path.dirname(__file__), 'media')
-MEDIA_URL  = '/esco/media/'
+MEDIA_URL  = '/events/esco-2010/media/'
 
-ADMIN_MEDIA_PREFIX = '/esco/media/admin/'
+ADMIN_MEDIA_PREFIX = '/events/esco-2010/media/admin/'
 
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
@@ -88,7 +88,7 @@ CAPTCHA = {
     'imagesize': (200, 50),
 }
 
-LOGIN_URL = '/esco/account/login/'
+LOGIN_URL = '/events/esco-2010/account/login/'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 

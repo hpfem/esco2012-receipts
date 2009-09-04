@@ -4,7 +4,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^', include('esco.site.views')),
-    (r'^admin/', include(admin.site.urls)),
+    (r'^events/esco-2010/', include('esco.site.views')),
+    (r'^events/esco-2010/admin/', include(admin.site.urls)),
 )
 

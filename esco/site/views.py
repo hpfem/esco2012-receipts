@@ -85,7 +85,7 @@ def travel_view(request, **args):
     return _render_to_response('travel.html', request)
 
 def account_login_view(request, **args):
-    next = request.REQUEST.get('next', '/esco/')
+    next = request.REQUEST.get('next', '/events/esco-2010/')
 
     if request.method == 'POST':
         if request.session.test_cookie_worked():
@@ -119,7 +119,7 @@ def account_login_view(request, **args):
 def account_logout_view(request, **args):
     logout(request)
 
-    return HttpResponsePermanentRedirect('/esco/')
+    return HttpResponsePermanentRedirect('/events/esco-2010/')
 
 @login_required
 def account_delete_view(request, **args):
@@ -128,7 +128,7 @@ def account_delete_view(request, **args):
         logout(request)
         user.delete()
 
-        return HttpResponsePermanentRedirect('/esco/account/delete/success/')
+        return HttpResponsePermanentRedirect('/events/esco-2010/account/delete/success/')
     else:
         return _render_to_response('delete.html', request, args)
 
@@ -153,7 +153,7 @@ def account_register_view(request, **args):
             profile = UserProfile(user=user)
             profile.save()
 
-            return HttpResponsePermanentRedirect('/esco/account/register/success/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/register/success/')
     else:
         form = RegistrationForm()
 
@@ -175,7 +175,7 @@ def account_password_change_view(request, **args):
             form.user.set_password(form.cleaned_data['password_new'])
             form.user.save()
 
-            return HttpResponsePermanentRedirect('/esco/account/password/change/success/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/password/change/success/')
     else:
         form = PasswordForm()
 
@@ -200,7 +200,7 @@ def account_password_remind_view(request, **args):
 
             user.email_user("ESCO 2010 - Password reminder notification", body)
 
-            return HttpResponsePermanentRedirect('/esco/account/password/remind/success/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/password/remind/success/')
     else:
         form = ReminderForm()
 
@@ -271,7 +271,7 @@ def account_modify_view(request, **args):
                 profile.phone = phone
                 profile.save()
 
-            return HttpResponsePermanentRedirect('/esco/account/modify/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/modify/')
     else:
         try:
             profile = request.user.get_profile()
@@ -315,7 +315,7 @@ def abstracts_add_view(request, **args):
             path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
 
             if os.path.exists(path):
-                return HttpResponsePermanentRedirect('/esco/account/abstracts/add/failed/')
+                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/add/failed/')
 
             ofile = open(path, 'wb')
 
@@ -337,7 +337,7 @@ def abstracts_add_view(request, **args):
 
             abstract.save()
 
-            return HttpResponsePermanentRedirect('/esco/account/abstracts/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
     else:
         form = UploadAbstractForm()
 
@@ -364,7 +364,7 @@ def abstracts_modify_view(request, abstract_id, **args):
                 path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
 
                 if os.path.exists(path):
-                    return HttpResponsePermanentRedirect('/esco/account/abstracts/add/failed/')
+                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/add/failed/')
 
                 abstract = UserAbstract.objects.get(user=request.user)
                 os.remove(os.path.join(ABSTRACTS_PATH, abstract.digest+'.tex'))
@@ -387,7 +387,7 @@ def abstracts_modify_view(request, abstract_id, **args):
                 abstract.title = title
                 abstract.save()
 
-            return HttpResponsePermanentRedirect('/esco/account/abstracts/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
     else:
         form = ModifyAbstractForm({'abstract_title': abstract.title})
 
@@ -404,5 +404,5 @@ def abstracts_delete_view(request, abstract_id, **args):
     except UserAbstract.DoesNotExist:
         pass
 
-    return HttpResponsePermanentRedirect('/esco/account/abstracts/')
+    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
 

@@ -7,7 +7,7 @@
         <title>ESCO 2010 - 2nd European Seminar on Coupled Problems</title>
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
-        <link type="text/css" href="/esco/media/css/style.css" rel="stylesheet" />
+        <link type="text/css" href="/events/esco-2010/media/css/style.css" rel="stylesheet" />
 
         {% block styles %}
         {% endblock %}
@@ -26,12 +26,12 @@
                     </div>
                     <div id="user">
                         {% if not user.username %}
-                            <b><a href="/esco/account/login/">login</a></b>
+                            <b><a href="/events/esco-2010/account/login/">login</a></b>
                         {% else %}
                             <b>
                                 {{ user.get_full_name }}
                                 <span class="bar">|</span>
-                                <a href="/esco/account/logout/">logout</a>
+                                <a href="/events/esco-2010/account/logout/">logout</a>
                             </b>
                         {% endif %}
                     </div>
@@ -43,28 +43,28 @@
                     <div class="box">
                         <div class="title">Main Menu</div>
                         <ul class="menu">
-                            <li><a href="/esco/home/">Home Page</a></li>
-                            <li><a href="/esco/topics/">Conference Topics</a></li>
-                            <li><a href="/esco/keynote/">Keynote Speakers</a></li>
-                            <li><a href="/esco/committees/">Committees</a></li>
-                            <li><a href="/esco/dates/">Important Dates</a></li>
-                            <li><a href="/esco/venue/">Conference Venue</a></li>
-                            <li><a href="/esco/payment/">Payment Information</a></li>
-                            <li><a href="/esco/accommodation/">Accommodation</a></li>
-                            <li><a href="/esco/travel/">Travel Information</a></li>
+                            <li><a href="/events/esco-2010/home/">Home Page</a></li>
+                            <li><a href="/events/esco-2010/topics/">Conference Topics</a></li>
+                            <li><a href="/events/esco-2010/keynote/">Keynote Speakers</a></li>
+                            <li><a href="/events/esco-2010/committees/">Committees</a></li>
+                            <li><a href="/events/esco-2010/dates/">Important Dates</a></li>
+                            <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
+                            <li><a href="/events/esco-2010/payment/">Payment Information</a></li>
+                            <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
+                            <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
                         </ul>
                     </div>
                     <div class="box">
                         <div class="title">User Menu</div>
                         <ul class="menu">
                             {% if not user.is_authenticated %}
-                                <li><a href="/esco/account/register/">Create Account</a></li>
+                                <li><a href="/events/esco-2010/account/register/">Create Account</a></li>
                             {% endif %}
                             {% if user.is_authenticated %}
-                                <li><a href="/esco/account/password/change/">Change Password</a></li>
-                                <li><a href="/esco/account/delete/">Delete Account</a></li>
-                                <li><a href="/esco/account/modify/">Modify Account</a></li>
-                                <li><a href="/esco/account/abstracts/">My Abstracts</a></li>
+                                <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
+                                <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
+                                <li><a href="/events/esco-2010/account/modify/">Modify Account</a></li>
+                                <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
                             {% endif %}
                         </ul>
                     </div>

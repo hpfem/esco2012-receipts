@@ -1,5 +1,5 @@
 
-OpenLayers.ImgPath = "/esco/media/img/openlayers/";
+OpenLayers.ImgPath = "/events/esco-2010/media/img/openlayers/";
 
 pilsen_lon = 13.38500;
 pilsen_lat = 49.74520;
@@ -67,7 +67,7 @@ $(document).ready(function() {
         map.addLayer(points);
 
         for (key in coords) {
-            icon = new OpenLayers.Icon("/esco/media/img/marker.png", size, offset);
+            icon = new OpenLayers.Icon("/events/esco-2010/media/img/marker.png", size, offset);
             marker = new OpenLayers.Marker(coords[key], icon);
             points.addMarker(marker);
         }

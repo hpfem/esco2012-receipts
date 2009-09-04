@@ -38,8 +38,8 @@
                     <tr>
                         <th></th>
                         <td>
-                            <button class="button" onclick="window.location='/esco/account/abstracts/modify/{{ abstract.id }}/'">Modify</button>
-                            <button class="button" onclick="window.location='/esco/account/abstracts/delete/{{ abstract.id }}/'">Delete</button>
+                            <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/modify/{{ abstract.id }}/'">Modify</button>
+                            <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/delete/{{ abstract.id }}/'">Delete</button>
                         </td>
                     </tr>
                     {% if not forloop.last %}
@@ -50,6 +50,6 @@
         </table>
     {% endif %}
 
-    <button class="button" onclick="window.location='/esco/account/abstracts/add/'">Add Abstract</button>
+    <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/add/'">Add Abstract</button>
 {% endblock %}
 

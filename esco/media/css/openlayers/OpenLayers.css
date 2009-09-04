@@ -113,7 +113,7 @@ div.olControlMousePosition {
 
 .olControlOverviewMapExtentRectangle {
     overflow: hidden;
-    background-image: url("/esco/media/img/openlayers/blank.gif");
+    background-image: url("/events/esco-2010/media/img/openlayers/blank.gif");
     cursor: move;
     border: 2px dotted red;
 }
@@ -121,7 +121,7 @@ div.olControlMousePosition {
 .olControlOverviewMapRectReplacement {
     overflow: hidden;
     cursor: move;
-    background-image: url("/esco/media/img/openlayers/overview_replacement.gif");
+    background-image: url("/events/esco-2010/media/img/openlayers/overview_replacement.gif");
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -165,7 +165,7 @@ div.olControlMousePosition {
 }
 
 .olControlNavigationHistory {
-    background-image: url("/esco/media/img/openlayers/navigation_history.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/navigation_history.png");
     background-repeat: no-repeat;
     width:  24px;
     height: 24px;
@@ -188,23 +188,23 @@ div.olControlMousePosition {
 }
 
 .olControlNavToolbar .olControlNavigationItemActive {
-    background-image: url("/esco/media/img/openlayers/panning-hand-on.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/panning-hand-on.png");
     background-repeat: no-repeat;
 }
 
 .olControlNavToolbar .olControlNavigationItemInactive {
-    background-image: url("/esco/media/img/openlayers/panning-hand-off.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/panning-hand-off.png");
     background-repeat: no-repeat;
 }
 
 .olControlNavToolbar .olControlZoomBoxItemActive {
-    background-image: url("/esco/media/img/openlayers/drag-rectangle-on.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/drag-rectangle-on.png");
     background-color: white;
     background-repeat: no-repeat;
 }
 
 .olControlNavToolbar .olControlZoomBoxItemInactive {
-    background-image: url("/esco/media/img/openlayers/drag-rectangle-off.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/drag-rectangle-off.png");
     background-repeat: no-repeat;
 }
 
@@ -216,7 +216,7 @@ div.olControlMousePosition {
 }
 
 .olControlEditingToolbar div {
-    background-image: url("/esco/media/img/openlayers/editing_tool_bar.png");
+    background-image: url("/events/esco-2010/media/img/openlayers/editing_tool_bar.png");
     background-repeat: no-repeat;
     float:right;
     width:  24px;
@@ -257,13 +257,13 @@ div.olControlMousePosition {
 }
 
 .olControlSaveFeaturesItemActive {
-    background-image: url(/esco/media/img/openlayers/save_features_on.png);
+    background-image: url(/events/esco-2010/media/img/openlayers/save_features_on.png);
     background-repeat: no-repeat;
     background-position: 0px 1px;
 }
 
 .olControlSaveFeaturesItemInactive {
-    background-image: url(/esco/media/img/openlayers/save_features_off.png);
+    background-image: url(/events/esco-2010/media/img/openlayers/save_features_off.png);
     background-repeat: no-repeat;
     background-position: 0px 1px;
 }
@@ -292,7 +292,7 @@ div.olControlMousePosition {
 }
 
 .olControlPanPanel div {
-    background-image: url(/esco/media/img/openlayers/pan-panel.png);
+    background-image: url(/events/esco-2010/media/img/openlayers/pan-panel.png);
     height: 18px;
     width: 18px;
     cursor: pointer;
@@ -330,7 +330,7 @@ div.olControlMousePosition {
 }
 
 .olControlZoomPanel div {
-    background-image: url(/esco/media/img/openlayers/zoom-panel.png);
+    background-image: url(/events/esco-2010/media/img/openlayers/zoom-panel.png);
     position: absolute;
     height: 18px;
     width: 18px;
@@ -356,7 +356,7 @@ div.olControlMousePosition {
 }
 
 .olPopupCloseBox {
-    background: url("/esco/media/img/openlayers/close.gif") no-repeat;
+    background: url("/events/esco-2010/media/img/openlayers/close.gif") no-repeat;
     cursor: pointer;
 }
 
