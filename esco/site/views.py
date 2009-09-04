@@ -25,7 +25,7 @@ urlpatterns = patterns('esco.site.views',
     (r'^topics/$', 'topics_view'),
     (r'^keynote/$', 'keynote_view'),
     (r'^committees/$', 'committees_view'),
-    (r'^dates/$', 'dates_view'),
+    (r'^submission/$', 'submission_view'),
     (r'^venue/$', 'venue_view'),
     (r'^payment/$', 'payment_view'),
     (r'^accommodation/$', 'accommodation_view'),
@@ -49,8 +49,10 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/modify/$', 'account_modify_view'),
 
     (r'^account/abstracts/$', 'abstracts_view'),
-    (r'^account/abstracts/add/$', 'abstracts_add_view'),
+    (r'^account/abstracts/submit/$', 'abstracts_submit_view'),
+    (r'^account/abstracts/submit/failed/$', 'abstracts_submit_failed_view'),
     (r'^account/abstracts/modify/(\d+)/$', 'abstracts_modify_view'),
+    (r'^account/abstracts/modify/failed/$', 'abstracts_modify_failed_view'),
     (r'^account/abstracts/delete/(\d+)/$', 'abstracts_delete_view'),
 )
 
@@ -69,8 +71,8 @@ def keynote_view(request, **args):
 def committees_view(request, **args):
     return _render_to_response('committees.html', request)
 
-def dates_view(request, **args):
-    return _render_to_response('dates.html', request)
+def submission_view(request, **args):
+    return _render_to_response('submission.html', request)
 
 def venue_view(request, **args):
     return _render_to_response('venue.html', request)
@@ -300,7 +302,7 @@ def abstracts_view(request, **args):
         {'abstracts': UserAbstract.objects.filter(user=request.user)})
 
 @login_required
-def abstracts_add_view(request, **args):
+def abstracts_submit_view(request, **args):
     if request.method == 'POST':
         form = UploadAbstractForm(request.POST, request.FILES)
 
@@ -315,7 +317,7 @@ def abstracts_add_view(request, **args):
             path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
 
             if os.path.exists(path):
-                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/add/failed/')
+                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/submit/failed/')
 
             ofile = open(path, 'wb')
 
@@ -341,7 +343,11 @@ def abstracts_add_view(request, **args):
     else:
         form = UploadAbstractForm()
 
-    return _render_to_response('abstracts_add.html', request, {'form': form, 'text': 'Submit'})
+    return _render_to_response('abstracts_submit.html', request, {'form': form, 'text': 'Submit'})
+
+@login_required
+def abstracts_submit_failed_view(request, **args):
+    return _render_to_response('abstracts_failed.html', request)
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
@@ -364,7 +370,7 @@ def abstracts_modify_view(request, abstract_id, **args):
                 path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
 
                 if os.path.exists(path):
-                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/add/failed/')
+                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/modify/failed/')
 
                 abstract = UserAbstract.objects.get(user=request.user)
                 os.remove(os.path.join(ABSTRACTS_PATH, abstract.digest+'.tex'))
@@ -391,7 +397,11 @@ def abstracts_modify_view(request, abstract_id, **args):
     else:
         form = ModifyAbstractForm({'abstract_title': abstract.title})
 
-    return _render_to_response('abstracts_add.html', request, {'form': form, 'text': 'Modify'})
+    return _render_to_response('abstracts_submit.html', request, {'form': form, 'text': 'Modify'})
+
+@login_required
+def abstracts_modify_failed_view(request, **args):
+    return _render_to_response('abstracts_failed.html', request)
 
 @login_required
 def abstracts_delete_view(request, abstract_id, **args):
