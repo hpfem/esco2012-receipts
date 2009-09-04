@@ -30,7 +30,7 @@
                         <td>{{ abstract.upload_date }}</td>
                     </tr>
                     {% ifnotequal abstract.upload_date abstract.modify_date %}
-                    <tr>
+                        <tr>
                             <th>Last Modified:</th>
                             <td>{{ abstract.modify_date }}</td>
                         </tr>
@@ -43,7 +43,7 @@
                         </td>
                     </tr>
                     {% if not forloop.last %}
-                        <tr class="bar"></tr>
+                        <tr><th class="bar" /><td class="bar" /></tr>
                     {% endif %}
                 {% endfor %}
             </tbody>

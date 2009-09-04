@@ -343,14 +343,19 @@ table.abstracts td {
     margin: 0;
 }
 
-table.abstracts td.digest {
-    font-family: Fixed, monospace;
-}
-
-table.abstracts tr.bar {
+table.abstracts th.bar {
     height: 5px;
+    padding: 0;
     background-color: #ffffff;
     border-left: 1px solid #ffffff;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+table.abstracts td.bar {
+    height: 5px;
+    padding: 0;
+    background-color: #ffffff;
     border-right: 1px solid #ffffff;
     border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
