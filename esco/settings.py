@@ -73,5 +73,3 @@ AUTH_PROFILE_MODULE = 'site.UserProfile'
 
 ABSTRACTS_PATH = '/var/db/esco-2010/abstracts/'
 
-GOOGLE_KEY = "ABQIAAAAnXqkzqry3G9LHI_IoV1FVRSgW3wqcIyZiRDg3RFDwmj2dRf9tRQUllugYY9w9xpAMtbLuSXfBM8Xog"
-
