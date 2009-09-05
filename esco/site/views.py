@@ -59,6 +59,12 @@ urlpatterns = patterns('esco.site.views',
 def _render_to_response(page, request, args=None):
     return render_to_response(page, RequestContext(request, args), mimetype="text/html")
 
+def handler404(request):
+    return _render_to_response('errors/404.html', request)
+
+def handler500(request):
+    return _render_to_response('errors/500.html', request)
+
 def index_view(request, **args):
     return _render_to_response('base.html', request, args)
 
