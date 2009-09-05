@@ -34,6 +34,10 @@ a:hover {
     text-decoration: underline;
 }
 
+.center {
+    text-align: center;
+}
+
 .color {
     color: #254b6f;
 }
@@ -61,7 +65,6 @@ a:hover {
 #banner {
     width: 970px;
     height: 82px;
-    background-color: #254b6f;
     border-bottom: 1px solid #ffffff;
     background-image: url('/events/esco-2010/media/img/banner.jpg');
 }
@@ -76,8 +79,8 @@ a:hover {
 }
 
 #site {
-    float: left;
     font-size: 14pt;
+    float: left;
 }
 
 #user {
@@ -210,35 +213,9 @@ table.payment tbody tr:hover {
     background-color: #a0bbd4;
 }
 
-/* FOOTER */
+/* MESSAGES */
 
-/* COMMON */
-
-form div input {
-    background-color: #fbfbfb !important;
-    border: 1px solid #e5e5e5 !important;
-    font-size: 16px;
-    width: 100%;
-}
-
-form div input:hover {
-    background-color: #f5f5f5 !important;
-}
-
-form > input {
-    background-color: #254b6f !important;
-    border: 1px solid #254b6f !important;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 3px 1em;
-}
-
-form > input {
-    background-color: #37648e !important;
-}
-
-#message-box {
+.message {
     margin: 0 auto 20px auto;
     text-align: center;
     padding: 10px;
@@ -247,67 +224,26 @@ form > input {
 
 .error {
     background-color: #ffebe8;
+}
+
+.message.error {
     border: 1px solid #cc0000;
 }
 
 .warning {
     background-color: #ffeed4;
+}
+
+.message.warning {
     border: 1px solid #f86a04;
 }
 
 .success {
     background-color: #d7f8c7;
+}
+
+.message.success {
     border: 1px solid #00ee00;
-}
-
-/* LOGIN */
-
-#login-form {
-    margin: 0 auto;
-    width: 23em;
-}
-
-#login-form form {
-    border: 1px solid #e5e5e5;
-    padding: 10px 20px;
-}
-
-#login-form form div {
-    color: #777777;
-}
-
-#login-form form div input {
-    margin: 5px 0 10px 0;
-}
-
-#login-form form div img {
-    margin-bottom: -5px;
-}
-
-/* REGISTRATION */
-
-#register-form {
-    margin: 0 auto;
-    width: 23em;
-}
-
-#register-form form div {
-    border: 1px solid #e5e5e5;
-    margin-bottom: 10px;
-    padding: 5px 10px;
-    color: #777777;
-}
-
-#register-form form div span {
-    font-size: 70%;
-}
-
-#register-form form div input {
-    margin-top: 5px;
-}
-
-#register-form form div img {
-    margin-bottom: -5px;
 }
 
 /* ACCOMMODATION */

@@ -1,32 +1,10 @@
-{% extends "base.html" %}
+{% extends "large-form.html" %}
 
-{% block content %}
-    <h2>Modify Account</h2>
+{% block header %}
+Modify Account
+{% endblock %}
 
-    <div id="register-form">
-        <form method="post" action=".">
-            {% for field in form %}
-                <div
-                    {% if field.errors %}
-                        class="error"
-                    {% endif %}
-                >
-                    {{ field.label_tag }}
-                    <br />
-                    {{ field }}
-
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <span><b>ERROR:</b> {{ error|escape }}</span>
-                        {% endfor %}
-                    {% else %}
-                        <span>{{ field.help_text }}</span>
-                    {% endif %}
-                </div>
-            {% endfor %}
-
-            <input type="submit" value="Modify" />
-        </form>
-    </div>
+{% block submit %}
+<button type="submit">Modify</button>
 {% endblock %}
 

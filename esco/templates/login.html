@@ -1,33 +1,30 @@
-{% extends "base.html" %}
+{% extends "small-form.html" %}
 
-{% block content %}
-    <h2>Login to ESCO 2010 Website</h2>
+{% block header %}
+Login to ESCO 2010 Website
+{% endblock %}
 
-    {% if form.errors %}
-        <div id="message-box" class="error">
-            <b>ERROR:</b> Wrong login or password. Please try again.
-        </div>
-    {% else %}
-        {% if registred %}
-            <div id="message-box" class="success">
-                New account created. You can login now.
-            </div>
-        {% endif %}
+{% block error-text %}
+Wrong login or password. Please try again.
+{% endblock %}
+
+{% block form-message %}
+    {% if registred %}
+    <div class="message success">
+        New account created. You can login now.
+    </div>
     {% endif %}
+{% endblock %}
 
-    <div id="login-form">
-        <form method="post" action="./?next={{ next }}">
-            <div>{{ form.username.label_tag }}<br />{{ form.username }}</div>
-            <div>{{ form.password.label_tag }}<br />{{ form.password }}</div>
+{% block submit %}
+<button type="submit">Log In</button>
+{% endblock %}
 
-            <input type="submit" value="Log In" />
-        </form>
-    </div>
-
-    <div style="text-align: center">
-        <a href="/events/esco-2010/account/register/">Create account</a>
-        <span class="bar color">|</span>
-        <a href="/events/esco-2010/account/password/remind/">Forgot your password?</a>
-    </div>
+{% block epilog %}
+<div class="center">
+    <a href="/events/esco-2010/account/register/">Create account</a>
+    <span class="bar color">|</span>
+    <a href="/events/esco-2010/account/password/remind/">Forgot your password?</a>
+</div>
 {% endblock %}
 

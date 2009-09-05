@@ -1,22 +1,14 @@
-{% extends "base.html" %}
+{% extends "small-form.html" %}
 
-{% block content %}
-    <h2>Get New Password</h2>
+{% block header %}
+Get New Password
+{% endblock %}
 
-    {% if form.errors %}
-        <div id="message-box" class="error">
-            <b>ERROR:</b> Wrong login or security code. Please try again.
-        </div>
-    {% endif %}
+{% block error-text %}
+Wrong login or security code. Please try again.
+{% endblock %}
 
-    <div id="login-form">
-        <form method="post" action=".">
-            {% for field in form %}
-                <div>{{ field.label_tag }}<br />{{ field }}</div>
-            {% endfor %}
-
-            <input type="submit" value="Get New Password" />
-        </form>
-    </div>
+{% block submit %}
+<button type="submit">Get New Password</button>
 {% endblock %}
 

@@ -1,32 +1,14 @@
-{% extends "base.html" %}
+{% extends "large-form.html" %}
 
-{% block content %}
-    <h2>{{ text }} Abstract</h2>
+{% block header %}
+{{ text }} Abstract
+{% endblock %}
 
-    <div id="register-form">
-        <form method="post" action="." enctype="multipart/form-data">
-            {% for field in form %}
-                <div
-                    {% if field.errors %}
-                        class="error"
-                    {% endif %}
-                >
-                    {{ field.label_tag }}
-                    <br />
-                    {{ field }}
+{% block encoding %}
+enctype="multipart/form-data"
+{% endblock %}
 
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <span><b>ERROR:</b> {{ error|escape }}</span>
-                        {% endfor %}
-                    {% else %}
-                        <span>{{ field.help_text }}</span>
-                    {% endif %}
-                </div>
-            {% endfor %}
-
-            <input type="submit" value="{{ text }}" />
-        </form>
-    </div>
+{% block submit %}
+<button type="submit">{{ text }} Abstract</button>
 {% endblock %}
 

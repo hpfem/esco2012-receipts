@@ -99,11 +99,6 @@ def account_login_view(request, **args):
 
         if form.is_valid():
             login(request, form.user)
-
-            if not form.cleaned_data['remember']:
-                request.session.set_expiry(0)
-                request.session.save()
-
             request.session.set_test_cookie()
 
             return HttpResponsePermanentRedirect(next)

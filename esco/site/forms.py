@@ -22,12 +22,6 @@ class LoginForm(forms.Form):
         widget    = forms.PasswordInput(),
     )
 
-    remember = forms.BooleanField(
-        required  = False,
-        widget    = forms.CheckboxInput(),
-        help_text = 'Remember Me',
-    )
-
     def clean(self):
         """Authenticate and login user, if possible. """
         cleaned_data = self.cleaned_data
@@ -85,6 +79,7 @@ class RegistrationForm(forms.Form):
     username_again = forms.EmailField(
         required   = True,
         label      = "E-mail (Again)",
+        help_text  = "Make sure this is a valid E-mail address.",
     )
 
     password = forms.CharField(
@@ -279,7 +274,7 @@ class AccountModifyForm(forms.Form):
     institution = forms.CharField(
         required  = False,
         label     = "Institution",
-        help_text = "e.g. University of Nevada, Reno"
+        help_text = "e.g. University of Nevada",
     )
 
     address = forms.CharField(

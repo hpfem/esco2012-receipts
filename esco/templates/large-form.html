@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block styles %}
+<link type="text/css" href="{{ MEDIA_URL }}/css/forms.css" rel="stylesheet" />
+{% endblock %}
+
+{% block content %}
+    <h2>
+        {% block header %}
+        {% endblock %}
+    </h2>
+
+    <div class="form large">
+        <form method="post" action="./?next={{ next }}"
+            {% block encoding %}{% endblock %}>
+            <ul>
+            {% for field in form %}
+                <li class="
+                    {% if field.errors %}error{% endif %}
+                    {% if forloop.last %}last{% endif %}
+                ">
+
+                {{ field.label_tag }}
+                <br />
+                {{ field }}
+
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                    <span><b>ERROR:</b> {{ error }}</span>
+                    {% endfor %}
+                {% else %}
+                    <span>{{ field.help_text }}</span>
+                {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+
+            {% block submit %}
+            <button type="submit">Submit</button>
+            {% endblock %}
+        </form>
+    </div>
+
+    {% block epilog %}
+    {% endblock %}
+{% endblock %}
+
