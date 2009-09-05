@@ -69,22 +69,15 @@ a:hover {
     background-image: url('/events/esco-2010/media/img/banner.jpg');
 }
 
-#status a {
-    color: #dddddd;
-}
-
-#status div {
+#auth {
+    font-weight: bold;
+    padding: 4px 8px;
     color: #ffffff;
-    padding: 4px 8px 4px 8px;
-}
-
-#site {
-    font-size: 14pt;
-    float: left;
-}
-
-#user {
     float: right;
+}
+
+#auth a {
+    color: #dddddd;
 }
 
 /* CENTER */
@@ -129,31 +122,6 @@ a:hover {
 
 .box {
     padding-top: 10px;
-}
-
-.menu {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.menu li {
-    cursor: pointer;
-    border-left: 1px solid #254b6f;
-    border-right: 1px solid #254b6f;
-    border-bottom: 1px solid #254b6f;
-    background-color: #ebf5ff;
-    padding: 4px 8px 4px 8px;
-}
-
-.menu li:hover {
-    background-color: #a0bbd4;
-}
-
-.menu li a {
-    color: #254b6f;
-    display: block;
-    text-decoration: none;
 }
 
 .note {
