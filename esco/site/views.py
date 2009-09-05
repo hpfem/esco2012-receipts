@@ -37,8 +37,8 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/delete/$', 'account_delete_view'),
     (r'^account/delete/success/$', 'account_delete_success_view'),
 
-    (r'^account/register/$', 'account_register_view'),
-    (r'^account/register/success/$', 'account_register_success_view'),
+    (r'^account/create/$', 'account_create_view'),
+    (r'^account/create/success/$', 'account_create_success_view'),
 
     (r'^account/password/change/$', 'account_password_change_view'),
     (r'^account/password/change/success/$', 'account_password_change_success_view'),
@@ -138,7 +138,7 @@ def account_delete_view(request, **args):
 def account_delete_success_view(request, **args):
     return index_view(request, message="Your account has been removed.")
 
-def account_register_view(request, **args):
+def account_create_view(request, **args):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
 
@@ -156,13 +156,13 @@ def account_register_view(request, **args):
             profile = UserProfile(user=user)
             profile.save()
 
-            return HttpResponsePermanentRedirect('/events/esco-2010/account/register/success/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/create/success/')
     else:
         form = RegistrationForm()
 
     return _render_to_response('account/create.html', request, {'form': form})
 
-def account_register_success_view(request, **args):
+def account_create_success_view(request, **args):
     return account_login_view(request, registred=True)
 
 def account_password_change_view(request, **args):
