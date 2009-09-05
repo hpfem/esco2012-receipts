@@ -69,28 +69,28 @@ def index_view(request, **args):
     return _render_to_response('base.html', request, args)
 
 def topics_view(request, **args):
-    return _render_to_response('topics.html', request)
+    return _render_to_response('content/topics.html', request)
 
 def keynote_view(request, **args):
-    return _render_to_response('keynote.html', request)
+    return _render_to_response('content/keynote.html', request)
 
 def committees_view(request, **args):
-    return _render_to_response('committees.html', request)
+    return _render_to_response('content/committees.html', request)
 
 def submission_view(request, **args):
-    return _render_to_response('submission.html', request)
+    return _render_to_response('content/submission.html', request)
 
 def venue_view(request, **args):
-    return _render_to_response('venue.html', request)
+    return _render_to_response('content/venue.html', request)
 
 def payment_view(request, **args):
-    return _render_to_response('payment.html', request)
+    return _render_to_response('content/payment.html', request)
 
 def accommodation_view(request, **args):
-    return _render_to_response('accommodation.html', request, {'key': GOOGLE_KEY})
+    return _render_to_response('content/accommodation.html', request, {'key': GOOGLE_KEY})
 
 def travel_view(request, **args):
-    return _render_to_response('travel.html', request)
+    return _render_to_response('content/travel.html', request)
 
 def account_login_view(request, **args):
     next = request.REQUEST.get('next', '/events/esco-2010/')
@@ -116,7 +116,7 @@ def account_login_view(request, **args):
     local_args = {'form': form, 'next': next}
     local_args.update(args)
 
-    return _render_to_response('login.html', request, local_args)
+    return _render_to_response('account/login.html', request, local_args)
 
 @login_required
 def account_logout_view(request, **args):
@@ -133,7 +133,7 @@ def account_delete_view(request, **args):
 
         return HttpResponsePermanentRedirect('/events/esco-2010/account/delete/success/')
     else:
-        return _render_to_response('delete.html', request, args)
+        return _render_to_response('account/delete.html', request, args)
 
 def account_delete_success_view(request, **args):
     return index_view(request, message="Your account has been removed.")
@@ -160,7 +160,7 @@ def account_register_view(request, **args):
     else:
         form = RegistrationForm()
 
-    return _render_to_response('register.html', request, {'form': form})
+    return _render_to_response('account/create.html', request, {'form': form})
 
 def account_register_success_view(request, **args):
     return account_login_view(request, registred=True)
@@ -182,7 +182,7 @@ def account_password_change_view(request, **args):
     else:
         form = PasswordForm()
 
-    return _render_to_response('password.html', request, {'form': form})
+    return _render_to_response('password/change.html', request, {'form': form})
 
 def account_password_change_success_view(request):
     return index_view(request, message="Your password was successfully changed.")
@@ -207,7 +207,7 @@ def account_password_remind_view(request, **args):
     else:
         form = ReminderForm()
 
-    return _render_to_response('reminder.html', request, {'form': form})
+    return _render_to_response('password/remind.html', request, {'form': form})
 
 def account_password_remind_success_view(request, **args):
     return index_view(request, message="New auto-generated password was sent to you.")
@@ -295,11 +295,11 @@ def account_modify_view(request, **args):
 
         form = AccountModifyForm(data)
 
-    return _render_to_response('modify.html', request, {'form': form})
+    return _render_to_response('account/modify.html', request, {'form': form})
 
 @login_required
 def abstracts_view(request, **args):
-    return _render_to_response('abstracts.html', request,
+    return _render_to_response('abstracts/abstracts.html', request,
         {'abstracts': UserAbstract.objects.filter(user=request.user)})
 
 @login_required
@@ -344,11 +344,11 @@ def abstracts_submit_view(request, **args):
     else:
         form = UploadAbstractForm()
 
-    return _render_to_response('abstracts_submit.html', request, {'form': form, 'text': 'Submit'})
+    return _render_to_response('abstracts/submit.html', request, {'form': form, 'text': 'Submit'})
 
 @login_required
 def abstracts_submit_failed_view(request, **args):
-    return _render_to_response('abstracts_failed.html', request)
+    return _render_to_response('abstracts/failed.html', request)
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
@@ -398,11 +398,11 @@ def abstracts_modify_view(request, abstract_id, **args):
     else:
         form = ModifyAbstractForm({'abstract_title': abstract.title})
 
-    return _render_to_response('abstracts_submit.html', request, {'form': form, 'text': 'Modify'})
+    return _render_to_response('abstracts/submit.html', request, {'form': form, 'text': 'Modify'})
 
 @login_required
 def abstracts_modify_failed_view(request, **args):
-    return _render_to_response('abstracts_failed.html', request)
+    return _render_to_response('abstracts/failed.html', request)
 
 @login_required
 def abstracts_delete_view(request, abstract_id, **args):
