@@ -1,13 +1,19 @@
 {% extends "base.html" %}
 
+{% block styles %}
+<link type="text/css" href="{{ MEDIA_URL }}/css/forms.css" rel="stylesheet" />
+{% endblock %}
+
 {% block content %}
     <h2>Delete Account</h2>
 
-    <div id="register-form">
+    <div class="form large">
         <form method="post" action=".">
-            <div>Do you really want to delete your account?</div>
+            <ul>
+                <li class="last">Do you really want to delete your account?</li>
+            </ul>
 
-            <input type="submit" value="Yes, delete account" />
+            <button type="submit">Yes, delete account</button>
         </form>
     </div>
 {% endblock %}
