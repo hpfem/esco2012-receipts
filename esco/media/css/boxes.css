@@ -1,9 +1,11 @@
 
 div.box {
     margin-top: 5px;
+    border: 1px solid #254b6f;
+    background-color: #ebf5ff;
 }
 
-div.box div {
+div.box div.title {
     color: #ffffff;
     font-weight: bold;
     padding: 4px 8px 4px 8px;
@@ -12,14 +14,12 @@ div.box div {
 }
 
 div.box ul {
-    border: 1px solid #254b6f;
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
 div.box li {
-    background-color: #ebf5ff;
     padding: 4px 8px 4px 8px;
 }
 
