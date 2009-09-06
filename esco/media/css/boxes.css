@@ -33,3 +33,16 @@ div.box li.tail {
     font-size: 80%;
 }
 
+div.box div.image {
+    text-align: center;
+}
+
+div.box span.caption {
+    border-top: 1px dashed #254b6f;
+    text-align: center;
+    padding: 4px 8px;
+    display: block;
+    font-size: 90%;
+    color: #254b6f;
+}
+
