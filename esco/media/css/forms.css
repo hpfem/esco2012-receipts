@@ -65,7 +65,7 @@
     background-color: #f5f5f5 !important;
 }
 
-.form button {
+.form button, .button {
     background-color: #254b6f !important;
     border: 1px solid #254b6f !important;
     color: #ffffff !important;
@@ -74,7 +74,7 @@
     font-size: 16px;
 }
 
-.form button:hover {
+.form button:hover, .button:hover {
     background-color: #f89904 !important;
     color: #254b6f !important;
 }

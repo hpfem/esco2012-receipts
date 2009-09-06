@@ -239,20 +239,6 @@ table.abstracts td.bar {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.button {
-    background-color: #254b6f !important;
-    border: 1px solid #254b6f !important;
-    color: #ffffff !important;
-    outline: none;
-    font-weight: bold;
-    font-size: 16px;
-    padding: 3px 1em;
-}
-
-.button:hover {
-    text-decoration: none;
-}
-
 .abstract-box {
     border: 1px solid #e5e5e5;
     background-color: #fbfbfb;
