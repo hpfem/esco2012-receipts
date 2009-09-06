@@ -49,7 +49,7 @@
 }
 
 .form span {
-    font-size: 70%;
+    font-size: 8pt;
 }
 
 .form input {
@@ -57,7 +57,7 @@
     border: 1px solid #e5e5e5 !important;
     color: #000000 !important;
     margin-top: 5px;
-    font-size: 16px;
+    font-size: 14px;
     width: 100%;
 }
 
@@ -71,7 +71,7 @@
     color: #ffffff !important;
     padding: 3px 1em;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .form button:hover, .button:hover {
