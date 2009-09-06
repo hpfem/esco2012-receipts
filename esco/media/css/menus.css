@@ -8,6 +8,7 @@ ul.menu, ul.menu ul {
 ul.menu ul {
     position: absolute;
     display: none;
+    z-index: 1000;
     left: -1px;
 }
 
@@ -18,6 +19,7 @@ ul.menu li {
 }
 
 ul.menu > li {
+    border-right: 1px solid #dddddd;
     background-color: #254b6f;
     position: relative;
     float: left;
@@ -38,6 +40,7 @@ ul.menu > li > span > a {
 }
 
 ul.menu > li:hover {
+    border-right: 1px solid #254b6f;
     background-color: #f89904;
 }
 
