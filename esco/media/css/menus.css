@@ -22,6 +22,7 @@ ul.menu > li {
     border-right: 1px solid #dddddd;
     background-color: #254b6f;
     position: relative;
+    color: #ffffff;
     float: left;
     margin: 0;
 }
@@ -30,7 +31,6 @@ ul.menu > li > span {
     font-weight: bold;
     padding: 4px 8px;
     display: block;
-    color: #ffffff;
 }
 
 ul.menu > li > span > a {
@@ -42,6 +42,7 @@ ul.menu > li > span > a {
 ul.menu > li:hover {
     border-right: 1px solid #254b6f;
     background-color: #f89904;
+    color: #254b6f;
 }
 
 ul.menu > li:hover ul {
