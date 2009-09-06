@@ -19,11 +19,11 @@ ul.menu li {
 }
 
 ul.menu > li {
-    border-right: 1px solid #dddddd;
     background-color: #254b6f;
     position: relative;
     color: #ffffff;
     float: left;
+    width: 9em;
     margin: 0;
 }
 
