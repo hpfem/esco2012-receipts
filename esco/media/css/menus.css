@@ -1,24 +1,25 @@
 
-ul.menu, ul.menu ul {
+ul.drop-menu, ul.drop-menu ul, ul.menu {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-ul.menu ul {
+ul.drop-menu ul {
+    border: 1px solid #d3e7f4;
+    border-top: none;
     position: absolute;
     display: none;
     z-index: 1000;
     left: -1px;
 }
 
-ul.menu li {
-    border: 1px solid #254b6f;
+ul.drop-menu li {
     cursor: pointer;
     width: 12em;
 }
 
-ul.menu > li {
+ul.drop-menu > li {
     background-color: #254b6f;
     position: relative;
     color: #ffffff;
@@ -27,45 +28,45 @@ ul.menu > li {
     margin: 0;
 }
 
-ul.menu > li > span {
+ul.drop-menu > li > span {
     font-weight: bold;
     padding: 4px 8px;
     display: block;
 }
 
-ul.menu > li > span > a {
+ul.drop-menu > li > span > a {
     text-decoration: none;
     color: inherit;
     display: block;
 }
 
-ul.menu > li:hover {
-    border-right: 1px solid #254b6f;
-    background-color: #f89904;
+ul.drop-menu > li:hover {
+    background-color: #98d7e6;
     color: #254b6f;
 }
 
-ul.menu > li:hover ul {
+ul.drop-menu > li:hover ul {
     display: block;
 }
 
-ul.menu ul li:first-child {
-    border: 1px solid #254b6f;
+ul.drop-menu ul li, ul.menu li {
+    border-top: 1px solid #d3e7f4;
+    background-color: #fafdff;
+    color: #254b6f;
 }
 
-ul.menu ul li {
-    background-color: #ebf5ff;
-    border-top: none;
+ul.drop-menu ul li:hover, ul.menu li:hover {
+    color: #ae5600;
 }
 
-ul.menu ul li:hover {
-    background-color: #a0bbd4;
-}
-
-ul.menu ul li > a {
+ul.drop-menu a, ul.menu a {
     text-decoration: none;
     padding: 4px 8px;
     display: block;
-    color: #254b6f;
+    color: inherit;
+}
+
+ul.drop-menu {
+    display: none;
 }
 

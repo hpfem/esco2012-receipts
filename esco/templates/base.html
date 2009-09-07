@@ -18,18 +18,16 @@
     <body>
         <div id="container">
             <div id="header">
-                <div id="banner"></div>
                 <div id="status">
-                    <ul class="menu">
-                        <li><span><a href="/events/esco-2010/">Home Page</a></li></span>
+                    <ul class="drop-menu">
                         <li><span>Main Menu</span>
                             <ul>
                                 <li><a href="/events/esco-2010/topics/">Conference Topics</a></li>
                                 <li><a href="/events/esco-2010/keynote/">Keynote Speakers</a></li>
                                 <li><a href="/events/esco-2010/committees/">Committees</a></li>
                                 <li><a href="/events/esco-2010/submission/">Abstract Submission</a></li>
-                                <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
                                 <li><a href="/events/esco-2010/payment/">Payment Information</a></li>
+                                <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
                                 <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
                                 <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
                             </ul>
@@ -56,12 +54,40 @@
                     </div>
                 </div>
                 <div class="cleaner"></div>
+                <div id="banner"></div>
             </div>
             <div id="center">
                 <div id="left-panel" class="panel">
                     <div class="box">
+                        <div class="title">Main Menu</div>
+                        <ul class="menu">
+                            <li><a href="/events/esco-2010/">Home Page</a></li>
+                            <li><a href="/events/esco-2010/topics/">Conference Topics</a></li>
+                            <li><a href="/events/esco-2010/keynote/">Keynote Speakers</a></li>
+                            <li><a href="/events/esco-2010/committees/">Committees</a></li>
+                            <li><a href="/events/esco-2010/submission/">Abstract Submission</a></li>
+                            <li><a href="/events/esco-2010/payment/">Payment Information</a></li>
+                            <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
+                            <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
+                            <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
+                        </ul>
+                    </div>
+                    <div class="box">
+                        <div class="title">User Menu</div>
+                        <ul class="menu">
+                            <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
+                            {% if user.is_authenticated %}
+                            <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
+                            <li><a href="/events/esco-2010/account/modify/">Modify Account</a></li>
+                            <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div id="right-panel" class="panel">
+                    <div class="box">
                         <div class="title">Contact</div>
-                        <ul>
+                        <ul class="list">
                             <li class="head">E-mail:</li>
                             <li class="tail center">esco2010-at-math-unr-dot-edu</li>
                             <li class="head">Phone:</li>
@@ -76,17 +102,8 @@
                         </ul>
                     </div>
                     <div class="box">
-                        <div class="title">Gallery</div>
-                        <div class="image">
-                            <img src="{{MEDIA_URL}}/img/contrib/test.png" />
-                            <span class="caption">This is an image</span>
-                        </div>
-                    </div>
-                </div>
-                <div id="right-panel" class="panel">
-                    <div class="box">
                         <div class="title">Important Dates</div>
-                        <ul>
+                        <ul class="list">
                             <li class="head">December 15, 2009</li>
                             <li class="tail">Abstract submission deadline.</li>
                             <li class="head">January 15, 2010</li>
@@ -99,7 +116,7 @@
                     </div>
                     <div class="box">
                         <div class="title">Latest News</div>
-                        <ul>
+                        <ul class="list">
                             <li class="head">September 7, 2009</li>
                             <li class="tail">New website for ESCO 2010 conference was launched.</li>
                         </ul>

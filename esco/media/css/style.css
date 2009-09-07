@@ -68,31 +68,32 @@ a:hover {
 }
 
 #container {
-    margin: 10px auto;
+    margin: 0 auto;
     width: 970px;
 }
 
 /* HEADER */
 
 #header {
-    background-color: #254b6f;
+    background-color: #fafdff;
 }
 
 #banner {
     height: 82px;
-    border-bottom: 1px solid #ffffff;
-    background-image: url('/events/esco-2010/media/img/banner.png');
+    background-image: url('/events/esco-2010/media/img/banner2.png');
 }
 
 #auth {
     font-weight: bold;
+    font-size: 10pt;
     padding: 4px 8px;
-    color: #ffffff;
+    color: #254b6f;
     float: right;
 }
 
 #auth a {
-    color: #dddddd;
+    font-weight: normal;
+    color: #888888;
 }
 
 /* CENTER */
@@ -104,7 +105,7 @@ a:hover {
 .panel {
     overflow: hidden;
     display: inline;
-    width: 200px;
+    width: 180px;
 }
 
 #left-panel {
@@ -121,8 +122,8 @@ a:hover {
     padding-top: 1em;
     padding-right: 20px;
     padding-left: 20px;
-    margin-right: 200px;
-    margin-left: 200px;
+    margin-right: 180px;
+    margin-left: 180px;
 }
 
 /* CONTENTS */

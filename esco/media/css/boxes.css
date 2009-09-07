@@ -1,35 +1,34 @@
 
 div.box {
     margin-top: 5px;
-    border: 1px solid #254b6f;
-    background-color: #ebf5ff;
+    border: 1px solid #d3e7f4;
+    background-color: #fafdff;
 }
 
 div.box div.title {
-    color: #ffffff;
+    color: #254b6f;
     font-weight: bold;
     padding: 4px 8px 4px 8px;
-    border: 1px solid #254b6f;
-    background-color: #254b6f;
+    background-color: #a0bbd4;
 }
 
-div.box ul {
+div.box ul.list {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-div.box li {
+div.box ul.list li {
     padding: 4px 8px 4px 8px;
 }
 
-div.box li.head {
+div.box ul.list li.head {
     font-weight: bold;
     font-size: 9pt;
     color: #254b6f;
 }
 
-div.box li.tail {
+div.box ul.list li.tail {
     font-size: 8pt;
 }
 
