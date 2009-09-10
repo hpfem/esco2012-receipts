@@ -137,52 +137,50 @@ a:hover {
 
 /* ABSTRACTS */
 
-table.abstracts {
-    width: 100%;
-    margin: 0 auto;
+#abstracts > table {
     border-collapse: collapse;
-    border: 1px solid #e5e5e5;
-    background-color: #fbfbfb;
-    margin-bottom: 5px;
-    color: #777777;
+    border: 1px solid #d3e7f4;
+    background-color: #fafdff;
+    margin: 0 auto 5px auto;
     table-layout: fixed;
     font-size: 10pt;
+    width: 100%;
 }
 
-table.abstracts th {
+#abstracts > table th {
+    padding: 5px 10px;
     text-align: left;
     color: #254b6f;
-    padding: 5px 10px;
-    margin: 0;
     width: 7em;
+    margin: 0;
 }
 
-table.abstracts td {
+#abstracts > table td {
     padding: 5px 0;
     margin: 0;
 }
 
-table.abstracts th.bar {
+#abstracts > table .bar {
     height: 5px;
     padding: 0;
     background-color: #ffffff;
+}
+
+#abstracts > table th.bar {
+    border-top: 1px solid #e5e5e5;
     border-left: 1px solid #ffffff;
-    border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
 }
 
-table.abstracts td.bar {
-    height: 5px;
-    padding: 0;
-    background-color: #ffffff;
+#abstracts > table td.bar {
+    border-top: 1px solid #e5e5e5;
     border-right: 1px solid #ffffff;
-    border-top: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
 }
 
-.abstract-box {
-    border: 1px solid #e5e5e5;
-    background-color: #fbfbfb;
+#abstracts-box {
+    border: 1px solid #d3e7f4;
+    background-color: #fafdff;
     margin-bottom: 5px;
     padding: 4px 8px;
 }
