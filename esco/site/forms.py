@@ -106,8 +106,8 @@ class RegistrationForm(forms.Form):
     )
 
     captcha = CaptchaField(
-        required = True,
-        label    = "Security Code",
+        required   = True,
+        label      = "Security Code",
     )
 
     def clean_username(self):
@@ -144,7 +144,9 @@ class RegistrationForm(forms.Form):
 
             symbols = set(password)
 
-            if (not _digit & symbols) or (not _upper & symbols) or (not _lower & symbols):
+            if not ((_digit & symbols and _upper & symbols) or \
+                    (_digit & symbols and _lower & symbols) or \
+                    (_lower & symbols and _upper & symbols)):
                 raise forms.ValidationError('Password is too week. Invent better one.')
 
         return password
@@ -162,8 +164,60 @@ class RegistrationForm(forms.Form):
 
         raise forms.ValidationError('Passwords do not match.')
 
-class PasswordForm(forms.Form):
-    """Password change form. """
+class ChangePasswordIfAuthForm(forms.Form):
+    """Password change form for authenticated users. """
+
+    password_new = forms.CharField(
+        required   = True,
+        label      = "New Password",
+        widget     = forms.PasswordInput(),
+        help_text  = "Use lower and upper case letters, numbers etc.",
+    )
+
+    password_new_again = forms.CharField(
+        required   = True,
+        label      = "New Password (Again)",
+        widget     = forms.PasswordInput(),
+    )
+
+    def clean_password_new(self):
+        """Make sure `password_new` isn't too easy to break. """
+        cleaned_data = self.cleaned_data
+
+        password_old = cleaned_data.get('password_old')
+        password_new = cleaned_data.get('password_new')
+
+        if CHECK_STRENGTH:
+            if len(password_new) < MIN_PASSWORD_LEN:
+                raise forms.ValidationError('Password must have at least %i characters.' % MIN_PASSWORD_LEN)
+
+            symbols = set(password_new)
+
+            if not ((_digit & symbols and _upper & symbols) or \
+                    (_digit & symbols and _lower & symbols) or \
+                    (_lower & symbols and _upper & symbols)):
+                raise forms.ValidationError('Password is too week. Invent better one.')
+
+        if password_old == password_new:
+            raise forms.ValidationError("New password dosen't differ from the old one.")
+
+        return password_new
+
+    def clean_password_new_again(self):
+        """Make sure user verified `password` he entered. """
+        if 'password_new' in self.cleaned_data:
+            password_new       = self.cleaned_data['password_new']
+            password_new_again = self.cleaned_data['password_new_again']
+
+            if password_new == password_new_again:
+                return password_new
+        else:
+            return None
+
+        raise forms.ValidationError('Passwords do not match.')
+
+class ChangePasswordNoAuthForm(ChangePasswordIfAuthForm):
+    """Password change form for anonymous users. """
 
     username = forms.CharField(
         required   = True,
@@ -195,6 +249,17 @@ class PasswordForm(forms.Form):
         label     = "Security Code",
     )
 
+    def __init__(self, *args, **kwargs):
+        super(forms.Form, self).__init__(*args, **kwargs)
+
+        self.fields.keyOrder = [
+            'username',
+            'password_old',
+            'password_new',
+            'password_new_again',
+            'captcha',
+        ]
+
     def clean_username(self):
         """Make sure `username` is registred in the system. """
         username = self.cleaned_data['username']
@@ -221,40 +286,6 @@ class PasswordForm(forms.Form):
                 return password_old
 
         raise forms.ValidationError('Invalid password.')
-
-    def clean_password_new(self):
-        """Make sure `password_new` isn't too easy to break. """
-        cleaned_data = self.cleaned_data
-
-        password_old = cleaned_data.get('password_old')
-        password_new = cleaned_data.get('password_new')
-
-        if password_old == password_new:
-            raise forms.ValidationError("New password dosen't differ from the old one.")
-
-        if CHECK_STRENGTH:
-            if len(password_new) < MIN_PASSWORD_LEN:
-                raise forms.ValidationError('Password must have at least %i characters.' % MIN_PASSWORD_LEN)
-
-            symbols = set(password_new)
-
-            if (not _digit & symbols) or (not _upper & symbols) or (not _lower & symbols):
-                raise forms.ValidationError('Password is too week. Invent better one.')
-
-        return password_new
-
-    def clean_password_new_again(self):
-        """Make sure user verified `password` he entered. """
-        if 'password_new' in self.cleaned_data:
-            password_new       = self.cleaned_data['password_new']
-            password_new_again = self.cleaned_data['password_new_again']
-
-            if password_new == password_new_again:
-                return password_new
-        else:
-            return None
-
-        raise forms.ValidationError('Passwords do not match.')
 
 class AccountModifyForm(forms.Form):
     """Account modification form. """

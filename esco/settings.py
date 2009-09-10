@@ -57,8 +57,10 @@ INSTALLED_APPS = (
     'esco.site',
 )
 
-MIN_PASSWORD_LEN = 8
-CHECK_STRENGTH = False
+DEFAULT_CONTENT_TYPE = 'text/html'
+
+MIN_PASSWORD_LEN = 6
+CHECK_STRENGTH = True
 
 CAPTCHA = {
     'fgcolor': '#254b6f',

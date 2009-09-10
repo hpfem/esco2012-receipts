@@ -9,9 +9,12 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
-from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, PasswordForm
-from esco.site.forms import AccountModifyForm, UploadAbstractForm, ModifyAbstractForm
 from esco.site.models import UserProfile, UserAbstract
+
+from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
+from esco.site.forms import ChangePasswordIfAuthForm, ChangePasswordNoAuthForm
+from esco.site.forms import AccountModifyForm, UploadAbstractForm, ModifyAbstractForm
+
 from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
 
 import os
@@ -167,20 +170,27 @@ def account_create_success_view(request, **args):
 
 def account_password_change_view(request, **args):
     if request.method == 'POST':
-        post = request.POST.copy()
-
         if request.user.is_authenticated():
-            post['username'] = request.user.username
-
-        form = PasswordForm(post)
+            form = ChangePasswordIfAuthForm(request.POST)
+        else:
+            form = ChangePasswordNoAuthForm(request.POST)
 
         if form.is_valid():
-            form.user.set_password(form.cleaned_data['password_new'])
-            form.user.save()
+            password = form.cleaned_data['password_new']
+
+            if request.user.is_authenticated():
+                request.user.set_password(password)
+                request.user.save()
+            else:
+                form.user.set_password(password)
+                form.user.save()
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/password/change/success/')
     else:
-        form = PasswordForm()
+        if request.user.is_authenticated():
+            form = ChangePasswordIfAuthForm()
+        else:
+            form = ChangePasswordNoAuthForm()
 
     return _render_to_response('password/change.html', request, {'form': form})
 
