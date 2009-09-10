@@ -107,28 +107,25 @@ a:hover {
     text-align: justify;
 }
 
-table.payment {
+#content > table {
     border-collapse: collapse;
-    border: 1px solid #254b6f;
+    border: 1px solid #d3e7f4;
+    font-size: 10pt;
     margin: 0 auto;
 }
 
-table.payment thead {
-    background-color: #254b6f;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-table.payment tbody {
-    background-color: #ebf5ff;
-}
-
-table.payment td {
+#content > table td {
     padding: 4px 8px 4px 8px;
 }
 
-table.payment tbody tr:hover {
+#content > table thead {
     background-color: #a0bbd4;
+    font-weight: bold;
+    color: #254b6f;
+}
+
+#content > table tbody {
+    background-color: #fafdff;
 }
 
 /* ACCOMMODATION */
