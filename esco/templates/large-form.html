@@ -7,7 +7,7 @@
     </h2>
 
     <div class="form large">
-        <form method="post" action="./?next={{ next }}"
+        <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>
             <ul>
             {% for field in form %}

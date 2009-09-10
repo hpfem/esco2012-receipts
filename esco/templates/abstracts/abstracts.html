@@ -3,6 +3,12 @@
 {% block content %}
     <h2>My Abstracts</h2>
 
+    {% if message %}
+        <div class="note error">
+            <b>ERROR:</b> {{ message }}
+        </div>
+    {% endif %}
+
     {% if not abstracts %}
         <div class="abstract-box">You didn't submit any abstracts yet.</div>
     {% else %}

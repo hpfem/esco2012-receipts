@@ -89,14 +89,14 @@
                 </ul>
             </div>
             <div id="content">
-                {% block message %}
-                    {% if message %}
-                        <div class="note success">
-                            {{ message }}
-                        </div>
-                    {% endif %}
-                {% endblock %}
                 {% block content %}
+                    {% block message %}
+                        {% if message %}
+                            <div class="note success">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                    {% endblock %}
                     <h1>
                         ESCO 2010
                     </h1>

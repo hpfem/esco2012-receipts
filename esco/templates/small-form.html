@@ -8,15 +8,18 @@
 
     {% if form.errors %}
         <div class="note error">
-            <b>ERROR:</b> {% block error-text %}{% endblock %}
+            <b>ERROR:</b> {% block error %}{% endblock %}
         </div>
     {% else %}
-        {% block form-message %}
-        {% endblock %}
+        {% if message %}
+            <div class="note success">
+                {{ message }}
+            </div>
+        {% endif %}
     {% endif %}
 
     <div class="form small">
-        <form method="post" action="./?next={{ next }}"
+        <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>
             <ul>
             {% for field in form %}

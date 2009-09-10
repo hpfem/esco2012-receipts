@@ -4,16 +4,8 @@
 Login to ESCO 2010 Website
 {% endblock %}
 
-{% block error-text %}
+{% block error %}
 Wrong login or password. Please try again.
-{% endblock %}
-
-{% block form-message %}
-    {% if registred %}
-    <div class="note success">
-        New account created. You can login now.
-    </div>
-    {% endif %}
 {% endblock %}
 
 {% block submit %}
