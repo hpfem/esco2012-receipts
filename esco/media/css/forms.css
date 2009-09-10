@@ -10,7 +10,7 @@
 }
 
 .form.large {
-    width: 90%;
+    width: 26em;
 }
 
 .form ul {
@@ -75,7 +75,7 @@
 }
 
 .form button:hover, .button:hover {
-    background-color: #98d7e6 !important;
+    background-color: #a0bbd4 !important;
     color: #254b6f !important;
 }
 

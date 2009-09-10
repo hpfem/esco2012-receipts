@@ -131,39 +131,6 @@ table.payment tbody tr:hover {
     background-color: #a0bbd4;
 }
 
-/* MESSAGES */
-
-.message {
-    margin: 0 auto 20px auto;
-    text-align: center;
-    padding: 10px;
-    width: 26em;
-}
-
-.error {
-    background-color: #ffebe8;
-}
-
-.message.error {
-    border: 1px solid #cc0000;
-}
-
-.warning {
-    background-color: #ffeed4;
-}
-
-.message.warning {
-    border: 1px solid #f86a04;
-}
-
-.success {
-    background-color: #d7f8c7;
-}
-
-.message.success {
-    border: 1px solid #00ee00;
-}
-
 /* ACCOMMODATION */
 
 #map {
@@ -182,6 +149,7 @@ table.abstracts {
     margin-bottom: 5px;
     color: #777777;
     table-layout: fixed;
+    font-size: 10pt;
 }
 
 table.abstracts th {
