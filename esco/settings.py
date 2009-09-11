@@ -1,6 +1,26 @@
 from os import path
 
-DEBUG          = True
+#
+# Configuration file must contain:
+#
+# DATABASE_ENGINE
+# DATABASE_NAME
+# DATABASE_USER
+# DATABASE_PASSWORD
+# DATABASE_HOST
+# DATABASE_PORT
+# DEBUG
+#
+# See Django documentation for possible values.
+#
+
+conf = open('/etc/esco-2010.conf', 'r')
+
+for line in conf:
+    exec line
+
+conf.close()
+
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -10,13 +30,6 @@ ADMINS = (
 MANAGERS = ADMINS
 
 SITE_ID = 1
-
-DATABASE_ENGINE   = 'mysql'
-DATABASE_NAME     = 'esco2010'
-DATABASE_USER     = 'esco'
-DATABASE_PASSWORD = 'esco-pass'
-DATABASE_HOST     = 'localhost'
-DATABASE_PORT     = '3306'
 
 TIME_ZONE     = 'Europe/Warsaw'
 LANGUAGE_CODE = 'en-us'
@@ -28,7 +41,6 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
     'django.template.loaders.app_directories.load_template_source',
 )
-
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
