@@ -13,7 +13,7 @@ from esco.site.models import UserProfile, UserAbstract
 
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
 from esco.site.forms import ChangePasswordIfAuthForm, ChangePasswordNoAuthForm
-from esco.site.forms import AccountModifyForm, UploadAbstractForm, ModifyAbstractForm
+from esco.site.forms import UserProfileForm, UploadAbstractForm, ModifyAbstractForm
 
 from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
 
@@ -53,7 +53,7 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/password/remind/success/$', 'index_view',
         {'message': 'New auto-generated password was sent to you.'}),
 
-    (r'^account/modify/$', 'account_modify_view'),
+    (r'^account/profile/$', 'account_profile_view'),
 
     (r'^account/abstracts/$', 'abstracts_view'),
     (r'^account/abstracts/submit/$', 'abstracts_submit_view'),
@@ -138,9 +138,6 @@ def account_create_view(request, **args):
             user.last_name = form.cleaned_data['last_name']
             user.save()
 
-            profile = UserProfile(user=user)
-            profile.save()
-
             return HttpResponsePermanentRedirect('/events/esco-2010/account/create/success/')
     else:
         form = RegistrationForm()
@@ -196,89 +193,63 @@ def account_password_remind_view(request, **args):
     return _render_to_response('password/remind.html', request, {'form': form})
 
 @login_required
-def account_modify_view(request, **args):
+def account_profile_view(request, **args):
     if request.method == 'POST':
-        form = AccountModifyForm(request.POST)
+        form = UserProfileForm(request.POST)
 
         if form.is_valid():
-            first_name = form.cleaned_data.get('first_name')
+            if form.has_changed():
+                try:
+                    profile = request.user.get_profile()
+                except UserProfile.DoesNotExist:
+                    profile = UserProfile(user=request.user)
 
-            if first_name and first_name != request.user.first_name:
-                request.user.first_name = first_name
-                request.user.save()
+                for field in form.base_fields.iterkeys():
+                    if field == 'first_name':
+                        first_name = form.cleaned_data.get('first_name')
 
-            last_name = form.cleaned_data.get('last_name')
+                        if first_name and first_name != request.user.first_name:
+                            request.user.first_name = first_name
+                            request.user.save()
+                    elif field == 'last_name':
+                        last_name = form.cleaned_data.get('last_name')
 
-            if last_name and last_name != request.user.last_name:
-                request.user.last_name = last_name
-                request.user.save()
+                        if last_name and last_name != request.user.last_name:
+                            request.user.last_name = last_name
+                            request.user.save()
+                    else:
+                        value = form.cleaned_data.get(field)
 
-            profile = request.user.get_profile()
+                        if value != getattr(profile, field):
+                            setattr(profile, field, value)
 
-            institution = form.cleaned_data.get('institution')
-
-            if institution and institution != profile.institution:
-                profile.institution = institution
                 profile.save()
 
-            institution = form.cleaned_data.get('institution')
-
-            if institution and institution != profile.institution:
-                profile.institution = institution
-                profile.save()
-
-            address = form.cleaned_data.get('address')
-
-            if address and address != profile.address:
-                profile.address = address
-                profile.save()
-
-            city = form.cleaned_data.get('city')
-
-            if city and city != profile.city:
-                profile.city = city
-                profile.save()
-
-            postal_code = form.cleaned_data.get('postal_code')
-
-            if postal_code and postal_code != profile.postal_code:
-                profile.postal_code = postal_code
-                profile.save()
-
-            country = form.cleaned_data.get('country')
-
-            if country and country != profile.country:
-                profile.country = country
-                profile.save()
-
-            phone = form.cleaned_data.get('phone')
-
-            if phone and phone != profile.phone:
-                profile.phone = phone
-                profile.save()
-
-            return HttpResponsePermanentRedirect('/events/esco-2010/account/modify/')
+            return HttpResponsePermanentRedirect('/events/esco-2010/account/profile/')
     else:
-        try:
-            profile = request.user.get_profile()
-        except UserProfile.DoesNotExist:
-            profile = UserProfile(user=request.user)
-            profile.save()
-
         data = {
             'first_name': request.user.first_name,
             'last_name': request.user.last_name,
-            'institution': profile.institution,
-            'address': profile.address,
-            'city': profile.city,
-            'postal_code': profile.postal_code,
-            'country': profile.country,
-            'phone': profile.phone,
         }
 
-        form = AccountModifyForm(data)
+        try:
+            profile = request.user.get_profile()
 
-    return _render_to_response('account/modify.html', request, {'form': form})
+            for field in UserProfileForm.base_fields.iterkeys():
+                if field in ['first_name', 'last_name']:
+                    continue
+
+                if field in ['arrival', 'departure']:
+                    data[field] = getattr(profile, field).strftime('%d/%m/%Y %H:%M')
+                else:
+                    data[field] = getattr(profile, field)
+
+        except UserProfile.DoesNotExist:
+            pass
+
+        form = UserProfileForm(initial=data)
+
+    return _render_to_response('account/profile.html', request, {'form': form})
 
 @login_required
 def abstracts_view(request, **args):

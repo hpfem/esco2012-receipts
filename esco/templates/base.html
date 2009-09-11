@@ -83,8 +83,10 @@
                     <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
-                    <li><a href="/events/esco-2010/account/modify/">Modify Account</a></li>
-                    <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
+                        {% if user.get_profile.speaker %}
+                        <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
+                        {% endif %}
+                    <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
                     {% endif %}
                 </ul>
             </div>

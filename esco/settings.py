@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 SITE_ID = 1
 
 DATABASE_ENGINE   = 'mysql'
-DATABASE_NAME     = 'esco_2010'
+DATABASE_NAME     = 'esco2010'
 DATABASE_USER     = 'esco'
 DATABASE_PASSWORD = 'esco-pass'
 DATABASE_HOST     = 'localhost'

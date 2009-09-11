@@ -27,7 +27,9 @@
                     {{ field.label_tag }}
                     <br />
                     {{ field }}
+                    {% if field.help_text %}
                     <span>{{ field.help_text }}</span>
+                    {% endif %}
                 </li>
             {% endfor %}
             </ul>

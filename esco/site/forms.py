@@ -287,8 +287,8 @@ class ChangePasswordNoAuthForm(ChangePasswordIfAuthForm):
 
         raise forms.ValidationError('Invalid password.')
 
-class AccountModifyForm(forms.Form):
-    """Account modification form. """
+class UserProfileForm(forms.Form):
+    """User profile form. """
 
     first_name = forms.CharField(
         required  = True,
@@ -302,40 +302,100 @@ class AccountModifyForm(forms.Form):
         help_text = "Enter your last name using Unicode character set.",
     )
 
-    institution = forms.CharField(
-        required  = False,
-        label     = "Institution",
+    affiliation = forms.CharField(
+        required  = True,
+        label     = "Affiliation",
         help_text = "e.g. University of Nevada",
     )
 
     address = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "Address",
         help_text = "You can use Unicode character set.",
     )
 
     city = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "City",
         help_text = "You can use Unicode character set.",
     )
 
     postal_code = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "Postal Code",
         help_text = "",
     )
 
     country = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "Country",
         help_text = "Enter english country name.",
     )
 
     phone = forms.CharField(
-        required  = False,
+        required  = True,
         label     = "Phone Number",
-        help_text = "Enter your phone number, e.g. +48 123 456 789",
+        help_text = "e.g. +48 123 456 789",
+    )
+
+    speaker = forms.ChoiceField(
+        required  = True,
+        label     = "Are you going to be a conference speaker?",
+        help_text = "If you choose 'Yes', you will be able to upload your abstracts.",
+        choices   = [
+            (True, 'Yes'),
+            (False, 'No'),
+        ],
+        initial   = False,
+    )
+
+    student = forms.ChoiceField(
+        required  = True,
+        label     = "Are you a student participant?",
+        help_text = "If you choose 'Yes', you will be required to provide a student ID.",
+        choices   = [
+            (True, 'Yes'),
+            (False, 'No'),
+        ],
+        initial   = False,
+    )
+
+    accompanying = forms.IntegerField(
+        required  = True,
+        label     = "Number of accompanying persons",
+        help_text = "",
+        min_value = 0,
+        initial   = 0,
+    )
+
+    vegeterian = forms.ChoiceField(
+        required  = True,
+        label     = "Do you require vegeterian food?",
+        help_text = "",
+        choices   = [
+            (True, 'Yes'),
+            (False, 'No'),
+        ],
+        initial   = False,
+    )
+
+    arrival = forms.DateTimeField(
+        required  = True,
+        label     = "Arrival Date",
+        help_text = "e.g. 27/06/2010 17:30",
+        input_formats = [
+            '%d/%m/%Y %H:%M',      # '27/06/2010 17:30'
+            '%d/%m/%Y, %H:%M',     # '27/06/2010, 17:30'
+        ],
+    )
+    departure = forms.DateTimeField(
+        required  = True,
+        label     = "Departure Date",
+        help_text = "e.g. 3/07/2010 8:00",
+        input_formats = [
+            '%d/%m/%Y %H:%M',      # '27/06/2010 17:30'
+            '%d/%m/%Y, %H:%M',     # '27/06/2010, 17:30'
+        ],
     )
 
 class UploadAbstractForm(forms.Form):

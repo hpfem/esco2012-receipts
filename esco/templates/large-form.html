@@ -25,7 +25,9 @@
                     <span><b>ERROR:</b> {{ error }}</span>
                     {% endfor %}
                 {% else %}
+                    {% if field.help_text %}
                     <span>{{ field.help_text }}</span>
+                    {% endif %}
                 {% endif %}
                 </li>
             {% endfor %}
