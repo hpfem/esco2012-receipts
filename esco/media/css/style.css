@@ -2,8 +2,8 @@
 /* BASIS */
 
 body, html {
-    background: #dcdcdc url('/events/esco-2010/media/img/background.gif') repeat-y scroll center top;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #dcdcdc;
     font-variant: normal;
     font-weight: normal;
     font-style: normal;
@@ -54,6 +54,14 @@ a:hover {
 
 /* LAYOUT */
 
+#background {
+    background: #ffffff url('/events/esco-2010/media/img/background.gif') repeat-y scroll center top;
+    position: relative;
+    min-height: 100%;
+    margin: 0 auto;
+    width: 1010px;
+}
+
 #container {
     position: relative;
     min-height: 100%;
@@ -95,9 +103,9 @@ a:hover {
     position: absolute;
     padding: 4px 8px;
     color: #254b6f;
+    right: 20px;
+    left: 20px;
     bottom: 0;
-    right: 0;
-    left: 0;
 }
 
 /* CONTENTS */

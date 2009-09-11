@@ -15,119 +15,121 @@
         {% block scripts %}{% endblock %}
     </head>
     <body>
-        <div id="container">
-            <div id="header">
-                {% if user.is_authenticated %}
-                    {{ user.get_full_name }}
-                    <span class="bar">|</span>
-                    <a href="/events/esco-2010/account/logout/">logout</a>
-                {% else %}
-                    <a href="/events/esco-2010/account/login/">login</a>
-                {% endif %}
-            </div>
-            <div id="banner"></div>
-            <div class="box left">
-                <div class="title">Main Menu</div>
-                <ul class="menu">
-                    <li><a href="/events/esco-2010/">Home Page</a></li>
-                    <li><a href="/events/esco-2010/topics/">Conference Topics</a></li>
-                    <li><a href="/events/esco-2010/keynote/">Keynote Speakers</a></li>
-                    <li><a href="/events/esco-2010/committees/">Committees</a></li>
-                    <li><a href="/events/esco-2010/submission/">Abstract Submission</a></li>
-                    <li><a href="/events/esco-2010/payment/">Payment Information</a></li>
-                    <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
-                    <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
-                    <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
-                    <li class="drop"><a>Contact</a>
-                        <div class="box">
-                            <ul class="list">
-                                <li class="head">E-mail:</li>
-                                <li class="tail center">esco2010-at-math-unr-dot-edu</li>
-                                <li class="head">Phone:</li>
-                                <li class="tail center">1-775-784-6773</li>
-                                <li class="head">Fax:</li>
-                                <li class="tail center">1-775-784-6378</li>
-                                <li class="head">Mailing address:</li>
-                                <li class="tail center">ESCO 2010 Conference</li>
-                                <li class="tail center">Department of Math &amp; Stat</li>
-                                <li class="tail center">University of Nevada, Reno</li>
-                                <li class="tail center">NV 89557&ndash;0084, USA</li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="box right">
-                <div class="title">Important Dates</div>
-                <ul class="list">
-                    <li class="head">December 15, 2009</li>
-                    <li class="tail">Abstract submission deadline.</li>
-                    <li class="head">January 15, 2010</li>
-                    <li class="tail">Notification of acceptance.</li>
-                    <li class="head">March 15, 2010</li>
-                    <li class="tail">Early registration fee payment.</li>
-                    <li class="head">September 30, 2010</li>
-                    <li class="tail">Paper submissions.</li>
-                </ul>
-            </div>
-            <div class="box right">
-                <div class="title">Latest News</div>
-                <ul class="list">
-                    <li class="head">September 7, 2009</li>
-                    <li class="tail">New website for ESCO 2010 conference was launched.</li>
-                </ul>
-            </div>
-            <div class="box left">
-                <div class="title">User Menu</div>
-                <ul class="menu">
-                    <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
+        <div id="background">
+            <div id="container">
+                <div id="header">
                     {% if user.is_authenticated %}
-                    <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
-                        {% if user.get_profile.speaker %}
-                        <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
-                        {% endif %}
-                    <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
+                        {{ user.get_full_name }}
+                        <span class="bar">|</span>
+                        <a href="/events/esco-2010/account/logout/">logout</a>
+                    {% else %}
+                        <a href="/events/esco-2010/account/login/">login</a>
                     {% endif %}
-                </ul>
-            </div>
-            <div id="content">
-                {% block content %}
-                    {% block message %}
-                        {% if message %}
-                            <div class="note success">
-                                {{ message }}
+                </div>
+                <div id="banner"></div>
+                <div class="box left">
+                    <div class="title">Main Menu</div>
+                    <ul class="menu">
+                        <li><a href="/events/esco-2010/">Home Page</a></li>
+                        <li><a href="/events/esco-2010/topics/">Conference Topics</a></li>
+                        <li><a href="/events/esco-2010/keynote/">Keynote Speakers</a></li>
+                        <li><a href="/events/esco-2010/committees/">Committees</a></li>
+                        <li><a href="/events/esco-2010/submission/">Abstract Submission</a></li>
+                        <li><a href="/events/esco-2010/payment/">Payment Information</a></li>
+                        <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
+                        <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
+                        <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
+                        <li class="drop"><a>Contact</a>
+                            <div class="box">
+                                <ul class="list">
+                                    <li class="head">E-mail:</li>
+                                    <li class="tail center">esco2010-at-math-unr-dot-edu</li>
+                                    <li class="head">Phone:</li>
+                                    <li class="tail center">1-775-784-6773</li>
+                                    <li class="head">Fax:</li>
+                                    <li class="tail center">1-775-784-6378</li>
+                                    <li class="head">Mailing address:</li>
+                                    <li class="tail center">ESCO 2010 Conference</li>
+                                    <li class="tail center">Department of Math &amp; Stat</li>
+                                    <li class="tail center">University of Nevada, Reno</li>
+                                    <li class="tail center">NV 89557&ndash;0084, USA</li>
+                                </ul>
                             </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box right">
+                    <div class="title">Important Dates</div>
+                    <ul class="list">
+                        <li class="head">December 15, 2009</li>
+                        <li class="tail">Abstract submission deadline.</li>
+                        <li class="head">January 15, 2010</li>
+                        <li class="tail">Notification of acceptance.</li>
+                        <li class="head">March 15, 2010</li>
+                        <li class="tail">Early registration fee payment.</li>
+                        <li class="head">September 30, 2010</li>
+                        <li class="tail">Paper submissions.</li>
+                    </ul>
+                </div>
+                <div class="box right">
+                    <div class="title">Latest News</div>
+                    <ul class="list">
+                        <li class="head">September 7, 2009</li>
+                        <li class="tail">New website for ESCO 2010 conference was launched.</li>
+                    </ul>
+                </div>
+                <div class="box left">
+                    <div class="title">User Menu</div>
+                    <ul class="menu">
+                        <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
+                        {% if user.is_authenticated %}
+                        <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
+                            {% if user.get_profile.speaker %}
+                            <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
+                            {% endif %}
+                        <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
                         {% endif %}
+                    </ul>
+                </div>
+                <div id="content">
+                    {% block content %}
+                        {% block message %}
+                            {% if message %}
+                                <div class="note success">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endblock %}
+                        <h1>
+                            ESCO 2010
+                        </h1>
+                        <h3>
+                            2nd European Seminar on Coupled Problems
+                            <br/>
+                            June 28 &mdash; July 2, 2010, Pilsen, Czech Republic
+                        </h3>
+                        <p class="text">
+                            <b>ESCO 2010</b> is an international workshop co&ndash;sponsored by the
+                            <a href="http://www.unr.edu/">University of Nevada</a> (Reno),
+                            <a href="http://www.it.cas.cz/en">Institute of Thermomechanics</a> (Prague),
+                            <a href="http://www.zcu.cz/">University of West Bohemia</a> (Pilsen),
+                            <a href="http://ntc.zcu.cz/en/index.html">New Technologies Research Centre</a> (Pilsen),
+                            and <a href="http://www.imacs-online.org/">IMACS</a>.
+                            The objective of the meeting is to advance the frontiers of computer modeling in
+                            various areas of engineering and science, with special emphasis on multiphysics
+                            coupled problems. Other focus areas include modern trends in scientific computing
+                            such as computing with <a href="http://www.python.org">Python</a>, management of
+                            open&ndash;source software projects, and dissemination of computational methods
+                            to non&ndash;mathematicians.
+                        </p>
+                        <h3>Proceedings</h3>
+                        <p class="text">
+                            Selected refereed conference papers will be published as a special issue of
+                            <a href="http://www.global-sci.com/">Communications in Computational Physics</a>
+                            (CiCP) (2008 SCI impact factor 2.33).
+                        </p>
                     {% endblock %}
-                    <h1>
-                        ESCO 2010
-                    </h1>
-                    <h3>
-                        2nd European Seminar on Coupled Problems
-                        <br/>
-                        June 28 &mdash; July 2, 2010, Pilsen, Czech Republic
-                    </h3>
-                    <p class="text">
-                        <b>ESCO 2010</b> is an international workshop co&ndash;sponsored by the
-                        <a href="http://www.unr.edu/">University of Nevada</a> (Reno),
-                        <a href="http://www.it.cas.cz/en">Institute of Thermomechanics</a> (Prague),
-                        <a href="http://www.zcu.cz/">University of West Bohemia</a> (Pilsen),
-                        <a href="http://ntc.zcu.cz/en/index.html">New Technologies Research Centre</a> (Pilsen),
-                        and <a href="http://www.imacs-online.org/">IMACS</a>.
-                        The objective of the meeting is to advance the frontiers of computer modeling in
-                        various areas of engineering and science, with special emphasis on multiphysics
-                        coupled problems. Other focus areas include modern trends in scientific computing
-                        such as computing with <a href="http://www.python.org">Python</a>, management of
-                        open&ndash;source software projects, and dissemination of computational methods
-                        to non&ndash;mathematicians.
-                    </p>
-                    <h3>Proceedings</h3>
-                    <p class="text">
-                        Selected refereed conference papers will be published as a special issue of
-                        <a href="http://www.global-sci.com/">Communications in Computational Physics</a>
-                        (CiCP) (2008 SCI impact factor 2.33).
-                    </p>
-                {% endblock %}
+                </div>
             </div>
             <div id="footer">
                 Copyright &copy; 2009 UNR
