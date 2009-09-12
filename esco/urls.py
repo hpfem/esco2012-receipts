@@ -5,7 +5,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     (r'^events/esco-2010/', include('esco.site.views')),
-    (r'^events/esco-2010/admin/', include(admin.site.urls)),
+    (r'^events/esco-2010/admin/(.*)', admin.site.root),
 )
 
 handler404 = 'esco.site.views.handler404'
