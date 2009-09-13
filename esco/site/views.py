@@ -32,6 +32,8 @@ urlpatterns = patterns('esco.site.views',
     (r'^venue/$',         '_render_template', {'template': 'content/venue.html'}),
     (r'^accommodation/$', '_render_template', {'template': 'content/accommodation.html'}),
     (r'^travel/$',        '_render_template', {'template': 'content/travel.html'}),
+    (r'^postconf/$',        '_render_template', {'template': 'content/postconf.html'}),
+    (r'^contact/$',        '_render_template', {'template': 'content/contact.html'}),
 
     (r'^account/login/$', 'account_login_view'),
     (r'^account/logout/$', 'account_logout_view'),
