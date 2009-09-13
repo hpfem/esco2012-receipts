@@ -77,19 +77,19 @@
                         <li class="tail">New website for ESCO 2010 conference was launched.</li>
                     </ul>
                 </div>
+                {% if user.is_authenticated %}
                 <div class="box left">
                     <div class="title">User Menu</div>
                     <ul class="menu">
                         <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
-                        {% if user.is_authenticated %}
                         <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
-                            {% if user.get_profile.speaker %}
-                            <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
-                            {% endif %}
-                        <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
+                        {% if user.get_profile.speaker %}
+                        <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
                         {% endif %}
+                        <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
                     </ul>
                 </div>
+                {% endif %}
                 <div id="content">
                     {% block content %}
                         {% block message %}
