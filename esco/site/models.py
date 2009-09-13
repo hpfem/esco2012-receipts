@@ -11,16 +11,16 @@ class UserProfile(models.Model):
     postal_code = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
 
-    phone = models.CharField(max_length=50)
-
     speaker = models.BooleanField()
     student = models.BooleanField()
 
     accompanying = models.IntegerField()
     vegeterian = models.BooleanField()
 
-    arrival = models.DateTimeField()
-    departure = models.DateTimeField()
+    arrival = models.DateField()
+    departure = models.DateField()
+
+    postconf = models.BooleanField()
 
 class UserAbstract(models.Model):
     user = models.ForeignKey(User)

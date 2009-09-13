@@ -38,7 +38,9 @@
                         <li><a href="/events/esco-2010/venue/">Conference Venue</a></li>
                         <li><a href="/events/esco-2010/accommodation/">Accommodation</a></li>
                         <li><a href="/events/esco-2010/travel/">Travel Information</a></li>
-                        <li class="drop"><a>Contact</a>
+                        <li><a href="/events/esco-2010/postconf/">Post Conference Program</a></li>
+                        <li><a href="/events/esco-2010/contact/">Contact</a></li>
+<!--                        <li class="drop"><a>Contact</a>
                             <div class="box">
                                 <ul class="list">
                                     <li class="head">E-mail:</li>
@@ -55,6 +57,7 @@
                                 </ul>
                             </div>
                         </li>
+-->
                     </ul>
                 </div>
                 <div class="box right">
@@ -67,26 +70,26 @@
                         <li class="head">March 15, 2010</li>
                         <li class="tail">Early registration fee payment.</li>
                         <li class="head">September 30, 2010</li>
-                        <li class="tail">Paper submissions.</li>
+                        <li class="tail">Paper submission.</li>
                     </ul>
                 </div>
                 <div class="box right">
                     <div class="title">Latest News</div>
                     <ul class="list">
                         <li class="head">September 12, 2009</li>
-                        <li class="tail">New website for ESCO 2010 conference was launched.</li>
+                        <li class="tail">ESCO 2010 website launched.</li>
                     </ul>
                 </div>
                 {% if user.is_authenticated %}
                 <div class="box left">
                     <div class="title">User Menu</div>
                     <ul class="menu">
+                        <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
+                        {% if user.get_profile.speaker %}
+                        <li><a href="/events/esco-2010/account/abstracts/">Submit Abstract</a></li>
+                        {% endif %}
                         <li><a href="/events/esco-2010/account/password/change/">Change Password</a></li>
                         <li><a href="/events/esco-2010/account/delete/">Delete Account</a></li>
-                        {% if user.get_profile.speaker %}
-                        <li><a href="/events/esco-2010/account/abstracts/">My Abstracts</a></li>
-                        {% endif %}
-                        <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
                     </ul>
                 </div>
                 {% endif %}
@@ -129,14 +132,15 @@
                         </p>
                         <h3>Abstract Submission</h3>
                         <p>
-                            In order to submit an abstract for ESCO 2010, click the "Login" link
-                            in the top-right corner of the page, and follow the instructions.
+                            In order to submit an abstract for ESCO 2010, click the "login" link
+                            in the top-right corner of the page and follow the instructions.
                         </p>
                     {% endblock %}
                 </div>
             </div>
             <div id="footer">
-                Copyright &copy; 2009 UNR
+                Copyright &copy; 2009 <a href="http://hpfem.org">hp-FEM group</a>, 
+                <a href="http://www.unr.edu">University of Nevada, Reno</a>
             </div>
         </div>
     </body>

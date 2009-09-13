@@ -332,16 +332,10 @@ class UserProfileForm(forms.Form):
         help_text = "Enter english country name.",
     )
 
-    phone = forms.CharField(
-        required  = True,
-        label     = "Phone Number",
-        help_text = "e.g. +48 123 456 789",
-    )
-
     speaker = forms.ChoiceField(
         required  = True,
-        label     = "Are you going to be a conference speaker?",
-        help_text = "If you choose 'Yes', you will be able to upload your abstracts.",
+        label     = "Are you going to present a paper?",
+        help_text = "If you choose 'Yes', you will be able to upload your abstract(s).",
         choices   = [
             (True, 'Yes'),
             (False, 'No'),
@@ -379,23 +373,32 @@ class UserProfileForm(forms.Form):
         initial   = False,
     )
 
-    arrival = forms.DateTimeField(
+    arrival = forms.DateField(
         required  = True,
         label     = "Arrival Date",
-        help_text = "e.g. 27/06/2010 17:30",
+        help_text = "e.g. 27/06/2010",
         input_formats = [
-            '%d/%m/%Y %H:%M',      # '27/06/2010 17:30'
-            '%d/%m/%Y, %H:%M',     # '27/06/2010, 17:30'
+            '%d/%m/%Y',      # '27/06/2010'
         ],
     )
-    departure = forms.DateTimeField(
+    departure = forms.DateField(
         required  = True,
         label     = "Departure Date",
-        help_text = "e.g. 3/07/2010 8:00",
+        help_text = "e.g. 3/07/2010",
         input_formats = [
-            '%d/%m/%Y %H:%M',      # '27/06/2010 17:30'
-            '%d/%m/%Y, %H:%M',     # '27/06/2010, 17:30'
+            '%d/%m/%Y',      # '27/06/2010'
         ],
+    )
+
+    postconf = forms.ChoiceField(
+        required  = True,
+        label     = "Interested in post-conference program?",
+        help_text = "",
+        choices   = [
+            (True, 'Yes'),
+            (False, 'No'),
+        ],
+        initial   = False,
     )
 
 class UploadAbstractForm(forms.Form):
