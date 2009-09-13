@@ -1,5 +1,6 @@
 *.py[co]
 *.swp
+*~
 
 esco/media/admin
 esco/media/captchas
