@@ -6,6 +6,12 @@
         {% endblock %}
     </h2>
 
+    {% if message %}
+        <div class="note success">
+            {{ message|safe }}
+        </div>
+    {% endif %}
+
     {% block prolog %}
     {% endblock %}
 

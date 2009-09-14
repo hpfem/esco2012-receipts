@@ -237,7 +237,12 @@ def account_profile_view(request, **args):
 
             profile.save()
 
-            return HttpResponsePermanentRedirect('/events/esco-2010/account/profile/')
+            message = 'Your profile was successfully updated.'
+
+            if profile.speaker:
+                message += '<br />Click <a href="/events/esco-2010/account/abstracts/">here</a> to submit your abstract(s).'
+
+            return _render_to_response('account/profile.html', request, {'form': form, 'message': message})
     else:
         data = {
             'first_name': request.user.first_name,
