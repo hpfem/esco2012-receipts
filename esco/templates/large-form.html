@@ -6,6 +6,9 @@
         {% endblock %}
     </h2>
 
+    {% block prolog %}
+    {% endblock %}
+
     <div class="form large">
         <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>

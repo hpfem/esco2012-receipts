@@ -18,6 +18,9 @@
         {% endif %}
     {% endif %}
 
+    {% block prolog %}
+    {% endblock %}
+
     <div class="form small">
         <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>
