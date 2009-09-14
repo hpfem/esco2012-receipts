@@ -32,8 +32,10 @@ urlpatterns = patterns('esco.site.views',
     (r'^venue/$',         '_render_template', {'template': 'content/venue.html'}),
     (r'^accommodation/$', '_render_template', {'template': 'content/accommodation.html'}),
     (r'^travel/$',        '_render_template', {'template': 'content/travel.html'}),
-    (r'^postconf/$',        '_render_template', {'template': 'content/postconf.html'}),
-    (r'^contact/$',        '_render_template', {'template': 'content/contact.html'}),
+    (r'^postconf/$',      '_render_template', {'template': 'content/postconf.html'}),
+    (r'^contact/$',       '_render_template', {'template': 'content/contact.html'}),
+
+    (r'^account/$',       '_render_template', {'template': 'account/account.html'}),
 
     (r'^account/login/$', 'account_login_view'),
     (r'^account/logout/$', 'account_logout_view'),
@@ -82,7 +84,7 @@ def index_view(request, **args):
     return _render_to_response('base.html', request, args)
 
 def account_login_view(request, **args):
-    next = request.REQUEST.get('next', '/events/esco-2010/')
+    next = request.REQUEST.get('next', '/events/esco-2010/account/')
 
     if request.method == 'POST':
         if request.session.test_cookie_worked():
