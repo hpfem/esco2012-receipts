@@ -337,22 +337,28 @@ class UserProfileForm(forms.Form):
         label     = "Are you going to present a paper?",
         help_text = "If you choose 'Yes', you will be able to upload your abstract(s).",
         choices   = [
-            (True, 'Yes'),
-            (False, 'No'),
+            (1, 'Yes'),
+            (0, 'No'),
         ],
-        initial   = False,
+        initial   = 0,
     )
+
+    def clean_speaker(self):
+        return int(self.cleaned_data['speaker'])
 
     student = forms.ChoiceField(
         required  = True,
         label     = "Are you a student participant?",
         help_text = "If you choose 'Yes', you will be required to provide a student ID.",
         choices   = [
-            (True, 'Yes'),
-            (False, 'No'),
+            (1, 'Yes'),
+            (0, 'No'),
         ],
-        initial   = False,
+        initial   = 0,
     )
+
+    def clean_student(self):
+        return int(self.cleaned_data['student'])
 
     accompanying = forms.IntegerField(
         required  = True,
@@ -367,11 +373,14 @@ class UserProfileForm(forms.Form):
         label     = "Do you require vegeterian food?",
         help_text = "",
         choices   = [
-            (True, 'Yes'),
-            (False, 'No'),
+            (1, 'Yes'),
+            (0, 'No'),
         ],
-        initial   = False,
+        initial   = 0,
     )
+
+    def clean_vegeterian(self):
+        return int(self.cleaned_data['vegeterian'])
 
     arrival = forms.DateField(
         required  = True,
@@ -395,11 +404,14 @@ class UserProfileForm(forms.Form):
         label     = "Interested in post-conference program?",
         help_text = "",
         choices   = [
-            (True, 'Yes'),
-            (False, 'No'),
+            (1, 'Yes'),
+            (0, 'No'),
         ],
-        initial   = False,
+        initial   = 0,
     )
+
+    def clean_postconf(self):
+        return int(self.cleaned_data['postconf'])
 
 class SubmitAbstractForm(forms.Form):
 

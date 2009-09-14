@@ -201,32 +201,31 @@ def account_profile_view(request, **args):
         form = UserProfileForm(request.POST)
 
         if form.is_valid():
-            if form.has_changed():
-                try:
-                    profile = request.user.get_profile()
-                except UserProfile.DoesNotExist:
-                    profile = UserProfile(user=request.user)
+            try:
+                profile = request.user.get_profile()
+            except UserProfile.DoesNotExist:
+                profile = UserProfile(user=request.user)
 
-                for field in form.base_fields.iterkeys():
-                    if field == 'first_name':
-                        first_name = form.cleaned_data.get('first_name')
+            for field in form.base_fields.iterkeys():
+                if field == 'first_name':
+                    first_name = form.cleaned_data.get('first_name')
 
-                        if first_name and first_name != request.user.first_name:
-                            request.user.first_name = first_name
-                            request.user.save()
-                    elif field == 'last_name':
-                        last_name = form.cleaned_data.get('last_name')
+                    if first_name and first_name != request.user.first_name:
+                        request.user.first_name = first_name
+                        request.user.save()
+                elif field == 'last_name':
+                    last_name = form.cleaned_data.get('last_name')
 
-                        if last_name and last_name != request.user.last_name:
-                            request.user.last_name = last_name
-                            request.user.save()
-                    else:
-                        value = form.cleaned_data.get(field)
+                    if last_name and last_name != request.user.last_name:
+                        request.user.last_name = last_name
+                        request.user.save()
+                else:
+                    value = form.cleaned_data.get(field)
 
-                        if value != getattr(profile, field):
-                            setattr(profile, field, value)
+                    if value != getattr(profile, field):
+                        setattr(profile, field, value)
 
-                profile.save()
+            profile.save()
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/profile/')
     else:
@@ -246,7 +245,6 @@ def account_profile_view(request, **args):
                     data[field] = getattr(profile, field).strftime('%d/%m/%Y')
                 else:
                     data[field] = getattr(profile, field)
-
         except UserProfile.DoesNotExist:
             pass
 
