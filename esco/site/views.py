@@ -119,6 +119,16 @@ def account_logout_view(request, **args):
 def account_delete_view(request, **args):
     if request.method == 'POST':
         user = request.user
+
+        for abstract in UserAbstract.objects.filter(user=user):
+            os.remove(os.path.join(ABSTRACTS_PATH,
+                                   abstract.digest_tex+'.tex'))
+            os.remove(os.path.join(ABSTRACTS_PATH,
+                                   abstract.digest_tex+'.pdf'))
+            abstract.delete()
+
+        user.get_profile().delete()
+
         logout(request)
         user.delete()
 
