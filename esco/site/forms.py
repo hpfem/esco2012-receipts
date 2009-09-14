@@ -383,14 +383,22 @@ class UserProfileForm(forms.Form):
         input_formats = [
             '%d/%m/%Y',      # '27/06/2010'
         ],
+        error_messages = {
+            'required': 'Enter arrival date, e.g. 27/06/2010',
+            'invalid': 'Enter a valid arrival date, e.g. 27/06/2010',
+        },
     )
     departure = forms.DateField(
         required  = True,
         label     = "Departure Date",
-        help_text = "e.g. 3/07/2010",
+        help_text = "e.g. 03/07/2010",
         input_formats = [
-            '%d/%m/%Y',      # '27/06/2010'
+            '%d/%m/%Y',      # '03/07/2010'
         ],
+        error_messages = {
+            'required': 'Enter departure date, e.g. 03/07/2010',
+            'invalid': 'Enter a valid departure date, e.g. 03/07/2010',
+        },
     )
 
     postconf = forms.ChoiceField(
