@@ -62,10 +62,18 @@
                         <li class="tail">ESCO 2010 website launched.</li>
                     </ul>
                 </div>
+                <div class="box right">
+                    <div class="title">ESCO 2010 Color Flyer</div>
+                    <ul class="list">
+                        <li class="tail">The flyer for ESCO 2010 in PDF can be found
+                        <a href="/events/esco-2010/media/img/flyer.pdf">here</a>.</li>
+                    </ul>
+                </div>
                 {% if user.is_authenticated %}
                 <div class="box left">
                     <div class="title">User Menu</div>
                     <ul class="menu">
+                        <li><a href="/events/esco-2010/account/">User Home</a></li>
                         <li><a href="/events/esco-2010/account/profile/">Edit Profile</a></li>
                         {% if user.get_profile.speaker %}
                         <li><a href="/events/esco-2010/account/abstracts/">Submit Abstract</a></li>
@@ -75,6 +83,15 @@
                     </ul>
                 </div>
                 {% endif %}
+                <div class="box right">
+                    <div class="title">Previous ESCO 2008</div>
+                    <ul class="list">
+                        <li class="tail">Previous ESCO 2008 took place in the national
+                        park Czech Switzerland in northern Czech Republic. Visit its
+                        <a href="http://hpfem.org/events/esco-2008/">web page</a>
+                        for more information.</li>
+                    </ul>
+                </div>
                 <div id="content">
                     {% block content %}
                         {% block message %}
@@ -100,11 +117,15 @@
                             <a href="http://ntc.zcu.cz/en/index.html">New Technologies Research Centre</a> (Pilsen),
                             and <a href="http://www.imacs-online.org/">IMACS</a>.
                             The objective of the meeting is to advance the frontiers of computer modeling in
-                            various areas of engineering and science, with special emphasis on multiphysics
-                            coupled problems. Other focus areas include modern trends in scientific computing
-                            such as computing with <a href="http://www.python.org">Python</a>, management of
-                            open&ndash;source software projects, and dissemination of computational methods
-                            to non&ndash;mathematicians.
+                            various areas of engineering and science. Main topic areas include
+                            <ul>
+                            <li> Multiphysics models and methods
+                            </li>
+                            <li> Track on <a href="http://www.python.org">Python</a> in scientific computing
+                            </li>
+                            </ul>
+                            More details can be found in the
+                            <a href="http://hpfem.org/events/esco-2010/topics/">Conference Topics</a> section.
                         </p>
                         <h3>Proceedings</h3>
                         <p>
