@@ -182,10 +182,7 @@ class ChangePasswordIfAuthForm(forms.Form):
 
     def clean_password_new(self):
         """Make sure `password_new` isn't too easy to break. """
-        cleaned_data = self.cleaned_data
-
-        password_old = cleaned_data.get('password_old')
-        password_new = cleaned_data.get('password_new')
+        password_new = self.cleaned_data['password_new']
 
         if CHECK_STRENGTH:
             if len(password_new) < MIN_PASSWORD_LEN:
@@ -197,9 +194,6 @@ class ChangePasswordIfAuthForm(forms.Form):
                     (_digit & symbols and _lower & symbols) or \
                     (_lower & symbols and _upper & symbols)):
                 raise forms.ValidationError('Password is too week. Invent better one.')
-
-        if password_old == password_new:
-            raise forms.ValidationError("New password dosen't differ from the old one.")
 
         return password_new
 
