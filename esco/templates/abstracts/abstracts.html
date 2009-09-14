@@ -26,17 +26,17 @@
                         </tr>
                         <tr>
                             <th>Digest:</th>
-                            <td>{{ abstract.digest }}</td>
+                            <td>{{ abstract.digest_tex }}</td>
                         </tr>
                         <tr>
                             <th>Size:</th>
-                            <td>{{ abstract.size }} bytes</td>
+                            <td>{{ abstract.size_tex }} bytes</td>
                         </tr>
                         <tr>
                             <th>Submitted:</th>
-                            <td>{{ abstract.upload_date }}</td>
+                            <td>{{ abstract.submit_date }}</td>
                         </tr>
-                        {% ifnotequal abstract.upload_date abstract.modify_date %}
+                        {% ifnotequal abstract.submit_date abstract.modify_date %}
                             <tr>
                                 <th>Last Modified:</th>
                                 <td>{{ abstract.modify_date }}</td>

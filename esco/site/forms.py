@@ -401,45 +401,43 @@ class UserProfileForm(forms.Form):
         initial   = False,
     )
 
-class UploadAbstractForm(forms.Form):
+class SubmitAbstractForm(forms.Form):
 
-    abstract_title = forms.CharField(
+    title = forms.CharField(
         required  = True,
         label     = "Title",
         help_text = "Enter full title of your work.",
     )
 
-    abstract_file = forms.FileField(
+    abstract_tex = forms.FileField(
         required  = True,
-        label     = "File",
-        help_text = "Select a text file with your abstract. Don't upload compressed archives.",
+        label     = "TeX File",
+        help_text = "Select a *.tex file with your abstract.",
+    )
+
+    abstract_pdf = forms.FileField(
+        required  = True,
+        label     = "PDF File",
+        help_text = "Select a *.pdf file with your abstract.",
     )
 
 class ModifyAbstractForm(forms.Form):
 
-    abstract_title = forms.CharField(
+    title = forms.CharField(
         required  = True,
         label     = "Title",
         help_text = "Enter full title of your work.",
     )
 
-    abstract_file = forms.FileField(
+    abstract_tex = forms.FileField(
         required  = False,
-        label     = "File",
-        help_text = "Select a text file with your abstract. Don't upload compressed archives.",
+        label     = "TeX File",
+        help_text = "Select a *.tex file with your abstract.",
     )
 
-class AbstractAuthorForm(forms.Form):
-
-    first_name = forms.CharField(
-        required   = True,
-        label      = "First Name",
-        help_text  = "Enter author's first name using Unicode character set.",
-    )
-
-    last_name = forms.CharField(
-        required   = True,
-        label      = "Last Name",
-        help_text  = "Enter author's last name using Unicode character set.",
+    abstract_pdf = forms.FileField(
+        required  = False,
+        label     = "PDF File",
+        help_text = "Select a *.pdf file with your abstract.",
     )
 

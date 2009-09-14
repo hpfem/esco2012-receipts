@@ -27,10 +27,13 @@ class UserAbstract(models.Model):
 
     title = models.CharField(max_length=200)
 
-    digest = models.CharField(max_length=40)
-    size = models.IntegerField()
+    digest_tex = models.CharField(max_length=40)
+    digest_pdf = models.CharField(max_length=40)
 
-    upload_date = models.DateTimeField()
+    size_tex = models.IntegerField()
+    size_pdf = models.IntegerField()
+
+    submit_date = models.DateTimeField()
     modify_date = models.DateTimeField()
 
     accepted = models.NullBooleanField()

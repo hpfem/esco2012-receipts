@@ -13,7 +13,7 @@ from esco.site.models import UserProfile, UserAbstract
 
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
 from esco.site.forms import ChangePasswordIfAuthForm, ChangePasswordNoAuthForm
-from esco.site.forms import UserProfileForm, UploadAbstractForm, ModifyAbstractForm
+from esco.site.forms import UserProfileForm, SubmitAbstractForm, ModifyAbstractForm
 
 from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
 
@@ -64,7 +64,7 @@ urlpatterns = patterns('esco.site.views',
         {'message': 'The same abstract was already submitted.'}),
     (r'^account/abstracts/modify/(\d+)/$', 'abstracts_modify_view'),
     (r'^account/abstracts/modify/failed/$', 'abstracts_view',
-        {'message': 'The same abstract was already submitted.'}),
+        {'message': 'You must specify both *.tex and *.pdf files.'}),
     (r'^account/abstracts/delete/(\d+)/$', 'abstracts_delete_view'),
 )
 
@@ -260,39 +260,59 @@ def abstracts_view(request, **args):
         {'abstracts': UserAbstract.objects.filter(user=request.user),
          'message': args.get('message', None)})
 
+class FileExistsError(Exception):
+    pass
+
+def _file_digest(request, ext):
+    sha1 = hashlib.new('sha1')
+    ifile = request.FILES['abstract_' + ext]
+
+    for chunk in ifile.chunks():
+        sha1.update(chunk)
+
+    return sha1.hexdigest()
+
+def _write_file(request, digest, ext):
+    path = os.path.join(ABSTRACTS_PATH, digest + '.' + ext)
+
+    if os.path.exists(path):
+        raise FileExistsError
+
+    ifile = request.FILES['abstract_' + ext]
+    ofile = open(path, 'wb')
+
+    for chunk in ifile.chunks():
+        ofile.write(chunk)
+
+    ofile.close()
+
+    return os.path.getsize(path)
+
 @login_required
 def abstracts_submit_view(request, **args):
     if request.method == 'POST':
-        form = UploadAbstractForm(request.POST, request.FILES)
+        form = SubmitAbstractForm(request.POST, request.FILES)
 
         if form.is_valid():
-            sha1 = hashlib.new('sha1')
-            ifile = request.FILES['abstract_file']
+            digest_tex = _file_digest(request, 'tex')
+            digest_pdf = _file_digest(request, 'pdf')
 
-            for chunk in ifile.chunks():
-                sha1.update(chunk)
-
-            digest = sha1.hexdigest()
-            path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
-
-            if os.path.exists(path):
+            try:
+                size_tex = _write_file(request, digest_tex, 'tex')
+                size_pdf = _write_file(request, digest_tex, 'pdf')
+            except FileExistsError:
                 return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/submit/failed/')
-
-            ofile = open(path, 'wb')
-
-            for chunk in ifile.chunks():
-                ofile.write(chunk)
-
-            ofile.close()
 
             date = datetime.datetime.today()
 
             abstract = UserAbstract(
                 user=request.user,
-                title=form.cleaned_data['abstract_title'],
-                digest=digest,
-                size=os.path.getsize(path),
-                upload_date=date,
+                title=form.cleaned_data['title'],
+                digest_tex=digest_tex,
+                digest_pdf=digest_pdf,
+                size_tex=size_tex,
+                size_pdf=size_pdf,
+                submit_date=date,
                 modify_date=date,
             )
 
@@ -300,9 +320,9 @@ def abstracts_submit_view(request, **args):
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
     else:
-        form = UploadAbstractForm()
+        form = SubmitAbstractForm()
 
-    return _render_to_response('abstracts/submit.html', request, {'form': form, 'text': 'Submit'})
+    return _render_to_response('abstracts/submit.html', request, {'form': form})
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
@@ -314,34 +334,26 @@ def abstracts_modify_view(request, abstract_id, **args):
         if form.is_valid():
             date = datetime.datetime.today()
 
-            if 'abstract_file' in request.FILES:
-                sha1 = hashlib.new('sha1')
-                ifile = request.FILES['abstract_file']
+            if 'abstract_tex' in request.FILES and 'abstract_pdf' in request.FILES:
+                digest_tex = _file_digest(request, 'tex')
+                digest_pdf = _file_digest(request, 'pdf')
 
-                for chunk in ifile.chunks():
-                    sha1.update(chunk)
+                try:
+                    size_tex = _write_file(request, digest_tex, 'tex')
+                    size_pdf = _write_file(request, digest_tex, 'pdf')
+                except FileExistsError:
+                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/submit/failed/')
 
-                digest = sha1.hexdigest()
-                path = os.path.join(ABSTRACTS_PATH, digest+'.tex')
-
-                if os.path.exists(path):
-                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/modify/failed/')
-
-                abstract = UserAbstract.objects.get(user=request.user)
-                os.remove(os.path.join(ABSTRACTS_PATH, abstract.digest+'.tex'))
-
-                ofile = open(path, 'wb')
-
-                for chunk in ifile.chunks():
-                    ofile.write(chunk)
-
-                ofile.close()
-
+                abstract.digest_tex = digest_tex
+                abstract.digest_pdf = digest_pdf
+                abstract.size_tex = size_tex
+                abstract.size_pdf = size_pdf
                 abstract.modify_date = date
-                abstract.digest = digest
                 abstract.save()
+            elif 'abstract_tex' in request.FILES or 'abstract_pdf' in request.FILES:
+                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/modify/failed/')
 
-            title = form.cleaned_data.get('abstract_title')
+            title = form.cleaned_data.get('title')
 
             if title and title != abstract.title:
                 abstract.modify_date = date
@@ -350,9 +362,9 @@ def abstracts_modify_view(request, abstract_id, **args):
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
     else:
-        form = ModifyAbstractForm({'abstract_title': abstract.title})
+        form = ModifyAbstractForm(initial={'title': abstract.title})
 
-    return _render_to_response('abstracts/submit.html', request, {'form': form, 'text': 'Modify'})
+    return _render_to_response('abstracts/modify.html', request, {'form': form})
 
 @login_required
 def abstracts_delete_view(request, abstract_id, **args):
@@ -360,7 +372,9 @@ def abstracts_delete_view(request, abstract_id, **args):
         abstract = UserAbstract.objects.get(id=abstract_id)
 
         os.remove(os.path.join(ABSTRACTS_PATH,
-                               abstract.digest+'.tex'))
+                               abstract.digest_tex+'.tex'))
+        os.remove(os.path.join(ABSTRACTS_PATH,
+                               abstract.digest_tex+'.pdf'))
         abstract.delete()
     except UserAbstract.DoesNotExist:
         pass
