@@ -164,7 +164,7 @@ class RegistrationForm(forms.Form):
 
         raise forms.ValidationError('Passwords do not match.')
 
-class ChangePasswordIfAuthForm(forms.Form):
+class ChangePasswordForm(forms.Form):
     """Password change form for authenticated users. """
 
     password_new = forms.CharField(
@@ -209,77 +209,6 @@ class ChangePasswordIfAuthForm(forms.Form):
             return None
 
         raise forms.ValidationError('Passwords do not match.')
-
-class ChangePasswordNoAuthForm(ChangePasswordIfAuthForm):
-    """Password change form for anonymous users. """
-
-    username = forms.CharField(
-        required   = True,
-        label      = "Login",
-    )
-
-    password_old = forms.CharField(
-        required   = True,
-        label      = "Old Password",
-        widget     = forms.PasswordInput(),
-        help_text  = "Enter your old password for security reason.",
-    )
-
-    password_new = forms.CharField(
-        required   = True,
-        label      = "New Password",
-        widget     = forms.PasswordInput(),
-        help_text  = "Use lower and upper case letters, numbers etc.",
-    )
-
-    password_new_again = forms.CharField(
-        required   = True,
-        label      = "New Password (Again)",
-        widget     = forms.PasswordInput(),
-    )
-
-    captcha = CaptchaField(
-        required  = True,
-        label     = "Security Code",
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(forms.Form, self).__init__(*args, **kwargs)
-
-        self.fields.keyOrder = [
-            'username',
-            'password_old',
-            'password_new',
-            'password_new_again',
-            'captcha',
-        ]
-
-    def clean_username(self):
-        """Make sure `username` is registred in the system. """
-        username = self.cleaned_data['username']
-
-        try:
-            User.objects.get(username=username)
-        except ObjectDoesNotExist:
-            raise forms.ValidationError('Selected user does not exist.')
-
-        return username
-
-    def clean_password_old(self):
-        """Make sure user can authenticate with `password_old`. """
-        cleaned_data = self.cleaned_data
-
-        username     = cleaned_data.get('username')
-        password_old = cleaned_data.get('password_old')
-
-        if username and password_old:
-            self.user = authenticate(username=username,
-                                     password=password_old)
-
-            if self.user is not None:
-                return password_old
-
-        raise forms.ValidationError('Invalid password.')
 
 class UserProfileForm(forms.Form):
     """User profile form. """

@@ -13,8 +13,7 @@ from django.core.mail import send_mail
 
 from esco.site.models import UserProfile, UserAbstract
 
-from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
-from esco.site.forms import ChangePasswordIfAuthForm, ChangePasswordNoAuthForm
+from esco.site.forms import LoginForm, ReminderForm, RegistrationForm, ChangePasswordForm
 from esco.site.forms import UserProfileForm, SubmitAbstractForm, ModifyAbstractForm
 
 from esco.settings import MIN_PASSWORD_LEN, ABSTRACTS_PATH
@@ -51,8 +50,6 @@ urlpatterns = patterns('esco.site.views',
         {'message': 'Your account was successfully removed.'}),
 
     (r'^account/password/change/$', 'account_password_change_view'),
-    (r'^account/password/change/success/$', 'index_view',
-        {'message': 'Your password was successfully changed.'}),
 
     (r'^account/password/remind/$', 'account_password_remind_view'),
     (r'^account/password/remind/success/$', 'index_view',
@@ -155,29 +152,23 @@ def account_create_view(request, **args):
 
     return _render_to_response('account/create.html', request, {'form': form})
 
+@login_required
 def account_password_change_view(request, **args):
     if request.method == 'POST':
-        if request.user.is_authenticated():
-            form = ChangePasswordIfAuthForm(request.POST)
-        else:
-            form = ChangePasswordNoAuthForm(request.POST)
+        form = ChangePasswordForm(request.POST)
 
         if form.is_valid():
             password = form.cleaned_data['password_new']
 
-            if request.user.is_authenticated():
-                request.user.set_password(password)
-                request.user.save()
-            else:
-                form.user.set_password(password)
-                form.user.save()
+            request.user.set_password(password)
+            request.user.save()
 
-            return HttpResponsePermanentRedirect('/events/esco-2010/account/password/change/success/')
+            form = ChangePasswordForm()
+
+            return _render_to_response('password/change.html', request, {'form': form,
+                'message': 'Your password was successfully changed.'})
     else:
-        if request.user.is_authenticated():
-            form = ChangePasswordIfAuthForm()
-        else:
-            form = ChangePasswordNoAuthForm()
+        form = ChangePasswordForm()
 
     return _render_to_response('password/change.html', request, {'form': form})
 
