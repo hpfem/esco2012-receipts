@@ -12,18 +12,22 @@
         </div>
     {% endif %}
 
+    {% if error %}
+        <div class="note error">
+            {{ error|safe }}
+        </div>
+    {% endif %}
+
     {% block prolog %}
     {% endblock %}
 
     <div class="form large">
-        <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
+        <form id="form" method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>
             <ul>
             {% for field in form %}
-                <li class="
-                    {% if field.errors %}error{% endif %}
-                    {% if forloop.last %}last{% endif %}
-                ">
+                {% if not field.is_hidden %}
+                <li class="{% if field.errors %}error{% endif %}">
 
                 {{ field.label_tag }}
                 <br />
@@ -39,12 +43,17 @@
                     {% endif %}
                 {% endif %}
                 </li>
+                {% endif %}
             {% endfor %}
             </ul>
 
-            {% block submit %}
-            <button type="submit">Submit</button>
-            {% endblock %}
+            {% for field in form %}
+                {% if field.is_hidden %}
+                {{ field }}
+                {% endif %}
+            {% endfor %}
+
+            <button id="submit" type="submit">{% block submit %}Submit{% endblock %}</button>
         </form>
     </div>
 

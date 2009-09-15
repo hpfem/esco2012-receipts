@@ -303,6 +303,8 @@ def _write_file(request, digest, ext):
 
 @login_required
 def abstracts_submit_view(request, **args):
+    tex_path, pdf_path = "", ""
+
     if request.method == 'POST':
         form = SubmitAbstractForm(request.POST, request.FILES)
 
@@ -332,10 +334,14 @@ def abstracts_submit_view(request, **args):
             abstract.save()
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
+        else:
+            tex_path = request.POST['tex_path']
+            pdf_path = request.POST['pdf_path']
     else:
         form = SubmitAbstractForm()
 
-    return _render_to_response('abstracts/submit.html', request, {'form': form})
+    return _render_to_response('abstracts/submit.html', request,
+        {'form': form, 'tex_path': tex_path, 'pdf_path': pdf_path})
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):

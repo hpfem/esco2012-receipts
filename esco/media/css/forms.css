@@ -42,11 +42,11 @@ form {
 }
 
 .form.large li {
-    border-bottom: 1px dashed #e5e5e5;
+    border-top: 1px dashed #e5e5e5;
 }
 
-.form.large li.last {
-    border-bottom: none;
+.form.large li:first-child {
+    border-top: none;
 }
 
 .form img {

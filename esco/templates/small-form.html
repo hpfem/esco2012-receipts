@@ -22,10 +22,11 @@
     {% endblock %}
 
     <div class="form small">
-        <form method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
+        <form id="form" method="post" action=".{% if next %}/?next={{ next }}{% endif %}"
             {% block encoding %}{% endblock %}>
             <ul>
             {% for field in form %}
+                {% if not field.is_hidden %}
                 <li>
                     {{ field.label_tag }}
                     <br />
@@ -34,12 +35,17 @@
                     <span>{{ field.help_text }}</span>
                     {% endif %}
                 </li>
+                {% endif %}
             {% endfor %}
             </ul>
 
-            {% block submit %}
-            <button type="submit">Submit</button>
-            {% endblock %}
+            {% for field in form %}
+                {% if field.is_hidden %}
+                {{ field }}
+                {% endif %}
+            {% endfor %}
+
+            <button id="submit" type="submit">{% block submit %}Submit{% endblock %}</button>
         </form>
     </div>
 

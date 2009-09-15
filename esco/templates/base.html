@@ -5,11 +5,13 @@
         <title>ESCO 2010 - 2nd European Seminar on Coupled Problems</title>
         <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 
-        <link type="text/css" href="{{ MEDIA_URL }}/css/style.css" rel="stylesheet" />
-        <link type="text/css" href="{{ MEDIA_URL }}/css/menus.css" rel="stylesheet" />
-        <link type="text/css" href="{{ MEDIA_URL }}/css/boxes.css" rel="stylesheet" />
-        <link type="text/css" href="{{ MEDIA_URL }}/css/forms.css" rel="stylesheet" />
-        <link type="text/css" href="{{ MEDIA_URL }}/css/notes.css" rel="stylesheet" />
+        <link type="text/css" href="{{ MEDIA_URL }}css/style.css" rel="stylesheet" />
+        <link type="text/css" href="{{ MEDIA_URL }}css/menus.css" rel="stylesheet" />
+        <link type="text/css" href="{{ MEDIA_URL }}css/boxes.css" rel="stylesheet" />
+        <link type="text/css" href="{{ MEDIA_URL }}css/forms.css" rel="stylesheet" />
+        <link type="text/css" href="{{ MEDIA_URL }}css/notes.css" rel="stylesheet" />
+
+        <script src="{{ MEDIA_URL }}js/jquery/jquery.js"></script>
 
         {% block styles %}{% endblock %}
         {% block scripts %}{% endblock %}
@@ -66,7 +68,7 @@
                     <div class="title">ESCO 2010 Color Flyer</div>
                     <ul class="list">
                         <li class="tail">The flyer for ESCO 2010 in PDF can be found
-                        <a href="/events/esco-2010/media/img/flyer.pdf">here</a>.</li>
+                        <a href="{{ MEDIA_URL }}img/flyer.pdf">here</a>.</li>
                     </ul>
                 </div>
                 {% if user.is_authenticated %}
