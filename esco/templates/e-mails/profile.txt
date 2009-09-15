@@ -1,0 +1,6 @@
+{% extends "e-mails/base.txt" %}
+
+{% block content %}
+User Profile
+{% endblock %}
+

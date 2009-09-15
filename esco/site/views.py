@@ -9,6 +9,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
+from django.core.mail import send_mail
+
 from esco.site.models import UserProfile, UserAbstract
 
 from esco.site.forms import LoginForm, ReminderForm, RegistrationForm
@@ -232,6 +234,11 @@ def account_profile_view(request, **args):
                         setattr(profile, field, value)
 
             profile.save()
+
+            template = loader.get_template('e-mails/profile.txt')
+            body = template.render(Context({'user': request.user, 'profile': profile}))
+
+            request.user.email_user("[ESCO 2010] User Profile Confirmation", body)
 
             message = 'Your profile was successfully updated.'
 
