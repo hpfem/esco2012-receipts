@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 
 from esco.site.models import UserProfile, UserAbstract
 
@@ -52,7 +52,7 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/password/change/$', 'account_password_change_view'),
 
     (r'^account/password/remind/$', 'account_password_remind_view'),
-    (r'^account/password/remind/success/$', 'index_view',
+    (r'^account/password/remind/success/$', 'account_login_view',
         {'message': 'New auto-generated password was sent to you.'}),
 
     (r'^account/profile/$', 'account_profile_view'),
@@ -146,6 +146,16 @@ def account_create_view(request, **args):
             user.last_name = form.cleaned_data['last_name']
             user.save()
 
+            template = loader.get_template('e-mails/user/create.txt')
+            body = template.render(Context({'user': user}))
+
+            user.email_user("[ESCO 2010] Account Creation Notification", body)
+
+            template = loader.get_template('e-mails/admin/create.txt')
+            body = template.render(Context({'user': user}))
+
+            mail_admins("[ESCO 2010][ADMIN] New Account", body)
+
             return HttpResponsePermanentRedirect('/events/esco-2010/account/create/success/')
     else:
         form = RegistrationForm()
@@ -183,10 +193,10 @@ def account_password_remind_view(request, **args):
             user.set_password(password)
             user.save()
 
-            template = loader.get_template('e-mails/reminder.txt')
+            template = loader.get_template('e-mails/user/reminder.txt')
             body = template.render(Context({'user': user, 'password': password}))
 
-            user.email_user("ESCO 2010 - Password reminder notification", body)
+            user.email_user("[ESCO 2010] Password Reminder Notification", body)
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/password/remind/success/')
     else:
@@ -226,7 +236,7 @@ def account_profile_view(request, **args):
 
             profile.save()
 
-            template = loader.get_template('e-mails/profile.txt')
+            template = loader.get_template('e-mails/user/profile.txt')
             body = template.render(Context({'user': request.user, 'profile': profile}))
 
             request.user.email_user("[ESCO 2010] User Profile Confirmation", body)
@@ -327,6 +337,16 @@ def abstracts_submit_view(request, **args):
             )
 
             abstract.save()
+
+            template = loader.get_template('e-mails/user/abstract.txt')
+            body = template.render(Context({'user': user, 'abstract': abstract}))
+
+            user.email_user("[ESCO 2010] Abstract Submission Notification", body)
+
+            template = loader.get_template('e-mails/admin/abstract.txt')
+            body = template.render(Context({'user': user, 'abstract': abstract}))
+
+            mail_admins("[ESCO 2010][ADMIN] New Abstract", body)
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
         else:

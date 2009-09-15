@@ -1,0 +1,33 @@
+{% extends "e-mails/user/base.txt" %}
+
+{% block content %}
+thank you for submitting your user profile. You have now completed
+registration process to join ESCO 2010 conference. Please verify
+that all submitted information is correct:
+
+Affiliation: {{ profile.affiliation }}
+Address: {{ profile.address }}
+City: {{ profile.city }}
+Postal Code: {{ profile.postal_code }}
+Country: {{ profile.country }}
+
+Are you going to present a paper? {% if profile.speaker %}Yes{% else %}No{% endif %}
+Are you a student participant? {% if profile.student %}Yes{% else %}No{% endif %}
+
+Number of accompanying persons: {{ profile.accompanying }}
+Do you require vegeterian food? {% if profile.vegeterian %}Yes{% else %}No{% endif %}
+
+Arrival date: {{ profile.arrival }}
+Departure date: {{ profile.departure }}
+
+Interested in post-conference program? {% if profile.postconf %}Yes{% else %}No{% endif %}
+
+If there are any mistakes in the above information, you can go back
+to http://hpfem.org/events/esco-2010/account/profile/ and improve
+your profile (you will get another confirmation E-mail).
+{% if profile.speaker %}
+You have professed to present a paper at ESCO 2010 conference.
+Visit http://hpfem.org/events/esco-2010/account/abstracts/ to
+submit your abstract(s).
+{% endif %}{% endblock %}
+

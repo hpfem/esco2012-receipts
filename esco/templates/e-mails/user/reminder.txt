@@ -1,0 +1,17 @@
+{% extends "e-mails/user/base.txt" %}
+
+{% block content %}
+we recived reqest to replace your old password with new,
+auto-generated one. Your new password is:
+
+{{ password }}
+
+The above password was E-mailed you you in clear text, so
+it's suggested to log in using this password to ESCO 2010
+conference website and change it.
+
+As a shortcut you can proceed with this link:
+
+http://hpfem.org/events/esco-2010/account/password/change/
+{% endblock %}
+

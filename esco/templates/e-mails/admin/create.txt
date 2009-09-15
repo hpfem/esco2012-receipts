@@ -1,0 +1,6 @@
+{% extends "e-mails/admin/base.txt" %}
+
+{% block content %}
+new account: {{ user.username }}
+{% endblock %}
+
