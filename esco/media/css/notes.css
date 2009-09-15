@@ -7,10 +7,10 @@ div.note {
 }
 
 div.note {
-    -moz-border-radius-bottomleft: 8px;
-    -moz-border-radius-bottomright: 8px;
-    -moz-border-radius-topleft: 8px;
-    -moz-border-radius-topright: 8px;
+    -webkit-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
 }
 
 .error {
