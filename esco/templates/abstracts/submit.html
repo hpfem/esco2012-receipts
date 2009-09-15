@@ -1,22 +1,5 @@
 {% extends "large-form.html" %}
 
-{% block scripts %}
-<script type="text/javascript">
-    var tex_path = "{{ tex_path }}";
-    var pdf_path = "{{ pdf_path }}";
-
-    $(document).ready(function() {
-        $("#id_abstract_tex").val(tex_path);
-        $("#id_abstract_pdf").val(pdf_path);
-
-        $("#submit").click(function() {
-            $("#id_tex_path").val($("#id_abstract_tex").val());
-            $("#id_pdf_path").val($("#id_abstract_pdf").val());
-        });
-    });
-</script>
-{% endblock %}
-
 {% block header %}
 Submit Abstract
 {% endblock %}
