@@ -1,41 +1,35 @@
+from __future__ import with_statement
 from os import path
 
 #
 # Configuration file must contain:
 #
+# DEBUG
 # DATABASE_ENGINE
 # DATABASE_NAME
 # DATABASE_USER
 # DATABASE_PASSWORD
 # DATABASE_HOST
 # DATABASE_PORT
-# DEBUG
+# SECRET_KEY
+# TIME_ZONE
+# LANGUAGE_CODE
+# USE_I18N
+# EMAIL_HOST
+# EMAIL_PORT
+# DEFAULT_FROM_EMAIL
+# ADMINS
 #
 # See Django documentation for possible values.
 #
 
-conf = open('/etc/esco-2010.conf', 'r')
-
-for line in conf:
-    exec line
-
-conf.close()
+with open('/etc/esco-2010.conf', 'r') as conf:
+    exec conf.read()
 
 TEMPLATE_DEBUG = DEBUG
-
-ADMINS = (
-    ('Mateusz Paprocki', 'mattpap@gmail.com'),
-)
-
 MANAGERS = ADMINS
 
 SITE_ID = 1
-
-TIME_ZONE     = 'Europe/Warsaw'
-LANGUAGE_CODE = 'en-us'
-USE_I18N      = True
-
-SECRET_KEY = 'hc!ww7a39saud9l1cigyda6e1!8!0!gs-!h-xd!a-y$)bsxmnl'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
@@ -49,17 +43,6 @@ MIDDLEWARE_CLASSES = (
     'esco.contrib.nocache.NoCacheIfAuthenticatedMiddleware',
 )
 
-ROOT_URLCONF = 'esco.urls'
-
-TEMPLATE_DIRS = (
-    path.join(path.dirname(__file__), 'templates'),
-)
-
-MEDIA_ROOT = path.join(path.dirname(__file__), 'media')
-MEDIA_URL  = '/events/esco-2010/media/'
-
-ADMIN_MEDIA_PREFIX = '/events/esco-2010/media/admin/'
-
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -68,6 +51,18 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'esco.site',
 )
+
+ROOT_URLCONF = 'esco.urls'
+
+TEMPLATE_DIRS = (
+    path.join(path.dirname(__file__), 'templates'),
+)
+
+MEDIA_ROOT = path.join(path.dirname(__file__), 'media')
+MEDIA_URL  = '/events/esco-2010/media/'
+LOGIN_URL  = '/events/esco-2010/account/login/'
+
+ADMIN_MEDIA_PREFIX = MEDIA_URL + 'admin/'
 
 DEFAULT_CONTENT_TYPE = 'text/html'
 
@@ -79,10 +74,7 @@ CAPTCHA = {
     'imagesize': (200, 50),
 }
 
-LOGIN_URL = '/events/esco-2010/account/login/'
-
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-
 AUTH_PROFILE_MODULE = 'site.UserProfile'
 
 ABSTRACTS_PATH = '/var/db/esco-2010/abstracts/'
