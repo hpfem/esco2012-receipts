@@ -21,7 +21,7 @@ digest of TeX and PDF files and compare with digests sent in
 this E-mail. For this purpose you can use any program that
 generates SHA1 digests, e.g. sha1sum on Linux platforms.
 
-If any of digests you computed doesn't match digets provided
+If any of digests you computed doesn't match digests provided
 in this E-mail, please try to re-submit both your files and
 repeat this procedure. If this does not help, please contact
 website administrator to solve the problem.

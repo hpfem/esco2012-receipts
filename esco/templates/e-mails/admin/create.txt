@@ -2,5 +2,8 @@
 
 {% block content %}
 new account: {{ user.username }}
+
+first name: {{ user.first_name }}
+last name: {{ user.last_name }}
 {% endblock %}
 
