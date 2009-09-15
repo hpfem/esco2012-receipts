@@ -364,16 +364,6 @@ class SubmitAbstractForm(forms.Form):
         help_text = "Select a *.pdf file with your abstract.",
     )
 
-    tex_path = forms.CharField(
-        required  = True,
-        widget    = forms.HiddenInput(),
-    )
-
-    pdf_path = forms.CharField(
-        required  = True,
-        widget    = forms.HiddenInput(),
-    )
-
 class ModifyAbstractForm(forms.Form):
 
     title = forms.CharField(

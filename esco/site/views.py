@@ -309,8 +309,6 @@ def _write_file(request, digest, ext):
 
 @login_required
 def abstracts_submit_view(request, **args):
-    tex_path, pdf_path = "", ""
-
     if request.method == 'POST':
         form = SubmitAbstractForm(request.POST, request.FILES)
 
@@ -323,8 +321,7 @@ def abstracts_submit_view(request, **args):
                 size_pdf = _write_file(request, digest_tex, 'pdf')
             except FileExistsError:
                 return _render_to_response('abstracts/submit.html', request,
-                    {'form': form, 'tex_path': tex_path, 'pdf_path': pdf_path,
-                     'error': 'The same abstract was already submitted.'})
+                    {'form': form, 'error': 'The same abstract was already submitted.'})
 
             date = datetime.datetime.today()
 
@@ -342,24 +339,20 @@ def abstracts_submit_view(request, **args):
             abstract.save()
 
             template = loader.get_template('e-mails/user/abstract.txt')
-            body = template.render(Context({'user': user, 'abstract': abstract}))
+            body = template.render(Context({'user': request.user, 'abstract': abstract}))
 
-            user.email_user("[ESCO 2010] Abstract Submission Notification", body)
+            request.user.email_user("[ESCO 2010] Abstract Submission Notification", body)
 
             template = loader.get_template('e-mails/admin/abstract.txt')
-            body = template.render(Context({'user': user, 'abstract': abstract}))
+            body = template.render(Context({'user': request.user, 'abstract': abstract}))
 
             mail_admins("[ESCO 2010][ADMIN] New Abstract", body)
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
-        else:
-            tex_path = request.POST['tex_path']
-            pdf_path = request.POST['pdf_path']
     else:
         form = SubmitAbstractForm()
 
-    return _render_to_response('abstracts/submit.html', request,
-        {'form': form, 'tex_path': tex_path, 'pdf_path': pdf_path})
+    return _render_to_response('abstracts/submit.html', request, {'form': form})
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
