@@ -122,7 +122,10 @@ def account_delete_view(request, **args):
                                    abstract.digest_tex+'.pdf'))
             abstract.delete()
 
-        user.get_profile().delete()
+        try:
+            user.get_profile().delete()
+        except UserProfile.DoesNotExist:
+            pass
 
         logout(request)
         user.delete()
