@@ -60,11 +60,7 @@ urlpatterns = patterns('esco.site.views',
 
     (r'^account/abstracts/$', 'abstracts_view'),
     (r'^account/abstracts/submit/$', 'abstracts_submit_view'),
-    (r'^account/abstracts/submit/failed/$', 'abstracts_view',
-        {'message': 'The same abstract was already submitted.'}),
     (r'^account/abstracts/modify/(\d+)/$', 'abstracts_modify_view'),
-    (r'^account/abstracts/modify/failed/$', 'abstracts_view',
-        {'message': 'You must specify both *.tex and *.pdf files.'}),
     (r'^account/abstracts/delete/(\d+)/$', 'abstracts_delete_view'),
 )
 
@@ -270,8 +266,7 @@ def account_profile_view(request, **args):
 @login_required
 def abstracts_view(request, **args):
     return _render_to_response('abstracts/abstracts.html', request,
-        {'abstracts': UserAbstract.objects.filter(user=request.user),
-         'message': args.get('message', None)})
+        {'abstracts': UserAbstract.objects.filter(user=request.user)})
 
 class FileExistsError(Exception):
     pass
@@ -316,7 +311,9 @@ def abstracts_submit_view(request, **args):
                 size_tex = _write_file(request, digest_tex, 'tex')
                 size_pdf = _write_file(request, digest_tex, 'pdf')
             except FileExistsError:
-                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/submit/failed/')
+                return _render_to_response('abstracts/submit.html', request,
+                    {'form': form, 'tex_path': tex_path, 'pdf_path': pdf_path,
+                     'error': 'The same abstract was already submitted.'})
 
             date = datetime.datetime.today()
 
@@ -361,7 +358,8 @@ def abstracts_modify_view(request, abstract_id, **args):
                     size_tex = _write_file(request, digest_tex, 'tex')
                     size_pdf = _write_file(request, digest_tex, 'pdf')
                 except FileExistsError:
-                    return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/submit/failed/')
+                    return _render_to_response('abstracts/modify.html', request, {'form': form,
+                        'error': 'The same abstract was already submitted.'})
 
                 abstract.digest_tex = digest_tex
                 abstract.digest_pdf = digest_pdf
@@ -370,7 +368,8 @@ def abstracts_modify_view(request, abstract_id, **args):
                 abstract.modify_date = date
                 abstract.save()
             elif 'abstract_tex' in request.FILES or 'abstract_pdf' in request.FILES:
-                return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/modify/failed/')
+                return _render_to_response('abstracts/modify.html', request, {'form': form,
+                    'error': 'You must specify both *.tex and *.pdf files.'})
 
             title = form.cleaned_data.get('title')
 
