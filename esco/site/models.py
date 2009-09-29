@@ -21,6 +21,7 @@ class UserProfile(models.Model):
     departure = models.DateField()
 
     postconf = models.BooleanField()
+    tshirt = models.CharField(max_length=1)
 
 class UserAbstract(models.Model):
     user = models.ForeignKey(User)

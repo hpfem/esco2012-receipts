@@ -344,6 +344,18 @@ class UserProfileForm(forms.Form):
     def clean_postconf(self):
         return int(self.cleaned_data['postconf'])
 
+    tshirt = forms.ChoiceField(
+        required  = True,
+        label     = "T-shirt Size",
+        help_text = "",
+        choices   = [
+            ('S', 'S (small)'),
+            ('M', 'M (medium)'),
+            ('L', 'L (large)'),
+        ],
+        initial   = 'M',
+    )
+
 class SubmitAbstractForm(forms.Form):
 
     title = forms.CharField(
