@@ -21,6 +21,7 @@ Arrival date: {{ profile.arrival }}
 Departure date: {{ profile.departure }}
 
 Interested in post-conference program? {% if profile.postconf %}Yes{% else %}No{% endif %}
+T-shirt size: {{ profile.tshirt }}
 
 If there are any mistakes in the above information, you can go back
 to http://hpfem.org/events/esco-2010/account/profile/ and improve
