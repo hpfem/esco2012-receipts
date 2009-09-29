@@ -244,7 +244,7 @@ def account_profile_view(request, **args):
 
             request.user.email_user("[ESCO 2010] User Profile Confirmation", body)
 
-            message = 'Your profile was successfully updated.'
+            message = 'Your profile was updated successfully.'
 
             if profile.speaker:
                 message += '<br />Click <a href="/events/esco-2010/account/abstracts/">here</a> to submit your abstract(s).'
