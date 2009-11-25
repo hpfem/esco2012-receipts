@@ -21,9 +21,14 @@
             <div id="container">
                 <div id="header">
                     {% if user.is_authenticated %}
-                        {{ user.get_full_name }}
+                        <span class="bold">
+                            {{ user.get_full_name }}
+                        </span>
                         <span class="bar">|</span>
                         <a href="/events/esco-2010/account/logout/">logout</a>
+                        {% if user.is_staff %}
+                            (<a href="/events/esco-2010/admin/">admin</a>)
+                        {% endif %}
                     {% else %}
                         <a href="/events/esco-2010/account/login/">login</a>
                         <span class="bar color">|</span>

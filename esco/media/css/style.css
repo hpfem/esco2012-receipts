@@ -47,6 +47,10 @@ a:hover {
     color: #254b6f;
 }
 
+.bold {
+    font-weight: bold;
+}
+
 .bar {
     margin-right: 5px;
     margin-left: 5px;
@@ -72,7 +76,6 @@ a:hover {
 #header {
     background-image: url('/events/esco-2010/media/img/header.png');
     background-color: #ffffff;
-    font-weight: bold;
     text-align: right;
     padding: 4px 8px;
     font-size: 10pt;
@@ -80,7 +83,6 @@ a:hover {
 }
 
 #header a {
-    font-weight: normal;
     color: #254b6f;
 }
 
