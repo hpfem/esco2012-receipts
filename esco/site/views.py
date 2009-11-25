@@ -114,19 +114,6 @@ def account_logout_view(request, **args):
 def account_delete_view(request, **args):
     if request.method == 'POST':
         user = request.user
-
-        for abstract in UserAbstract.objects.filter(user=user):
-            os.remove(os.path.join(ABSTRACTS_PATH,
-                                   abstract.digest_tex+'.tex'))
-            os.remove(os.path.join(ABSTRACTS_PATH,
-                                   abstract.digest_tex+'.pdf'))
-            abstract.delete()
-
-        try:
-            user.get_profile().delete()
-        except UserProfile.DoesNotExist:
-            pass
-
         logout(request)
         user.delete()
 
@@ -401,15 +388,9 @@ def abstracts_modify_view(request, abstract_id, **args):
 @login_required
 def abstracts_delete_view(request, abstract_id, **args):
     try:
-        abstract = UserAbstract.objects.get(id=abstract_id)
-
-        os.remove(os.path.join(ABSTRACTS_PATH,
-                               abstract.digest_tex+'.tex'))
-        os.remove(os.path.join(ABSTRACTS_PATH,
-                               abstract.digest_tex+'.pdf'))
-        abstract.delete()
+        UserAbstract.objects.get(id=abstract_id).delete()
     except UserAbstract.DoesNotExist:
-        pass
+        pass # don't care about missing abstract
 
     return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
 

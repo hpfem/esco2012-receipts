@@ -1,5 +1,9 @@
+import os
+
 from django.db import models
 from django.contrib.auth.models import User
+
+from esco.settings import ABSTRACTS_PATH
 
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
@@ -23,6 +27,9 @@ class UserProfile(models.Model):
     postconf = models.BooleanField()
     tshirt = models.CharField(max_length=1)
 
+    def __unicode__(self):
+        return u"Profile for %s" % self.user.get_full_name()
+
 class UserAbstract(models.Model):
     user = models.ForeignKey(User)
 
@@ -38,4 +45,16 @@ class UserAbstract(models.Model):
     modify_date = models.DateTimeField()
 
     accepted = models.NullBooleanField()
+
+    def __unicode__(self):
+        return u"Abstract for %s" % self.user.get_full_name()
+
+    def delete(self):
+        try:
+            os.remove(os.path.join(ABSTRACTS_PATH, self.digest_tex+'.tex'))
+            os.remove(os.path.join(ABSTRACTS_PATH, self.digest_tex+'.pdf'))
+        except OSError:
+            pass # don't care about missing files
+
+        super(UserAbstract, self).delete()
 
