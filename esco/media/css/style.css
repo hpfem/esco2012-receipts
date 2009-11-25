@@ -64,7 +64,7 @@ a:hover {
 
 #container {
     position: relative;
-    min-height: 100%;
+    overflow: hidden;
     margin: 0 auto;
     width: 970px;
 }
@@ -91,10 +91,16 @@ a:hover {
 }
 
 #content {
-    padding: 20px 20px 40px 20px;
     margin-right: 190px;
     margin-left: 190px;
     font-size: 11pt;
+    padding: 20px;
+}
+
+#clearer {
+    visibility: hidden;
+    height: 40px;
+    clear: both;
 }
 
 #footer {
