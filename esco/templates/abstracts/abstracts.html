@@ -55,6 +55,8 @@
                             <td>
                                 <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/modify/{{ abstract.id }}/'">Modify</button>
                                 <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/delete/{{ abstract.id }}/'">Delete</button>
+                                <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/tex/{{ abstract.id }}/'">Get TeX</button>
+                                <button class="button" onclick="window.location='/events/esco-2010/account/abstracts/pdf/{{ abstract.id }}/'">Get PDF</button>
                             </td>
                         </tr>
                         {% if not forloop.last %}

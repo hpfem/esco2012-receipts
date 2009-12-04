@@ -3,7 +3,7 @@ from django.conf.urls.defaults import patterns
 from django.http import HttpResponse, HttpResponsePermanentRedirect
 from django.template import RequestContext, Context, loader
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout
@@ -61,6 +61,11 @@ urlpatterns = patterns('esco.site.views',
     (r'^account/abstracts/submit/$', 'abstracts_submit_view'),
     (r'^account/abstracts/modify/(\d+)/$', 'abstracts_modify_view'),
     (r'^account/abstracts/delete/(\d+)/$', 'abstracts_delete_view'),
+    (r'^account/abstracts/tex/(\d+)/$', 'abstracts_tex_view'),
+    (r'^account/abstracts/pdf/(\d+)/$', 'abstracts_pdf_view'),
+
+    (r'^admin/site/userabstract/(\d+)/tex/$', 'abstracts_tex_view'),
+    (r'^admin/site/userabstract/(\d+)/pdf/$', 'abstracts_pdf_view'),
 )
 
 def _render_to_response(page, request, args=None):
@@ -393,4 +398,30 @@ def abstracts_delete_view(request, abstract_id, **args):
         pass # don't care about missing abstract
 
     return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
+
+@login_required
+def abstracts_tex_view(request, abstract_id, **args):
+    if not (request.user.is_staff and request.user.is_superuser):
+        abstract = get_object_or_404(UserAbstract, pk=abstract_id, user=request.user)
+    else:
+        abstract = get_object_or_404(UserAbstract, pk=abstract_id)
+
+    with open(os.path.join(ABSTRACTS_PATH, abstract.digest_tex+'.tex'), 'rb') as f:
+        response = HttpResponse(f.read(), mimetype='application/x-latex')
+        response['Content-Disposition'] = 'inline; filename=abstract.tex'
+
+    return response
+
+@login_required
+def abstracts_pdf_view(request, abstract_id, **args):
+    if not (request.user.is_staff and request.user.is_superuser):
+        abstract = get_object_or_404(UserAbstract, pk=abstract_id, user=request.user)
+    else:
+        abstract = get_object_or_404(UserAbstract, pk=abstract_id)
+
+    with open(os.path.join(ABSTRACTS_PATH, abstract.digest_tex+'.pdf'), 'rb') as f:
+        response = HttpResponse(f.read(), mimetype='application/pdf')
+        response['Content-Disposition'] = 'inline; filename=abstract.pdf'
+
+    return response
 
