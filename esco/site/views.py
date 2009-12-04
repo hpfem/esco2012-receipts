@@ -348,7 +348,7 @@ def abstracts_submit_view(request, **args):
 
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
-    abstract = UserAbstract.objects.get(id=abstract_id)
+    abstract = get_object_or_404(UserAbstract, pk=abstract_id, user=request.user)
 
     if request.method == 'POST':
         form = ModifyAbstractForm(request.POST, request.FILES)
@@ -393,7 +393,7 @@ def abstracts_modify_view(request, abstract_id, **args):
 @login_required
 def abstracts_delete_view(request, abstract_id, **args):
     try:
-        UserAbstract.objects.get(id=abstract_id).delete()
+        get_object_or_404(UserAbstract, pk=abstract_id, user=request.user).delete()
     except UserAbstract.DoesNotExist:
         pass # don't care about missing abstract
 
