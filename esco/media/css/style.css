@@ -51,6 +51,10 @@ a:hover {
     font-weight: bold;
 }
 
+.mono {
+    font-family: Andale Mono, monospace;
+}
+
 .bar {
     margin-right: 5px;
     margin-left: 5px;

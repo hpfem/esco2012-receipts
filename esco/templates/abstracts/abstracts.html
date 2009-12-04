@@ -25,12 +25,20 @@
                             <td>{{ abstract.title|escape }}</td>
                         </tr>
                         <tr>
-                            <th>Digest:</th>
-                            <td>{{ abstract.digest_tex }}</td>
+                            <th>Digest TeX:</th>
+                            <td class="mono">{{ abstract.digest_tex }}</td>
                         </tr>
                         <tr>
-                            <th>Size:</th>
+                            <th>Digest PDF:</th>
+                            <td class="mono">{{ abstract.digest_pdf }}</td>
+                        </tr>
+                        <tr>
+                            <th>Size TeX:</th>
                             <td>{{ abstract.size_tex }} bytes</td>
+                        </tr>
+                        <tr>
+                            <th>Size PDF:</th>
+                            <td>{{ abstract.size_pdf }} bytes</td>
                         </tr>
                         <tr>
                             <th>Submitted:</th>
