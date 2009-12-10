@@ -1,7 +1,7 @@
 {% extends "e-mails/admin/base.txt" %}
 
 {% block content %}
-new account: {{ user.username }}
+new account: {{ user.email }}
 
 first name: {{ user.first_name }}
 last name: {{ user.last_name }}

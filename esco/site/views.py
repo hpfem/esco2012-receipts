@@ -132,7 +132,7 @@ def account_create_view(request, **args):
 
         if form.is_valid():
             user = User.objects.create_user(
-                username = form.cleaned_data['username'],
+                username = form.cleaned_data['username'], # XXX: this will get truncated
                 password = form.cleaned_data['password'],
                 email    = form.cleaned_data['username'],
             )
@@ -184,7 +184,7 @@ def account_password_remind_view(request, **args):
         if form.is_valid():
             password = User.objects.make_random_password(length=MIN_PASSWORD_LEN)
 
-            user = User.objects.get(username=form.cleaned_data['username'])
+            user = User.objects.get(email=form.cleaned_data['username'])
             user.set_password(password)
             user.save()
 

@@ -77,5 +77,9 @@ CAPTCHA = {
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 AUTH_PROFILE_MODULE = 'site.UserProfile'
 
+AUTHENTICATION_BACKENDS = (
+    'esco.contrib.emailauth.EmailBackend',
+)
+
 ABSTRACTS_PATH = '/var/db/esco-2010/abstracts/'
 

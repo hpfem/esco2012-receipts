@@ -30,7 +30,7 @@ class LoginForm(forms.Form):
         password = cleaned_data.get('password')
 
         if username and password:
-            self.user = authenticate(username=username,
+            self.user = authenticate(username=username, # XXX: actually email
                                      password=password)
 
             if self.user is not None:
@@ -58,7 +58,7 @@ class ReminderForm(forms.Form):
         username = self.cleaned_data['username']
 
         try:
-            User.objects.get(username=username)
+            User.objects.get(email=username)
         except ObjectDoesNotExist:
             raise forms.ValidationError('Selected user does not exist.')
 
