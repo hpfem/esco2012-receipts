@@ -308,6 +308,10 @@ def abstracts_submit_view(request, **args):
             digest_tex = _file_digest(request, 'tex')
             digest_pdf = _file_digest(request, 'pdf')
 
+            if digest_tex == digest_pdf:
+                return _render_to_response('abstracts/submit.html', request,
+                    {'form': form, 'error': 'TeX and PDF files do not differ.' })
+
             try:
                 size_tex = _write_file(request, digest_tex, 'tex')
                 size_pdf = _write_file(request, digest_tex, 'pdf')
@@ -346,6 +350,9 @@ def abstracts_submit_view(request, **args):
 
     return _render_to_response('abstracts/submit.html', request, {'form': form})
 
+class AbstractFilesDoNotDiffer(Exception):
+    pass
+
 @login_required
 def abstracts_modify_view(request, abstract_id, **args):
     abstract = get_object_or_404(UserAbstract, pk=abstract_id, user=request.user)
@@ -356,33 +363,63 @@ def abstracts_modify_view(request, abstract_id, **args):
         if form.is_valid():
             date = datetime.datetime.today()
 
-            if 'abstract_tex' in request.FILES and 'abstract_pdf' in request.FILES:
-                digest_tex = _file_digest(request, 'tex')
-                digest_pdf = _file_digest(request, 'pdf')
-
-                try:
-                    size_tex = _write_file(request, digest_tex, 'tex')
-                    size_pdf = _write_file(request, digest_tex, 'pdf')
-                except FileExistsError:
-                    return _render_to_response('abstracts/modify.html', request, {'form': form,
-                        'error': 'The same abstract was already submitted.'})
-
-                abstract.digest_tex = digest_tex
-                abstract.digest_pdf = digest_pdf
-                abstract.size_tex = size_tex
-                abstract.size_pdf = size_pdf
-                abstract.modify_date = date
-                abstract.save()
-            elif 'abstract_tex' in request.FILES or 'abstract_pdf' in request.FILES:
-                return _render_to_response('abstracts/modify.html', request, {'form': form,
-                    'error': 'You must specify both *.tex and *.pdf files.'})
-
             title = form.cleaned_data.get('title')
 
             if title and title != abstract.title:
                 abstract.modify_date = date
                 abstract.title = title
                 abstract.save()
+
+            if 'abstract_tex' in request.FILES:
+                digest_tex = _file_digest(request, 'tex')
+            else:
+                digest_tex = None
+
+            if 'abstract_pdf' in request.FILES:
+                digest_pdf = _file_digest(request, 'pdf')
+            else:
+                digest_pdf = None
+
+            try:
+                if digest_tex is not None and digest_pdf is not None:
+                    if digest_tex == digest_pdf:
+                        raise AbstractFilesDoNotDiffer
+
+                if digest_tex is not None and digest_tex != abstract.digest_tex:
+                    if digest_pdf is None and digest_tex == abstract.digest_pdf:
+                        raise AbstractFilesDoNotDiffer
+
+                    try:
+                        size_tex = _write_file(request, digest_tex, 'tex')
+
+                        os.remove(os.path.join(ABSTRACTS_PATH, abstract.digest_tex+'.tex'))
+                        os.rename(os.path.join(ABSTRACTS_PATH, abstract.digest_tex+'.pdf'),
+                                  os.path.join(ABSTRACTS_PATH,          digest_tex+'.pdf'))
+
+                        abstract.digest_tex = digest_tex
+                        abstract.size_tex = size_tex
+                        abstract.modify_date = date
+                        abstract.save()
+                    except FileExistsError:
+                        return _render_to_response('abstracts/modify.html', request,
+                            {'form': form, 'error': 'The same abstract was already submitted.'})
+                else:
+                    digest_tex = abstract.digest_tex
+
+                if digest_pdf is not None and digest_pdf != abstract.digest_pdf:
+                    if digest_tex == digest_pdf:
+                        raise AbstractFilesDoNotDiffer
+
+                    os.remove(os.path.join(ABSTRACTS_PATH, digest_tex+'.pdf'))
+                    size_pdf = _write_file(request, digest_tex, 'pdf')
+
+                    abstract.digest_pdf = digest_pdf
+                    abstract.size_pdf = size_pdf
+                    abstract.modify_date = date
+                    abstract.save()
+            except AbstractFilesDoNotDiffer:
+                return _render_to_response('abstracts/submit.html', request,
+                    {'form': form, 'error': 'TeX and PDF files do not differ.' })
 
             return HttpResponsePermanentRedirect('/events/esco-2010/account/abstracts/')
     else:
