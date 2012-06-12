@@ -1,2 +1,22 @@
 
-To generate letters, typ "run".
+To generate payment receipts in PDF, type "run". Addresses 
+and amounts need to be in the file "payments.txt" in the 
+format below. Date and currency can be adjusted in 
+"payments.py". Output is in the subdirectory output/.
+
+\noindent 364
+{\bf Prof. Edward Hall}\\
+University of Nottingham,
+University Park,
+Nottingham,
+NG7 2RD,
+UK\\
+
+\noindent 364
+{\bf Prof. Dr. Jens Lang}\\
+Numerical Analysis and Scientific Computing,
+Technical University of Darmstadt,
+Dolivostrasse 15, 64293 Darmstadt, Germany
+\\
+
+
