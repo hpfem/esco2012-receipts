@@ -1,0 +1,4 @@
+./payments.py ./payments.txt output/
+cd output/
+for name in $(ls *-receipt-esco.tex); do pdflatex $name; done
+cd ..

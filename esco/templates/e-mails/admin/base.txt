@@ -1,8 +1,0 @@
-Dear Admin,
-{% block content %}
-{% endblock %}
-Regards,
-
--- 
-ESCO 2010 Website 
- 
